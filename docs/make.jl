@@ -18,4 +18,4 @@ makedocs(sitename="Vizagrams.jl",
     ]
 )
 
-deploydocs(; repo="github.com/davibarreira/Vizagrams.jl")
+deploydocs(; repo="github.com/davibarreira/Vizagrams.jl", devbranch="master")
