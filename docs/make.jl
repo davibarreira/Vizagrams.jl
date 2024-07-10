@@ -4,7 +4,7 @@ using Documenter
 DocMeta.setdocmeta!(Vizagrams, :DocTestSetup, :(using Vizagrams); recursive=true)
 
 makedocs(sitename="Vizagrams.jl",
-    format=Documenter.HTML(size_threshold=nothing),
+    format=Documenter.HTML(size_threshold=nothing, assets=["assets/favicon.ico"]),
     pages=[
         "Home" => "index.md",
         "Tutorials" => [
