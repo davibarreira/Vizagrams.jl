@@ -96,7 +96,6 @@ include("marks/bar.jl")
 include("marks/ticks.jl")
 include("marks/axes.jl")
 include("marks/colorlegend.jl")
-include("marks/sizelegend.jl")
 include("marks/face.jl")
 include("marks/plotspec.jl")
 include("marks/plot.jl")
@@ -113,13 +112,11 @@ export Arrow,
     XAxis,
     YAxis,
     Bar,
-    # ColorLegend,
     Face,
     Frame,
     Scale,
     Linear,
     Categorical,
-    # SizeLegend,
     Tick,
     Title,
     TextMark,
@@ -177,21 +174,6 @@ export scatter, lineplot
 include("encoding/plot.jl")
 export plot
 
-# function __init__()
-#     @require MathJaxRenderer = "c4602970-9bd6-4912-867b-6b19c60f5024" begin
-#         @require EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615" begin
-#             include("marks/latex.jl")
-#             export LaTeX, LaTeXGeom
-#         end
-#     end
-# end
-# function __init__()
-#     @require MeshCat = "283c5d60-a78f-5afe-a0af-af636b173e11" begin
-#         include("backends/meshcat.jl")
-#         export vis3D
-#     end
-# end
-
 include("auxiliar/draw_tree_diagram.jl")
 export treediagram, fix_treediagram
 
@@ -207,43 +189,5 @@ include("scales/applyscales.jl")
 export applyscales
 
 include("encoding/context.jl")
-# @compile_workload begin
-#     # all calls in this block will be precompiled, regardless of whether
-#     # they belong to your package or not (on Julia 1.8 and higher)
-#     d = S(:fill => :blue) * T(2, 0) * Circle() + Circle()
-#     drawsvg(d)
-# end
-
-# export coordinates, Circle, Square, Rectangle, Line, Polygon, RegularPolygon, TextGeom, CovText, Bezier, QBezier, CBezier
-# export QBezierPolygon, CBezierPolygon
-# export cubicbeziermax, rootcubicbezier
-
-# export getpoints, quadbeziermax, clockwiseangle
-
-# export Slice, CovSlice
-# export rectangle, textgeom
-
-# export Leaf, Comp, Nil, Act, F
-# export FreeLeaf, flatten, alg, cata, μ, η, dprim, D, FreeF, Pure, FreeLeaf, FreeComp, FreeNil, FreeAct, free, unfree
-# export D, DPrim, NilD, P, Compose, Action
-
-# export Face, θ, mlift, Arrow, ζ
-# export TextMark
-
-# export primtosvg, reducesvg, tosvg, drawsvg
-
-# export fmap, ϕ, ψ
-
-# export envelope, boundingbox, rectboundingbox, beside, →, ←, ↑, ↓
-# export Mark, θ, flatten, dlift, dmlift
-# export Frame, Tick, Title
-
-# export rotatevec
-
-# export Tick
-# export Scale, Linear, Categorical, applyscale
-# export Axis, xaxis
-
-# export ρ
 
 end
