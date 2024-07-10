@@ -43,7 +43,6 @@ using SafeTestsets
 
     # Tests below not working on GitHub Actions
     @safetestset "Visual Tests" begin
-        # include("./visual/visual_tests.jl")
         include("./visual/plots.jl")
     end
 end

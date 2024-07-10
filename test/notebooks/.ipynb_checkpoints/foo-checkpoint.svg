@@ -1,0 +1,19 @@
+<svg height="300" viewBox="-6.0 -11.0 17.0 17.0" width="300.0" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" version="1.1"><circle cy="0" style="vector-effect: non-scaling-stroke; " r="1" transform="scale(1,-1)" cx="0" /><circle cy="5.0" style="vector-effect: non-scaling-stroke; " r="1.0" transform="scale(1,-1)" cx="5.0" />    <script><![CDATA[
+    var bars = document.getElementsByTagName("circle");
+    function mouseOverEffect() {
+        this.setAttribute("r",3
+)
+    }
+    function mouseOutEffect() {
+        this.setAttribute("r",1)
+    }
+    for (var i = 0; i < bars.length; i++) {
+        bars[i].addEventListener('mouseover', mouseOverEffect);
+        bars[i].addEventListener('mouseout', mouseOutEffect);
+    }
+    
+        function displayName(name) {
+            document.getElementById('tooltip').firstChild.data = name;
+    }
+    ]]></script>
+</svg>
