@@ -1,7 +1,7 @@
 # Vizagrams.jl <a href='#'><img src="assets/logoname.svg" align="right" height="168" /></a>
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://davibarreira.github.io/Vizagrams.jl/dev/)
 [![Build Status](https://github.com/davibarreira/Vizagrams.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/davibarreira/Vizagrams.jl/actions/workflows/CI.yml?query=branch%3Amaster)
-[![Coverage](https://codecov.io/gh/davibarreira/Vizagrams.jl/graph/badge.svg?token=Se8pD1HRJl)](https://codecov.io/gh/davibarreira/Vizagrams.jl)
+[![codecov](https://codecov.io/gh/davibarreira/Vizagrams.jl/graph/badge.svg?token=UCrnO3kxzn)](https://codecov.io/gh/davibarreira/Vizagrams.jl)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![Jet](https://img.shields.io/badge/%F0%9F%9B%A9%EF%B8%8F_tested_with-JET.jl-233f9a)](https://github.com/aviatesk/JET.jl)
