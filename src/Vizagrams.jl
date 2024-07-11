@@ -99,6 +99,8 @@ include("marks/colorlegend.jl")
 include("marks/face.jl")
 include("marks/plotspec.jl")
 include("marks/plot.jl")
+export graphic
+
 include("marks/legend.jl")
 include("marks/legends.jl")
 include("marks/grid.jl")

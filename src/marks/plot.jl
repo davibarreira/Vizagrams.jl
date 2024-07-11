@@ -53,6 +53,16 @@ function ζ(plt::Plot)::𝕋{Mark}
     return spec + marks
 end
 
+"""
+graphic(plt::Plot)
+Returns the graphic part in a plot, i.e.
+return plt.graphic(scaledata(plt))
+```
+"""
+function graphic(plt::Plot)
+    return plt.graphic(scaledata(plt))
+end
+
 # function Plot(;
 #     mark::Union{Mark,TMark,Prim,GeometricPrimitive}=GraphicExpression(x -> NilD()),
 #     kwargs...,
