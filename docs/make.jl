@@ -14,7 +14,9 @@ makedocs(sitename="Vizagrams.jl",
             "4 - Increasing Expressiveness" => "tutorials/4_expressiveness.md"
             "5 - Customizing Visualizations" => "tutorials/5_customization.md"
         ],
-        "Gallery" => "gallery.md",
+        "Gallery" => [
+            "gallery/minard.md",
+        ],
     ]
 )
 
