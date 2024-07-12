@@ -1,3 +1,15 @@
+# "
+# Pizza <: Mark
+
+# # Fields
+# - rmajor : Single value or array of values for major radius
+# - rminor : Single value or array of values for minor radius
+# - center : 2D Array with position for pizza center
+# - angles : Array of angles for each slice
+# - colors : Array for colors for each slice
+# - angleinit: Initial rotation angle for pizza.
+# - style: Apply style for the pizza as a whole.
+# "
 struct Pizza <: Mark
     rmajor::Union{Vector,Real}
     rminor::Union{Vector,Real}
@@ -23,8 +35,6 @@ function ζ(pizza::Pizza)::𝕋{Mark}
     (; rmajor, rminor, center, angles, colors, angleinit, style) = pizza
     rmajor = rmajor isa Real ? map(x -> rmajor, angles) : rmajor
     rminor = rminor isa Real ? map(x -> rminor, angles) : rminor
-    total_angle = reduce(+, angles)
-    angles = map(x -> 2π * x / total_angle, angles)
     acc = collect(Scan(+)(vcat(0, angles[begin:(end - 1)])))
     slicing =
         row -> begin
