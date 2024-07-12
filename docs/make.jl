@@ -11,11 +11,11 @@ makedocs(sitename="Vizagrams.jl",
             "1 - Diagramming Basics" => "tutorials/1_basics.md"
             "2 - Custom Marks" => "tutorials/2_custommarks.md"
             "3 - Data Vizualization Basics" => "tutorials/3_datavisualization.md"
-            "4 - Increasing Expressiveness" => "tutorials/4_expressiveness.md"
+            "4 - Graphic Expressions" => "tutorials/4_expressiveness.md"
             "5 - Customizing Visualizations" => "tutorials/5_customization.md"
         ],
         "Gallery" => [
-            "gallery/minard.md",
+            "Minard's Chart" => "gallery/minard.md",
         ],
     ]
 )
