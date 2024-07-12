@@ -344,7 +344,7 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height=300, pad=10, kwargs...)
+function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
     bb = boundingbox(d)
     if isnothing(bb)
         return tosvg(Prim[]; height=height, kwargs...)
@@ -352,14 +352,20 @@ function drawsvg(d::𝕋; height=300, pad=10, kwargs...)
     boxwidth = bb[2][1] - bb[1][1]
     boxheight = bb[2][2] - bb[1][2]
 
-    heightproportion = height / boxheight
-    width = boxwidth * heightproportion
+    heightproportion = 1
+    if !isnothing(height)
+        heightproportion = height / boxheight
+    end
+
+    widthproportion = 1
+    if !isnothing(width)
+        widthproportion = width / boxwidth
+    end
+
+    height = isnothing(height) ? widthproportion * boxheight : height
+    width = isnothing(width) ? boxwidth * heightproportion : width
     pad = pad / heightproportion
-    # u = U(heightproportion)
-    # t = T(-bb[1])
-    # p = T([pad, pad] / 2)
-    # d = p * u * t * d
-    # return tosvg(d; height=height + pad, width=width + pad, kwargs...)
+
     return tosvg(
         d;
         height=height,
