@@ -15,6 +15,8 @@ df = DataFrame(dataset("cars"));
 
 # We need to drop missing values, as Vizagrams does not handle them yet.
 df = dropmissing(df);
+
+nothing #hide
 ```
 
 When creating a plot in Vizagrams, many defaults are guessed in order to
