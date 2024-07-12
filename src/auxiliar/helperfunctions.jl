@@ -171,6 +171,21 @@ function hconcat(d1::StructArray, d2::StructArray, prepend_name::String)
 end
 
 """
+hconcat(d1::StructArray; kwargs...)
+
+To quickly concatenate values to a StructArray, e.g.
+```
+d1 = StructArray(x=[1,2])
+hconcat(x,y=[4,5])
+```
+"""
+function hconcat(d1::StructArray; kwargs...)
+    if isempty(kwargs)
+        return d1
+    end
+    return hconcat(d1, StructArray(NamedTuple(kwargs)))
+end
+"""
 unzip(d::Dict)
 
 Turns a nested dictionary into a named tuple.
