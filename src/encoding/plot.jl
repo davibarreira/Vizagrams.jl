@@ -2,7 +2,7 @@ function plot(
     data;
     x=:x,
     y=:y,
-    mark=Circle(; r=3),
+    graphic=Circle(; r=3),
     style=S(),
     config=NamedTuple(),
     opacity=0.6,
@@ -30,10 +30,10 @@ function plot(
     end
 
     detail = nothing
-    if :color in keys(kwargs)
-        detail = :color
-    elseif :detail in keys(kwargs)
+    if :detail in keys(kwargs)
         detail = :detail
+    elseif :color in keys(kwargs)
+        detail = :color
     end
     return Plot(;
         figsize=figsize,
@@ -41,7 +41,7 @@ function plot(
         title=title,
         config=config,
         encodings=encodings,
-        graphic=infergraphic(mark; style=style, opacity=opacity, detail=detail),
+        graphic=infergraphic(graphic; style=style, opacity=opacity, detail=detail),
     )
 end
 
@@ -111,4 +111,7 @@ function infergraphic(mark; style, opacity, kwargs...)
 end
 function infergraphic(mark::Line; style, opacity, detail, kwargs...)
     return lineplot(; opacity=opacity, style=style, detail=detail)
+end
+function infergraphic(g::GraphicExpression; style, opacity, kwargs...)
+    return g
 end
