@@ -128,8 +128,15 @@ plt = Plot(
     data=df,
     config=(coordinate=:polar,),
     encodings=(
-        r = (field=:y,datatype=:q, scale=Linear(domain=(0,maximum(df[!,:y])), codomain=(0,150))),
-        angle = (field = :k, datatype = :n, scale = Categorical(domain=unique(df.k),codomain=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1])),
+        r = (
+            field=:y,
+            datatype=:q,
+            scale_domain =(0,maximum(df[!,:y])), scale_range=(0,150)),
+        angle = (
+            field=:k,
+            datatype=:n,
+            scale_range=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1]
+            ),
     ),
     graphic = Polygon() + S(:fill=>:steelblue,:opacity=>1)Circle(r=10)
 );
@@ -149,8 +156,15 @@ plt = Plot(
         guide=(a_tick_flag=:in,),
         coordinate=:polar,),
     encodings=(
-        r = (field=:y,datatype=:q, scale_domain=(0,maximum(df[!,:y])+10), scale_range=(70,150)),
-        angle = (field = :k, datatype = :n, scale = Categorical(domain=unique(df.k),codomain=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1])),
+        r = (
+            field=:y,
+            datatype=:q,
+            scale_domain =(0,maximum(df[!,:y])+10), scale_range=(70,150)),
+        angle = (
+            field=:k,
+            datatype=:n,
+            scale_range=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1]
+            ),
         color=(field=:d,datatype=:n),
         size=(field=:e,datatype=:q),
     ),

@@ -45,7 +45,11 @@ specify how to parametrize in order to get the desired behavior. This
 becomes clearer in the next example:
 
 ```@example 1
-d = Face() → Face(eyestyle=S(:fill=>:red)) → Face(smile=1) → Face(smilestyle=S(:strokeDasharray=>2),smile=-1) → Face(headstyle=S(:fill=>:grey))
+d = Face() →
+    Face(eyestyle=S(:fill=>:red)) →
+    Face(smile=1) →
+    Face(smilestyle=S(:strokeDasharray=>2),smile=-1) →
+    Face(headstyle=S(:fill=>:grey))
 draw(d, height=100)
 ```
 
@@ -57,7 +61,9 @@ We can combine different marks in the same diagram.
 
 ```@example 1
 angles = 0:π/10:π
-d = Face(smile=0.5) + mapreduce(a->R(a)Arrow(pts=[[1,0],[2,0]],headsize=a/10),+, angles) + S(:fill=>:grey)T(0,-1.5)*Rectangle(h=1,w=2)
+d = Face(smile=0.5) +
+    mapreduce(a->R(a)Arrow(pts=[[1,0],[2,0]],headsize=a/10),+, angles) +
+    S(:fill=>:grey)T(0,-1.5)*Rectangle(h=1,w=2)
 
 draw(d,height=200)
 ```

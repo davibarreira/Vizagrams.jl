@@ -44,10 +44,16 @@ And we have a plot. More interestingly, the `plt` object is a diagram,
 thus, we can manipulate and compose with other marks.
 
 ```@example 3
-d1 = plt ↑ S(:fontWeight=>:bold)TextMark(text="This is my plot",anchor=:e,fontsize=14)
-d2 = R(π/5) * (plt ↑ S(:fontWeight=>:bold)TextMark(text="This is my plot rotated",anchor=:e,fontsize=14))
+d1 = plt↑S(:fontWeight => :bold)TextMark(; text="This is my plot", anchor=:e, fontsize=14)
+d2 =
+    R(π / 5) * (
+        plt↑(
+            S(:fontWeight => :bold) *
+            TextMark(; text="This is my plot rotated", anchor=:e, fontsize=14)
+        )
+    )
 
-d  = d1 → (T(50,0),d2)
+d = d1 → (T(50, 0), d2)
 draw(d)
 ```
 
@@ -239,23 +245,28 @@ disasters = DataFrame(dataset("disasters"))
 disasters = dropmissing(disasters);
 disasters = filter(Cols(:Entity)=>x->x!="All natural disasters", disasters);
 
-plt = Plot(
+plt = Plot(;
     title="Disasters",
-    config = (
-        xaxis=(grid=(flag=false,),),
-        yaxis=(grid=(flag=false,),),
-        ),
-    figsize=(500,400),
+    config=(xaxis=(grid=(flag=false,),), yaxis=(grid=(flag=false,),)),
+    figsize=(500, 400),
     data=disasters,
     encodings=(
-        x = (field = :Year, datatype = :q, guide=(lim=(1900,2017),)),
-        y = (field = :Entity,datatype=:n, guide=(tickvalues=unique(sort(disasters.Entity, rev=true)),)),
-        color = (field = :Entity,legend=(flag=false,)),
-        size = (field = :Deaths,datatype=:q, scale_domain =(0,maximum(disasters.Deaths)), scale_range=(2,30))
+        x=(field=:Year, datatype=:q, guide=(lim=(1900, 2017),)),
+        y=(
+            field=:Entity,
+            datatype=:n,
+            guide=(tickvalues=unique(sort(disasters.Entity; rev=true)),),
+        ),
+        color=(field=:Entity, legend=(flag=false,)),
+        size=(
+            field=:Deaths,
+            datatype=:q,
+            scale_domain=(0, maximum(disasters.Deaths)),
+            scale_range=(2, 30),
+        ),
     ),
-    graphic = S(:stroke=>:black,:opacity=>0.8)Circle()
+    graphic=S(:stroke => :black, :opacity => 0.8)Circle(),
 )
-
 
 draw(plt, height=500)
 ```

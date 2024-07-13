@@ -15,7 +15,6 @@ df = DataFrame(dataset("cars"));
 
 # We need to drop missing values, as Vizagrams does not handle them yet.
 df = dropmissing(df);
-
 nothing #hide
 ```
 

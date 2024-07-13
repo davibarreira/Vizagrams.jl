@@ -42,6 +42,8 @@ df = DataFrame(dataset("cars"));
 
 # We need to drop missing values, as Vizagrams does not handle them yet.
 df = dropmissing(df);
+
+nothing #hide
 ```
 
 ## 1. Scatter Plots v.s. Line Plots
@@ -64,7 +66,9 @@ where we iterate over each row, creating a circle mark and then
 summing them together. Note that the result of the above equation is
 equal to:
 ```math
-\text{S(:stroke=>data[1,:color])}*\text{Circle(c=[data[1,:x],data[1,y])} +  ... +\text{S(:stroke=>data[N,:color])}*\text{Circle(c=[data[N,:x],data[N,y])} 
+\text{S(:stroke=>data[1,:color])}*\text{Circle(c=[data[1,:x],data[1,y])} + \\
+... \\ 
++\text{S(:stroke=>data[N,:color])}*\text{Circle(c=[data[N,:x],data[N,y])} 
 ```
 The idea is that `data[n,:x]` means picking row `n` column `:x` for
 the dataset.
@@ -207,7 +211,8 @@ plt = Plot(
         color=(field=:Origin,),
     ),
     graphic= ∑(i=:color) do rows
-        S(:stroke=>rows.color[1],:strokeWidth=>2)Arrow(rows.x,rows.y,headsize=5,headstyle=S(:fill=>rows.color[1]))
+        S(:stroke=>rows.color[1],:strokeWidth=>2)*
+        Arrow(rows.x,rows.y,headsize=5,headstyle=S(:fill=>rows.color[1]))
     end
 )
 draw(plt)
@@ -334,50 +339,82 @@ add a text with the value of each bar as a label. We can simply
 increment the previous graphic expression with a
 
 ```@example 1
-gdf = combine(groupby(df,[:Origin, :Cylinders]),:Miles_per_Gallon=>mean,:Horsepower=>mean);
-plt = Plot(
+gdf = combine(
+    groupby(df, [:Origin, :Cylinders]), :Miles_per_Gallon => mean, :Horsepower => mean
+);
+plt = Plot(;
     data=gdf,
     encodings=(
         x=(field=:Cylinders,),
-        y=(field=:Miles_per_Gallon_mean,guide=(lim = (0,100),)),
-        color=(field=:Origin,datatype=:n),
-        text=(field=:Miles_per_Gallon_mean, scale=x->x)
+        y=(field=:Miles_per_Gallon_mean, guide=(lim=(0, 100),)),
+        color=(field=:Origin, datatype=:n),
+        text=(field=:Miles_per_Gallon_mean, scale=x -> x),
     ),
-    graphic =
-        ∑(i=:x,op=+,
-            ∑(i=:color,op=↑,orderby=:color, descend=false,
-                ∑() do row
-                    S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = 40) +
-                    S(:fill=>:white)TextMark(text=round(row[:text],digits=1), pos=[row[:x],row[:y]/2], fontsize=7)
-                end
-            )
-        )
-    )
-draw(plt, height=400)
+    graphic=∑(
+        i=:x,
+        op=+,
+        ∑(
+            i=:color,
+            op=↑,
+            orderby=:color,
+            descend=false,
+            ∑() do row
+                S(:fill => row[:color])Bar(; h=row[:y], c=[row[:x], 0], w=40) +
+                S(:fill => :white) * TextMark(;
+                    text=round(row[:text]; digits=1), pos=[row[:x], row[:y] / 2], fontsize=7
+                )
+            end,
+        ),
+    ),
+)
+draw(plt; height=400)
 ```
 
 ```@example 1
-gdf = combine(groupby(df,[:Origin, :Cylinders]),:Miles_per_Gallon=>mean,:Horsepower=>mean);
-plt = Plot(
+gdf = combine(
+    groupby(df, [:Origin, :Cylinders]), :Miles_per_Gallon => mean, :Horsepower => mean
+);
+plt = Plot(;
     data=gdf,
     encodings=(
         x=(field=:Cylinders,),
-        y=(field=:Miles_per_Gallon_mean,guide=(lim = (0,100),)),
-        color=(field=:Origin,datatype=:n),
+        y=(field=:Miles_per_Gallon_mean, guide=(lim=(0, 100),)),
+        color=(field=:Origin, datatype=:n),
         text=(field=:Miles_per_Gallon_mean, scale=IdScale()),
-        w=(field=:Horsepower_mean,scale_domain=(75,160),scale_range=(20,50),legend=(fmark=x->Bar(h=1,w=x),)),
+        w=(
+            field=:Horsepower_mean,
+            scale_domain=(75, 160),
+            scale_range=(20, 50),
+            legend=(fmark=x -> Bar(; h=1, w=x),),
+        ),
         textw=(field=:Horsepower_mean, scale=IdScale()),
     ),
-    graphic =
-        ∑(i=:x,op=+,
-            ∑(i=:color,op=↑,orderby=:color, descend=false,
-                ∑() do row
-                    S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = row[:w]) +
-                    S(:fill=>:white)TextMark(text=round(row[:text],digits=1), pos=[row[:x]+row[:w]/2-2,row[:y]/2], fontsize=5, angle=π/2,anchor=:s)+
-                    S(:fill=>:white)TextMark(text=round(row[:textw],digits=1), pos=[row[:x],2], fontsize=5,anchor=:s)
-                end
-            )
-        )
-    )
-draw(plt, height=400)
+    graphic=∑(
+        i=:x,
+        op=+,
+        ∑(
+            i=:color,
+            op=↑,
+            orderby=:color,
+            descend=false,
+            ∑() do row
+                S(:fill => row[:color])Bar(; h=row[:y], c=[row[:x], 0], w=row[:w]) +
+                S(:fill => :white) * TextMark(;
+                    text=round(row[:text]; digits=1),
+                    pos=[row[:x] + row[:w] / 2 - 2, row[:y] / 2],
+                    fontsize=5,
+                    angle=π / 2,
+                    anchor=:s,
+                ) +
+                S(:fill => :white) * TextMark(;
+                    text=round(row[:textw]; digits=1),
+                    pos=[row[:x], 2],
+                    fontsize=5,
+                    anchor=:s,
+                )
+            end,
+        ),
+    ),
+)
+draw(plt; height=400)
 ```

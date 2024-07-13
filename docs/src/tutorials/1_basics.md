@@ -94,7 +94,9 @@ Note also that our `*` operator is distributive, hence, we can apply the
 same transformations to several marks at once.
 
 ```@example 1
-d = S(:fill=>:blue)*(T(3,0)Circle() + T(0,2)RegularPolygon(n=3) +R(π/10)U(2)Square()) + T(2,-2)S(:stroke=>:red,:strokeWidth=>5)Line([[0,0],[3,0],[3,3]])
+d = S(:fill=>:blue)*(T(3,0)Circle() + T(0,2)RegularPolygon(n=3) +
+    R(π/10)U(2)Square()) +
+    T(2,-2)S(:stroke=>:red,:strokeWidth=>5)Line([[0,0],[3,0],[3,3]])
 draw(d,height=100)
 ```
 
