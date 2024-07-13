@@ -3,9 +3,14 @@ struct Polygon <: GeometricPrimitive
 end
 
 act(g::G, x::Polygon) = Polygon(map(g, x.pts))
-function Polygon(pts::Union{Vector{<:Tuple},StructVector{<:Tuple,<:Tuple}})
+function Polygon(
+    pts::Union{Vector{<:Tuple},StructVector{<:Tuple,<:Tuple}}=[
+        [-1, -1], [-1, 1], [1, 1], [1, -1]
+    ],
+)
     return Polygon(map(x -> vcat(x...), pts))
 end
+Polygon(x::Vector, y::Vector) = Polygon(x ⊗ y)
 
 coordinates(p::Polygon) = p.pts
 
