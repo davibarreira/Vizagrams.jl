@@ -127,6 +127,12 @@ end
 #     end
 #     return ∑(∑(∑(expr); i=:color, op=↑, orderby=:color, descend=false); i=:x, op=+)
 # end
+function GraphicExpression(p::Union{Polygon,MPrim{Polygon}})
+    return ∑(; i=:color, group_all=true) do rows
+        color = getcol(rows, :color, :steelblue)
+        S(:fillOpacity => 0.2, :stroke => color, fill => color)Polygon(rows.x, rows.y)
+    end
+end
 
 function GraphicExpression(a::Area)
     return lineplot(;
