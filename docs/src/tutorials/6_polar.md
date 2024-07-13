@@ -156,4 +156,5 @@ plt = Plot(
     ),
     graphic = Line() + S(:opacity=>1)Circle()
 );
+draw(plt)
 ```
