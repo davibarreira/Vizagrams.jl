@@ -153,6 +153,10 @@ function envelope(t::TextGeom, s::S, v::Vector)
     return mapreduce(p -> dot(p, v), max, coord)
 end
 
+function envelope(t::LinearGradient, s::S, v::Vector)
+    return nothing
+end
+
 envelope(p::Prim, v::Vector) = envelope(p.geom, p.s, v);
 envelope(p::GeometricPrimitive, v::Vector) = envelope(p, S(), v);
 
