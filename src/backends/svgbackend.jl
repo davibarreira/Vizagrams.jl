@@ -86,7 +86,7 @@ function primtosvg(geom::Circle, s::S)
 end
 
 """
-primtosvg(g::Line, s::Style) = m("polyline", points= vectostring(geom.pts), style=dicttostring(s.d))
+primtosvg(geom::Line, s::Style) = m("polyline", points= vectostring(geom.pts), style=dicttostring(s.d))
 """
 function primtosvg(geom::Line, s::S)
     # Polyline in SVG has fill, hence the 
@@ -284,6 +284,30 @@ function primtosvg(geom::Slice, s::S)
 
     sty, attr = split_style_attributes(s)
     return m("path"; d=dpath, style=dicttostring(sty), transform="scale(1,-1)", attr...)
+end
+
+"""
+primtosvg(geom::LinearGradient, s::Style) = m("polyline", points= vectostring(geom.pts), style=dicttostring(s.d))
+"""
+function primtosvg(geom::LinearGradient, s::S)
+    x1, y1 = geom.pts[1]
+    x2, y2 = geom.pts[2]
+
+    stops = map(v -> m("stop"; offset=v[1], stopColor=v[2]), zip(geom.offsets, geom.colors))
+
+    return m(
+        "defs",
+        m(
+            "linearGradient",
+            stops...;
+            transform="scale(1,-1)",
+            id=geom.id,
+            x1=x1,
+            y1=y1,
+            x2=x2,
+            y2=y2,
+        ),
+    )
 end
 
 function reducesvg(x::Vector{SVG}; kwargs...)
