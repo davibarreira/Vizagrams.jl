@@ -54,11 +54,12 @@ include("primitives/bezier.jl")
 include("primitives/polygon.jl")
 include("primitives/text.jl")
 include("primitives/slice.jl")
+include("primitives/gradient.jl")
 
 include("primitives/envelopes.jl")
 export Circle, Square, Rectangle, Line, Polygon
 export RegularPolygon, TextGeom, Bezier, QBezier, CBezier
-export QBezierPolygon, CBezierPolygon, Slice
+export QBezierPolygon, CBezierPolygon, Slice, LinearAlgebra
 
 # Free Monad Diagram Structure
 include("trees/freemonad.jl")
