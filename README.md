@@ -125,10 +125,11 @@ Check the documentation for a more thorough exposition.
 
 ## Installation
 
-To install Vizgrams.jl, run the following command in the Julia REPL:
+Vizagrams is still not registered, hence, users can install it using:
+<!-- To install Vizgrams.jl, run the following command in the Julia REPL: -->
 ```julia
 julia>]
-pkg> add Vizagrams
+pkg> add https://github.com/davibarreira/Vizagrams.jl
 ```
 
 ## Related Packages in the Julia Ecosystem
