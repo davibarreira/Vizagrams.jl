@@ -116,7 +116,7 @@ function ζ(polar::PolarFrame)::𝕋{Mark}
     return d
 end
 
-function PolarFrame(spec::PlotSpec)
+function polarframe(spec::PlotSpec)
     angle_scale = getscale(spec, :angle)
     r_scale = getscale(spec, :r)
 
@@ -151,7 +151,7 @@ function PolarFrame(spec::PlotSpec)
     )
     r_axis_angle = getnested(spec.config, [:guide, :r_axis_angle], π / 2)
 
-    return PolarFrame(
+    frame = PolarFrame(
         rmax,
         rmin,
         a_tick_angles,
@@ -161,4 +161,8 @@ function PolarFrame(spec::PlotSpec)
         r_tick_texts,
         r_axis_angle,
     )
+
+    legends = generatelegends(spec)
+
+    return frame → (T(10, 0), atop(frame, legends) * legends)
 end

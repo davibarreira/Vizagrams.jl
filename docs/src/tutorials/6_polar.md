@@ -19,7 +19,8 @@ using DataFrames
 using Random
 
 Random.seed!(4)
-df = DataFrame(x=[1, 2, 3, 5, 1, 2], y=[10, 10, 20, 10, 20, 30], c=["a", "b", "a", "a", "b", "a"],d=rand([0,1],6),e=rand([1,2,3],6),
+df = DataFrame(x=[1, 2, 3, 5, 1, 2], y=[10, 10, 20, 10, 20, 30],
+    c=["a", "b", "a", "a", "b", "a"],d=rand([0,1],6),e=rand([1,2,3],6),
     k=["key1","key2","key3","key4","key5","key6"]
 )
 
@@ -109,4 +110,50 @@ plt = Plot(
 )
 
 draw(plt)
+```
+
+## 2. Radar Plot
+
+Our next examples are radar plots. These are distinct from pizza plots in the sense that they
+actually use polar coordinates. In order to user polar coordinates in a graphic specification,
+we must simply pass `coordinate = :polar` to the `config`. While the Cartesian coordinates
+require the `x` and `y` encoding variables, the polar coordinate requires the radius variable `r`
+and the `angle`. Vizagrams then computes the `x` and `y` values automatically, which can be used
+in graphic expressions.
+
+Let us first do a simple example.
+```@example 1
+plt = Plot(
+    figsize=(300,300),
+    data=df,
+    config=(coordinate=:polar,),
+    encodings=(
+        r = (field=:y,datatype=:q, scale=Linear(domain=(0,maximum(df[!,:y])), codomain=(0,150))),
+        angle = (field = :k, datatype = :n, scale = Categorical(domain=unique(df.k),codomain=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1])),
+    ),
+    graphic = Polygon() + S(:fill=>:steelblue,:opacity=>1)Circle(r=10)
+);
+draw(plt)
+```
+
+Using the Polygon with the Circle marks we can produce the radar plot. Other marks could also be used
+in order to produce other types of visualizations. In the next example, we change the radius scale range
+so that the frame resembles a donut. Note that we also use `guide=(a_tick_flag=:in,)` within the `config`
+in order place the ticks to be in the inner radius.
+
+```@example 1
+plt = Plot(
+    figsize=(300,300),
+    data=df,
+    config=(
+        guide=(a_tick_flag=:in,),
+        coordinate=:polar,),
+    encodings=(
+        r = (field=:y,datatype=:q, scale_domain=(0,maximum(df[!,:y])+10), scale_range=(70,150)),
+        angle = (field = :k, datatype = :n, scale = Categorical(domain=unique(df.k),codomain=collect(range(0,2π,length=length(unique(df.k))+1))[begin:end-1])),
+        color=(field=:d,datatype=:n),
+        size=(field=:e,datatype=:q),
+    ),
+    graphic = Line() + S(:opacity=>1)Circle()
+);
 ```

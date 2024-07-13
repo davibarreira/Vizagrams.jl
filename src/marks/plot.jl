@@ -45,11 +45,14 @@ end
 function ζ(plt::Plot)::𝕋{Mark}
     (; spec, graphic) = plt
     sdata = scaledata(spec)
-    marks = graphic(sdata)
     coord = getnested(spec.config, [:coordinate], :cartesian)
     if coord == :polar
-        spec = PolarFrame(spec)
+        x = sdata.r .* cos.(sdata.angle)
+        y = sdata.r .* sin.(sdata.angle)
+        sdata = hconcat(sdata; x=x, y=y)
+        spec = polarframe(spec)
     end
+    marks = graphic(sdata)
     return spec + marks
 end
 
