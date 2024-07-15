@@ -136,7 +136,7 @@ export Arrow,
 include("backends/svgbackend.jl")
 include("backends/svgslice.jl")
 export drawsvg, tosvg
-include("backends/aux.jl")
+include("backends/camelfunctions.jl")
 export style_string_to_dict
 include("backends/savefigs.jl")
 export savesvg, savefig
