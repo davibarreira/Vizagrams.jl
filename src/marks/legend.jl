@@ -10,7 +10,7 @@ function Legend(; title="", titleplacement=:se, fmark=x -> U(x)Circle(), scale, 
     return Legend(title, titleplacement, scale, fmark, extra)
 end
 
-function setcolorbar(scale, h=150, w=20, n=50, nticks=3)
+function setcolorbar(scale, h=150, w=20, n=20, nticks=3)
     values = collect(range(scale.domain[1], scale.domain[2], n))
     colors = scale.(values)
     cbar = foldr(

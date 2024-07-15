@@ -96,7 +96,6 @@ include("marks/bar.jl")
 
 include("marks/ticks.jl")
 include("marks/axes.jl")
-include("marks/colorlegend.jl")
 include("marks/face.jl")
 include("marks/plotspec.jl")
 include("marks/plot.jl")
