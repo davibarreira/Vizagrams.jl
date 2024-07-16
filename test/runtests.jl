@@ -31,6 +31,9 @@ using SafeTestsets
         include("./primitives/test_graphical_primitives.jl")
         include("./primitives/test_envelopes.jl")
     end
+    @safetestset "Marks" begin
+        include("./marks/test_histogram.jl")
+    end
 
     @safetestset "Trees" begin
         include("./trees/test_freemonad.jl")
