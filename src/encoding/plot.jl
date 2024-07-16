@@ -26,7 +26,8 @@ function plot(
         if isa(v, Symbol)
             v = (field=v,)
         end
-        encodings[k] = Dict(pairs(v))
+        encodings = merge(encodings, Dict(k => Dict(pairs(v))))
+        # encodings[k] = Dict(pairs(v))
     end
 
     detail = nothing

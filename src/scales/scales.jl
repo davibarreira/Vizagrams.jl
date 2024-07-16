@@ -104,6 +104,9 @@ function applyscale(x, scale::Linear{<:Union{Vector,Tuple},Tuple{Symbol,Symbol}}
     cs = ColorScheme(range(color1, color2; length=100))
     return gethexcolor(cs, x, domain)
 end
+function (scale::Scale)(x)
+    return applyscale(x, scale)
+end
 
 function (scale::Linear)(x::Number)
     return applyscale(x, scale)
