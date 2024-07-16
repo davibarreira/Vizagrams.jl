@@ -230,7 +230,6 @@ using StructArrays
     @testset "Pizza Scatter Plot" begin
         gdf = combine(groupby(df, [:c, :d]), :x => sum, :y => sum, renamecols=false)
         plt = Plot(
-            title="",
             figsize=(300, 300),
             data=gdf,
             config=(frame_style=S(:stroke => nothing),),
@@ -238,18 +237,18 @@ using StructArrays
                 x=(field=:c,),
                 y=(field=:y, datatype=:q, guide=(lim=(0, 80),)),
                 color=(field=:d, datatype=:n),
-                θ=(field=:x, datatype=:q, scale=Linear(domain=(0, sum(gdf[!, :x])), codomain=(0, 2π))),
+                θ=(field=:x, datatype=:q, scale=IdScale()),
                 text=(field=:x, scale=x -> x)
             ),
             graphic=∑(i=:x, row -> begin
                 r = plt.figsize[1] / 10
-                T(row.:x[1], row.:y[1]) * Pizza(rmajor=r, angles=row.:θ, colors=row.:color)
+                ang = (row.θ / sum(row.θ)) * 2π
+                T(row.:x[1], row.:y[1]) * Pizza(rmajor=r, angles=ang, colors=row.color)
             end
             )
         )
 
-        @test all(map(x -> x.angles[1], getmark(Pizza, plt)) .≈ [0.8975979010256552, 4.039190554615448])
-
+        @test all(map(x -> x.angles[1], getmark(Pizza, plt)) .≈ [4.1887902047863905, 5.14078797860148])
         @test string(drawsvg(plt)) isa String
     end
 
