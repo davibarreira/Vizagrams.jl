@@ -2,6 +2,10 @@ struct Hist <: Mark
     xs::Vector
     ys::Vector
     style::S
+    function Hist(xs, ys, style)
+        @assert length(xs) == length(ys) throw "xs and ys must have the same number of elements."
+        return new(xs, ys, style)
+    end
 end
 
 Hist(; xs=[1, 2, 3, 4, 5], ys=[2, 2, 3, 1, 2], style=S()) = Hist(xs, ys, style)
