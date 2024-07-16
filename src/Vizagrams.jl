@@ -167,9 +167,6 @@ include("scales/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale, inverse
 
-include("scales/binscale.jl")
-export BinScale, binscale, applyscale
-
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
 export inferaxis
