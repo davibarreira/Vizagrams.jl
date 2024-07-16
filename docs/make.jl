@@ -18,6 +18,7 @@ makedocs(sitename="Vizagrams.jl",
         "Gallery" => [
             "Minard's Chart" => "gallery/minard.md",
             "OECD Better Life Index" => "gallery/moritz.md",
+            "Histogram" => "gallery/histogram.md",
         ],
     ]
 )
