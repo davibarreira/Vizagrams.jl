@@ -26,6 +26,7 @@ using Statistics: Statistics, mean
 using StructArrays: StructArrays, StructArray, StructVector
 using Tables: Tables
 using Transducers: Transducers, Consecutive, Map, Partition, Scan
+using StatsBase
 
 using LaTeXStrings
 using MathTeXEngine
@@ -108,6 +109,7 @@ include("marks/pizza.jl")
 include("marks/latex.jl")
 include("marks/polarframe.jl")
 include("marks/trail.jl")
+include("marks/histogram.jl")
 export Arrow,
     Area,
     Axis,
@@ -130,7 +132,8 @@ export Arrow,
     Pizza,
     IdScale,
     LaTeX,
-    Trail
+    Trail,
+    Hist
 
 # Backends
 include("backends/svgbackend.jl")
@@ -163,6 +166,9 @@ include("scales/inferscales.jl")
 # include("auxiliar/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale, inverse
+
+include("scales/binscale.jl")
+export BinScale, binscale, applyscale
 
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
