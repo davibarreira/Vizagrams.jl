@@ -27,6 +27,7 @@ using StructArrays: StructArrays, StructArray, StructVector
 using Tables: Tables
 using Transducers: Transducers, Consecutive, Map, Partition, Scan
 using StatsBase
+using PooledArrays
 
 using LaTeXStrings
 using MathTeXEngine
