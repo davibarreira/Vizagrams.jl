@@ -66,7 +66,7 @@ function lineplot(;
             S(:stroke => row.color[1], :strokeWidth => 2)style * expr(row)
         end
     end
-    return ∑(; i=detail, orderby=orderby) do row
+    return ∑(; i=detail, orderby=orderby, group_all=true) do row
         S(:stroke => :blue, :strokeWidth => 2)style * expr(row)
     end
 end
@@ -92,6 +92,8 @@ function GraphicExpression(l::Union{Line,MPrim{Line}})
         cols = Tables.columnnames(data)
         if :color in cols
             return lineplot()(data)
+        elseif :detail in cols
+            return lineplot(; detail=:detail)(data)
         end
         return lineplot(; detail=nothing)(data)
     end)
