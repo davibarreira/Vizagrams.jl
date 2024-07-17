@@ -306,13 +306,12 @@ using StructArrays
     @testset "Penguin Plot" begin
 
         struct PenguinBill <: Mark
-            species
             bill_length::Real
             bill_depth::Real
         end
-        PenguinBill(; species="Adelie", bill_length=40, bill_depth=20) = PenguinBill(species, bill_length, bill_depth)
+        PenguinBill(; bill_length=40, bill_depth=20) = PenguinBill(bill_length, bill_depth)
         function Vizagrams.ζ(p::PenguinBill)::TMark
-            (; species, bill_depth, bill_length) = p
+            (; bill_depth, bill_length) = p
             bill = R(-π / 2)U(1 / 30)Polygon([[-bill_depth, 0], [0, bill_length], [bill_depth, 0]])
             bill = S(:fill => :orange)T(0.5, 0) * bill
             splash = T(-0.2, 0) * QBezierPolygon([[0.2, 0], [1, 0]], [[1.0, 1], [0.5, -1]])
@@ -341,17 +340,36 @@ using StructArrays
 
     end
 
-    @testset "plot" begin
-        p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3], opacity=1)
+    @testset "quick plot" begin
+
+        # testing quick plot function passing data into variables
+        p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3])
         @test length(getmark(Circle, p)) == 3
 
-        p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3], opacity=1, mark=Line())
+        p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3], graphic=Line())
         @test length(getmark(Line, p)) == 3
 
-        p = plot(x=[1, 2, 3, 1, 2, 3], y=[1, 2, 3, 3, 2, 1], mark=Line(), color=[1, 1, 1, 2, 2, 2])
+        p = plot(x=[1, 2, 3, 1, 2, 3], y=[1, 2, 3, 3, 2, 1], color=[1, 1, 1, 2, 2, 2], graphic=Line())
         @test length(getmark(Line, p)) == 2
 
-        p = plot(x=[1, 2, 3, 1, 2, 3], y=[1, 2, 3, 3, 2, 1], mark=Line(), detail=[1, 1, 1, 2, 2, 2], style=S(:stroke => :red))
+        p = plot(x=[1, 2, 3, 1, 2, 3], y=[1, 2, 3, 3, 2, 1], graphic=Line(), detail=[1, 1, 1, 2, 2, 2])
         @test length(getmark(Line, p)) == 2
+        @test string(draw(p)) isa String
+
+        # quick plot using dataframe
+        p = plot(df, x=:x, y=:y)
+        @test string(draw(p)) isa String
+
+
+        # complete use case for quick plot specification function 
+        plt = plot(df, x=:x, y=:y,
+            bill_d=(field=:d, datatype=:q, scale_range=(4, 20)),
+            bill_l=(field=:e, datatype=:q, scale_range=(30, 50)),
+            color=(field=:c, datatype=:n, colorscheme=:julia),
+            graphic=∑() do row
+                S(:fill => row[:color], :opacity => 1.0)T(row[:x], row[:y])U(20)PenguinBill(bill_length=row[:bill_l], bill_depth=row[:bill_d])
+            end)
+        @test string(draw(plt)) isa String
+
     end
 end
