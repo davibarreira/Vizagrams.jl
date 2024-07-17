@@ -11,6 +11,7 @@ using Statistics
 
 df = DataFrame(PalmerPenguins.load())
 df = dropmissing(df);
+nothing #hide
 ```
 
 ## 1. Creating our Penguin Mark
