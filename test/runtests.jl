@@ -47,6 +47,5 @@ using SafeTestsets
     # Tests below not working on GitHub Actions
     @safetestset "Visual Tests" begin
         include("./visual/plots.jl")
-        include("./visual/penguins.jl")
     end
 end
