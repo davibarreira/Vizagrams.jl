@@ -2,6 +2,8 @@ using Vizagrams
 using Documenter
 
 DocMeta.setdocmeta!(Vizagrams, :DocTestSetup, :(using Vizagrams); recursive=true)
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+
 
 makedocs(sitename="Vizagrams.jl",
     format=Documenter.HTML(size_threshold=nothing, assets=["assets/favicon.ico"]),
