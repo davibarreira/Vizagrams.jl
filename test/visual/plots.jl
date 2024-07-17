@@ -354,6 +354,10 @@ using StructArrays
 
         p = plot(x=[1, 2, 3, 1, 2, 3], y=[1, 2, 3, 3, 2, 1], graphic=Line(), detail=[1, 1, 1, 2, 2, 2])
         @test length(getmark(Line, p)) == 2
+
+        # testing passing other properties inside the varible, such as x=(data=[1,2,3], datatype=:q)
+        p = plot(x=(data=[1, 2, 3, 1], datatype=:q), y=[1, 2, 2, 1], color=(data=[1, 1, 2, 2], datatype=:n), graphic=S(:strokeWidth => 10, :strokeOpacity => 0.9)Line())
+        @test length(getmark(Line, p)) == 2
         @test string(draw(p)) isa String
 
         # quick plot using dataframe
