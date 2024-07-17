@@ -177,7 +177,7 @@ export inferaxis
 include("encoding/encoding.jl")
 export scatter, lineplot
 
-include("encoding/plot.jl")
+include("encoding/quickplot.jl")
 export plot
 
 include("auxiliar/draw_tree_diagram.jl")
