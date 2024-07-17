@@ -16,9 +16,10 @@ makedocs(sitename="Vizagrams.jl",
             "7 - Polar Visualizations" => "tutorials/6_polar.md"
         ],
         "Gallery" => [
+            "Histogram" => "gallery/histogram.md",
             "Minard's Chart" => "gallery/minard.md",
             "OECD Better Life Index" => "gallery/moritz.md",
-            "Histogram" => "gallery/histogram.md",
+            "Penguins" => "gallery/penguins.md",
         ],
     ]
 )
