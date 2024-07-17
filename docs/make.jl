@@ -2,6 +2,8 @@ using Vizagrams
 using Documenter
 
 DocMeta.setdocmeta!(Vizagrams, :DocTestSetup, :(using Vizagrams); recursive=true)
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+
 
 makedocs(sitename="Vizagrams.jl",
     format=Documenter.HTML(size_threshold=nothing, assets=["assets/favicon.ico"]),
@@ -16,9 +18,10 @@ makedocs(sitename="Vizagrams.jl",
             "7 - Polar Visualizations" => "tutorials/6_polar.md"
         ],
         "Gallery" => [
+            "Histogram" => "gallery/histogram.md",
             "Minard's Chart" => "gallery/minard.md",
             "OECD Better Life Index" => "gallery/moritz.md",
-            "Histogram" => "gallery/histogram.md",
+            "Penguins" => "gallery/penguins.md",
         ],
     ]
 )
