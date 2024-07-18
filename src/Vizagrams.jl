@@ -111,30 +111,32 @@ include("marks/latex.jl")
 include("marks/polarframe.jl")
 include("marks/trail.jl")
 include("marks/histogram.jl")
-export Arrow,
-    Area,
+include("marks/boxplot.jl")
+export Area,
+    Arrow,
     Axis,
-    XAxis,
-    YAxis,
     Bar,
+    BoxPlot,
+    Categorical,
     Face,
     Frame,
-    Scale,
-    Linear,
-    Categorical,
-    Tick,
-    Title,
-    TextMark,
-    PlotSpec,
-    Plot,
-    PolarFrame,
-    Legend,
     Grid,
-    Pizza,
+    Hist,
     IdScale,
     LaTeX,
+    Legend,
+    Linear,
+    Pizza,
+    Plot,
+    PlotSpec,
+    PolarFrame,
+    Scale,
+    TextMark,
+    Tick,
+    Title,
     Trail,
-    Hist
+    XAxis,
+    YAxis
 
 # Backends
 include("backends/svgbackend.jl")
