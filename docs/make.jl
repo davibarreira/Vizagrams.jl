@@ -19,6 +19,7 @@ makedocs(sitename="Vizagrams.jl",
         ],
         "Gallery" => [
             "BoxPlot" => "gallery/boxplot.md",
+            "Grouped Bar Chart" => "gallery/groupedbar.md",
             "Histogram" => "gallery/histogram.md",
             "Minard's Chart" => "gallery/minard.md",
             "OECD Better Life Index" => "gallery/moritz.md",
