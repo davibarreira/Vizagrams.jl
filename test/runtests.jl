@@ -32,6 +32,7 @@ using SafeTestsets
         include("./primitives/test_envelopes.jl")
     end
     @safetestset "Marks" begin
+        include("./marks/test_boxplot.jl")
         include("./marks/test_histogram.jl")
     end
 
