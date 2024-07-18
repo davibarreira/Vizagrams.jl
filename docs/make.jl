@@ -18,6 +18,7 @@ makedocs(sitename="Vizagrams.jl",
             "7 - Polar Visualizations" => "tutorials/6_polar.md"
         ],
         "Gallery" => [
+            "BoxPlot" => "gallery/boxplot.md",
             "Grouped Bar Chart" => "gallery/groupedbar.md",
             "Histogram" => "gallery/histogram.md",
             "Minard's Chart" => "gallery/minard.md",
