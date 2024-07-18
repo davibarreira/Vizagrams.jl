@@ -339,9 +339,40 @@ using StructArrays
         @test string(drawsvg(plt)) isa String
 
     end
+    @testset "grouped bar chart" begin
+        df_gbar = DataFrame(
+            :category => ["A", "A", "A", "B", "B", "B", "C", "C", "C"],
+            :group => ["x", "y", "z", "x", "y", "z", "x", "y", "z"],
+            :value => [0.1, 0.6, 0.9, 0.7, 0.2, 1.1, 0.6, 0.1, 0.2]
+        )
+
+        plt = Plot(
+            data=df_gbar,
+            encodings=(
+                x=(field=:category,),
+                y=(field=:value,),
+                color=(field=:group, datatype=:n),
+            ),
+            graphic=
+            ∑(i=:x, op=+,
+                ∑(i=:color, op=→, orderby=:color, descend=false,
+                    data -> begin
+                        w = 20
+                        bars = ∑() do row
+                            S(:fill => row[:color])Bar(h=row[:y], c=[row[:x], 0], w=w)
+                        end(data)
+                        total_width = boundingwidth(bars)
+                        T(-total_width / 2 - w / 2, 0)bars
+                    end
+                )
+            )
+        )
+
+        @test length(getmark(Bar, plt)) == 9
+        @test string(draw(plt)) isa String
+    end
 
     @testset "quick plot" begin
-
         # testing quick plot function passing data into variables
         p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3])
         @test length(getmark(Circle, p)) == 3
@@ -374,6 +405,5 @@ using StructArrays
                 S(:fill => row[:color], :opacity => 1.0)T(row[:x], row[:y])U(20)PenguinBill(bill_length=row[:bill_l], bill_depth=row[:bill_d])
             end)
         @test string(draw(plt)) isa String
-
     end
 end
