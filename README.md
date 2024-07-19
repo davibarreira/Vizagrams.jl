@@ -138,7 +138,10 @@ pkg> add Vizagrams
 * **Compose.jl** - A vector graphics library for Julia, that can be used for diagram drawing. Similar to Vizagrams, it is also inspired by the Haskell library Diagrams.
 * **Gadfly.jl** - A data visualization package based largely on Hadley Wickhams's `ggplot2`. It has been developed for many years, thus, it is a good choice for those who want a robust data visualization package with a visualization grammar implementation.
 * **Luxor.jl** - Package for drawing simple static 2D vector graphics. The focus of Luxor is on simplicity and ease of use.
+* **Thebes.jl** - A little extension package for the package Luxor.jl that provides some rudimentary 3D (2.5D?) wireframe functionality.
+* **Javis.jl** - A tool focused on providing an easy to use interface for making animations and developing visualizations quickly.
 * **Makie.jl** - Implements an interactive plotting ecosystem. Similar to Python's Matplotlib, it does not implement a visualization grammar, instead, users can pick from a collection of charts and arrange them using layouts and other customization options.
+* **AlgebraOfGraphics.jl** - Defines an algebra of graphics where plot specifications are constructed by combining layers using `+` and `*` operations. Visualizations are powered by Makie.
 * **Plots.jl** - A visualization interface and toolset. It does not implement a visualization grammar, instead relying on the concept of plot attributes as the building block of plot specifications.
 * **VegaLite.jl** - Plotting package based on [Vega-Lite](https://vega.github.io/vega-lite/), which is a high-level grammar of interactive graphics.
 
