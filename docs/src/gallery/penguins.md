@@ -61,12 +61,6 @@ This plot is not making use of the parameters specified in the penguin mark. Let
 use them:
 
 ```@example 1
-plt = plot(df;
-    x=:island,
-    y=:species,
-    graphic=Mark(
-        U(20)S(:opacity => 1)PenguinBill())
-)
 plt = plot(df,
     x=:island,
     y=:species,
