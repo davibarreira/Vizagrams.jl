@@ -27,13 +27,18 @@ function plot(
         (xaxis=(grid=(flag=true,),), yaxis=(grid=(flag=true,),)), config
     )
 
+    data = StructArray(Tables.rowtable(data))
     encodings = Dict()
     for (k, v) in kwargs
         if isa(v, Symbol)
             v = (field=v,)
+        elseif v isa Function
+            fdata = StructArray(NamedTuple(Dict(k => map(v, data))))
+            data = hconcat(data, fdata, "_")
+            field = propertynames(data)[end]
+            v = (field=field,)
         end
         encodings = merge(encodings, Dict(k => Dict(pairs(v))))
-        # encodings[k] = Dict(pairs(v))
     end
 
     return Plot(;
