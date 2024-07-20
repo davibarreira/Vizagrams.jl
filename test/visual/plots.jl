@@ -387,7 +387,7 @@ using StructArrays
         @test length(getmark(Line, p)) == 2
 
         # testing passing other properties inside the varible, such as x=(data=[1,2,3], datatype=:q)
-        p = plot(x=(data=[1, 2, 3, 1], datatype=:q), y=[1, 2, 2, 1], color=(data=[1, 1, 2, 2], datatype=:n), graphic=S(:strokeWidth => 10, :strokeOpacity => 0.9)Line())
+        p = plot(x=(value=[1, 2, 3, 1], datatype=:q), y=[1, 2, 2, 1], color=(value=[1, 1, 2, 2], datatype=:n), graphic=S(:strokeWidth => 10, :strokeOpacity => 0.9)Line())
         @test length(getmark(Line, p)) == 2
         @test string(draw(p)) isa String
 
