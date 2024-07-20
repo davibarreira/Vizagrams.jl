@@ -33,7 +33,7 @@ function plot(
 
         # This is the case where the variable has only the data as in x=[1,2,4]
         if isa(v, Symbol)
-            encodings[v] = Dict(:field => v)
+            encodings[k] = Dict(:field => v)
             continue
         elseif v isa Function
             fdata = StructArray(NamedTuple(Dict(k => map(v, data))))
