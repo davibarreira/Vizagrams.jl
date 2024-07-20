@@ -56,7 +56,6 @@ function plot(
                 if v_ isa Vector
                     fdata = StructArray(NamedTuple(Dict(k => v_)))
                 elseif v_ isa Function
-                    @show k_
                     fdata = StructArray(NamedTuple(Dict(k => map(v_, data))))
                 end
                 data = hconcat(data, fdata, "_")
