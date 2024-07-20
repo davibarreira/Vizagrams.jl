@@ -56,10 +56,12 @@ function plot(
                 if v_ isa Vector
                     fdata = StructArray(NamedTuple(Dict(k => v_)))
                 elseif v_ isa Function
+                    @show k_
                     fdata = StructArray(NamedTuple(Dict(k => map(v_, data))))
                 end
                 data = hconcat(data, fdata, "_")
-                encodings[k] = Dict(:field => k)
+                field = propertynames(data)[end]
+                encodings[k] = Dict(:field => field)
                 continue
             end
             encodings[k] = merge(encodings[k], Dict(k_ => v_))
