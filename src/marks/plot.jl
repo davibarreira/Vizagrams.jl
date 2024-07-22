@@ -50,7 +50,7 @@ function ζ(plt::Plot)::𝕋{Mark}
         x = sdata.r .* cos.(sdata.angle)
         y = sdata.r .* sin.(sdata.angle)
         sdata = hconcat(sdata; x=x, y=y)
-        spec = polarframe(spec)
+        # spec = polarframe(spec)
     end
     marks = graphic(sdata)
     return spec + marks

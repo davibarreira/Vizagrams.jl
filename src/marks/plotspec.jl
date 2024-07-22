@@ -77,14 +77,22 @@ function ζ(spec::PlotSpec)::𝕋{Mark}
     legends = generatelegends(spec)
 
     if !isnothing(getnested(config, [:frame], nothing))
-        context = getnested(config, [:frame], nothing)
-        return (context)↑(T(0, 10), title) → (T(10, frame.size[2]), legends)
+        frame = getnested(config, [:frame], nothing)
+        if isnothing(boundingbox(frame))
+            title = Title(setfields(title.textmark, (anchor=:c,)))
+            return T(0, figsize[2]) * title + T(10 + figsize[1], figsize[2]) * legends
+        end
+        return (frame)↑(T(0, 10), title) → (T(10, frame.size[2]), legends)
     end
 
     guide = getnested(config, [:guide], true)
 
     if guide == false
         return S()NilD()
+    end
+
+    if getnested(config, [:coordinate], :cartesian) == :polar
+        return polarframe(spec)
     end
 
     if isnothing(x) && isnothing(y)
