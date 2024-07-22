@@ -29,6 +29,9 @@ function inferaxis(
     ticktextangle = getnested(enc, [:guide, :ticktextangle], ticktextangle)
     tickvalues = getnested(enc, [:guide, :tickvalues], inferaxistickvalues(spec, variable))
     scale = getnested(enc, [:scale], inferscale(spec, variable))
+    if scale isa Function
+        scale = GenericScale(scale)
+    end
     # axisarrow = getnested(enc, [:scale], inferscale(spec, variable))
 
     ticktexts = getnested(enc, [:guide, :ticktexts], tickvalues)
