@@ -45,6 +45,10 @@ using SafeTestsets
         include("./trees/test_operations.jl")
     end
 
+    @safetestset "Scales" begin
+        include("./scales/test_binscale.jl")
+    end
+
     @safetestset "Encoding" begin
         include("./encoding/test_quickplot.jl")
     end
