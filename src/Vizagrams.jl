@@ -138,6 +138,9 @@ export Area,
     XAxis,
     YAxis
 
+include("scales/binscale.jl")
+export BinScale
+
 # Backends
 include("backends/svgbackend.jl")
 include("backends/svgslice.jl")
