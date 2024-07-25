@@ -7,7 +7,7 @@ struct TextMark <: Mark
     fontfamily::String
     style::S
     function TextMark(text, pos, fontsize, angle, anchor, fontfamily, style)
-        @assert fontsize > 0.0 "Size must be a positive real number"
+        # @assert fontsize > 0.0 "Size must be a positive real number"
         @assert anchor in [:c, :s, :n, :e, :w, :se, :sw, :ne, :nw]
         return new(text, pos, fontsize, angle, anchor, fontfamily, style)
     end

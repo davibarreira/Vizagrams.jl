@@ -5,7 +5,7 @@ struct TextGeom <: GeometricPrimitive
     θ::Real
     fontfamily::String
     function TextGeom(text, pos, fontsize, θ, fontfamily)
-        @assert fontsize > 0.0 "Size must be a positive real number"
+        # @assert fontsize > 0.0 "Size must be a positive real number"
         return new(text, pos, fontsize, θ, fontfamily)
     end
 end
