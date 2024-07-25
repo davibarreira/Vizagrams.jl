@@ -373,6 +373,12 @@ using StructArrays
     end
 
     @testset "quick plot" begin
+
+        # Simple test for plot
+        Random.seed!(4)
+        plt = plot(x=rand(10), y=rand(10))
+        @test string(draw(plt, height=300)) isa String
+
         # testing quick plot function passing data into variables
         p = plot(x=[1, 2, 3], y=[1, 2, 3], color=[1, 2, 3])
         @test length(getmark(Circle, p)) == 3
