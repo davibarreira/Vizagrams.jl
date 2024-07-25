@@ -36,7 +36,6 @@ the whole specification.
 ```@example 3
 Random.seed!(4)
 plt = plot(x=rand(10),y=rand(10))
-# plt = S(:vectorEffect=>"none")plt
 draw(plt,height=300)
 ```
 

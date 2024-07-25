@@ -370,7 +370,7 @@ the width.
 """
 function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
     bb = boundingbox(d)
-    if isnothing(bb)
+    if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
     end
     boxwidth = bb[2][1] - bb[1][1]
