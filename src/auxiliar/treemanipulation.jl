@@ -204,3 +204,10 @@ end
 getmarkpath(M::Type, d::Mark) = getmarkpath(M, ζ(d))
 getmarkpath(M::Type{<:GeometricPrimitive}, d::TMark) = getmarkpath(mlift(M), d)
 getmarkpath(M::Type{<:GeometricPrimitive}, d::Mark) = getmarkpath(mlift(M), ζ(d))
+
+function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{G})
+    return map(x -> x._1[1], getmarkpath(M, d))
+end
+function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{S})
+    return map(x -> x._1[2], getmarkpath(M, d))
+end
