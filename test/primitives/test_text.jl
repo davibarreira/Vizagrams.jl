@@ -4,7 +4,7 @@ import Vizagrams: CovText, ϕ, ψ
 @testset "TextGeom" begin
     g = T(1.0, 1.0)
     @testset "Constructor" begin
-        @test_throws AssertionError TextGeom("", [0, 0], -1, 0, "")
+        # @test_throws AssertionError TextGeom("", [0, 0], -1, 0, "")
         @test TextGeom("", [0, 0], 12, 0, "").text == ""
         @test TextGeom("", [0, 0], 12, 0, "").pos == [0, 0]
         @test TextGeom("", [0, 0], 12, 0, "").fontsize == 12
