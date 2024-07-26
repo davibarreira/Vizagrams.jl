@@ -84,3 +84,75 @@ function inferyaxis(
     d = axis + ticks
     return d ← (T(-10, 0), amiddle(d, title) * title)
 end
+
+function inferraxis(
+    scale::Linear; title="r", nticks=10, tickvalues=nothing, ticktexts=nothing, angle=π / 2
+)
+    (; domain, codomain) = scale
+    if isnothing(tickvalues)
+        tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
+    end
+    if isnothing(ticktexts)
+        ticktexts = showoff(tickvalues)
+    end
+
+    # axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
+
+    # Radius Axis
+    ticks = mapreduce(
+        z -> begin
+            tickvalue, ticktext = z
+            r = scale(tickvalue)
+            x = cos(angle) * r
+            y = sin(angle) * r
+            text = TextMark(; text=ticktext, fontsize=7)
+            h = boundingheight(text)
+            w = boundingwidth(text)
+            box = S(:fill => :white)U(1.4)Rectangle(; h=h, w=w)
+            T(x, y) * (box + text)
+        end,
+        +,
+        zip(tickvalues, ticktexts),
+    )
+
+    return ticks
+end
+
+function inferangleaxis(
+    scale::Union{Linear,Categorical};
+    title="angle",
+    nticks=10,
+    tickvalues=nothing,
+    ticktexts=nothing,
+    radius=100,
+)
+    (; domain, codomain) = scale
+    if isnothing(tickvalues)
+        tickvalues = scale.domain
+        if scale isa Linear
+            tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
+        end
+    end
+    if isnothing(ticktexts)
+        ticktexts = showoff(tickvalues)
+    end
+
+    # Axis
+    axis = S(:fillOpacity => 0, :stroke => :black)Circle(; r=radius)
+
+    # Ticks
+    ticks = mapreduce(
+        z -> begin
+            tickvalue, ticktext = z
+            angle = scale(tickvalue)
+            x = cos(angle) * (radius + 10)
+            y = sin(angle) * (radius + 10)
+            T(x, y) * (TextMark(; text=ticktext, fontsize=7))
+        end,
+        +,
+        zip(tickvalues, ticktexts),
+    )
+
+    return axis + ticks
+    # return axis + ticks
+end
