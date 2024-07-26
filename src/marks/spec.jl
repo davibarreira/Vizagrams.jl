@@ -3,6 +3,14 @@ struct Spec <: Mark # Unit specification taken from Vega-Lite paper
     encodings::NamedTuple
 end
 
+# function inferscale(data, config)
+#     framesize = get(config, :figsize, (300, 300))
+
+# end
+# function inferspec(encodings;config=NamedTuple())
+#     return 
+# end
+
 function Spec(;
     title="", figsize=(300, 200), encodings=Dict(), config=Dict(), coordinate=:cartesian
 )
@@ -44,6 +52,7 @@ function ζ(spec::Spec)::𝕋{Mark}
             yaxis = Arrow(; pts=[[0, 0], [0, framesize[2]]], headsize=0)
         end
         axes = xaxis + yaxis
+    elseif coordinate == :polar
     end
 
     return frame↑(T(0, 10), title) + axes
