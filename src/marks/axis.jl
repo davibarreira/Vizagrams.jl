@@ -1,3 +1,20 @@
+function get_tickvalues(
+    scale::Union{Linear,Categorical}; nticks=10, tickvalues=nothing, ticktexts=nothing
+)
+    (; domain, codomain) = scale
+    if isnothing(tickvalues)
+        tickvalues = scale.domain
+        if scale isa Linear
+            tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
+        end
+    end
+    if isnothing(ticktexts)
+        ticktexts = showoff(tickvalues)
+    end
+
+    return tickvalues, ticktexts
+end
+
 """
     inferxaxis(scale::Linear, var::Symbol; nticks=10, tickvalues=nothing, ticktexts=nothing)
 
@@ -6,22 +23,11 @@ Infer the x-axis for a given scale and variable.
 function inferxaxis(
     scale::Linear; title="x", nticks=10, tickvalues=nothing, ticktexts=nothing
 )
-    # How this function works:
-    # It generates tick values based on Wilks algo. The user can instead
-    # pass the tickvalues and ticktexts directly
-    # It then constructs the axis as an Arrow mark, together with the ticks
-    # using each tickvalue and the scale to place it properly.
-    # The size of the axis is given by the codomain (range) of the scale
-    # At last, the title is placed.
-
     (; domain, codomain) = scale
 
-    if isnothing(tickvalues)
-        tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
-    end
-    if isnothing(ticktexts)
-        ticktexts = showoff(tickvalues)
-    end
+    tickvalues, ticktexts = get_tickvalues(
+        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    )
 
     axis = Arrow(; pts=[[codomain[1], 0], [codomain[2], 0]])
 
@@ -50,21 +56,11 @@ Infer the y-axis for a given scale and variable.
 function inferyaxis(
     scale::Linear; title="y", nticks=10, tickvalues=nothing, ticktexts=nothing
 )
-    # How this function works:
-    # It generates tick values based on Wilks algo. The user can instead
-    # pass the tickvalues and ticktexts directly
-    # It then constructs the axis as an Arrow mark, together with the ticks
-    # using each tickvalue and the scale to place it properly.
-    # The size of the axis is given by the codomain (range) of the scale
-    # At last, the title is placed.
-
     (; domain, codomain) = scale
-    if isnothing(tickvalues)
-        tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
-    end
-    if isnothing(ticktexts)
-        ticktexts = showoff(tickvalues)
-    end
+
+    tickvalues, ticktexts = get_tickvalues(
+        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    )
 
     axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
 
@@ -89,12 +85,10 @@ function inferraxis(
     scale::Linear; title="r", nticks=10, tickvalues=nothing, ticktexts=nothing, angle=π / 2
 )
     (; domain, codomain) = scale
-    if isnothing(tickvalues)
-        tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
-    end
-    if isnothing(ticktexts)
-        ticktexts = showoff(tickvalues)
-    end
+
+    tickvalues, ticktexts = get_tickvalues(
+        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    )
 
     # axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
 
@@ -127,32 +121,83 @@ function inferangleaxis(
     radius=100,
 )
     (; domain, codomain) = scale
-    if isnothing(tickvalues)
-        tickvalues = scale.domain
-        if scale isa Linear
-            tickvalues = generate_tick_labels(domain[1], domain[2], nticks)
-        end
-    end
-    if isnothing(ticktexts)
-        ticktexts = showoff(tickvalues)
-    end
+
+    tickvalues, ticktexts = get_tickvalues(
+        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    )
 
     # Axis
     axis = S(:fillOpacity => 0, :stroke => :black)Circle(; r=radius)
 
     # Ticks
+    # Ticks
     ticks = mapreduce(
         z -> begin
             tickvalue, ticktext = z
             angle = scale(tickvalue)
+            x = cos(angle) * (radius)
+            y = sin(angle) * (radius)
+            tickmark = R(angle - π / 2)Rectangle(; h=4, w=1)
+            tickmark = T(x, y) * tickmark
+
             x = cos(angle) * (radius + 10)
             y = sin(angle) * (radius + 10)
-            T(x, y) * (TextMark(; text=ticktext, fontsize=7))
+            ticktext = T(x, y) * TextMark(; text=ticktext, fontsize=7)
+
+            tickmark + ticktext
         end,
         +,
         zip(tickvalues, ticktexts),
     )
 
     return axis + ticks
-    # return axis + ticks
+end
+
+function inferarcaxis(
+    scale::Union{Linear,Categorical};
+    title="angle",
+    nticks=10,
+    tickvalues=nothing,
+    ticktexts=nothing,
+    rmajor=100,
+    rminor=0,
+)
+    (; domain, codomain) = scale
+
+    tickvalues, ticktexts = get_tickvalues(
+        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    )
+
+    # Axis
+    axis =
+        S(
+            :fillOpacity => 0, :stroke => :black
+        )Slice(;
+            θ=codomain[begin] + π / 2,
+            ang=codomain[end] - codomain[begin],
+            rminor=rminor,
+            rmajor=rmajor,
+        )
+
+    # Ticks
+    ticks = mapreduce(
+        z -> begin
+            tickvalue, ticktext = z
+            angle = scale(tickvalue)
+            x = cos(angle) * (rmajor)
+            y = sin(angle) * (rmajor)
+            tickmark = R(angle - π / 2)Rectangle(; h=4, w=1)
+            tickmark = T(x, y) * tickmark
+
+            x = cos(angle) * (rmajor + 10)
+            y = sin(angle) * (rmajor + 10)
+            ticktext = T(x, y) * TextMark(; text=ticktext, fontsize=7)
+
+            tickmark + ticktext
+        end,
+        +,
+        zip(tickvalues, ticktexts),
+    )
+
+    return axis + ticks
 end
