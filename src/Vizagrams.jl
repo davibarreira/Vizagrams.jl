@@ -101,6 +101,8 @@ include("marks/axes.jl")
 include("marks/face.jl")
 include("marks/plotspec.jl")
 include("marks/plot.jl")
+include("marks/spec.jl")
+export Spec
 export graphic
 
 include("marks/legend.jl")
