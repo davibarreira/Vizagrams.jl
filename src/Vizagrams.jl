@@ -174,12 +174,20 @@ include("scales/inferscales.jl")
 # include("auxiliar/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale, inverse
+include("scales/inferspecscales.jl")
+export infer_xy_axis_domain_q
 
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
 export inferaxis
-# include("auxiliar/inferaxis.jl")
-# export inferaxis
+
+include("axes/axis.jl")
+include("axes/xaxis.jl")
+include("axes/yaxis.jl")
+include("axes/raxis.jl")
+include("axes/angleaxis.jl")
+include("axes/arcaxis.jl")
+export inferxaxis, inferyaxis, inferraxis, inferangleaxis, inferarcaxis
 
 include("encoding/encoding.jl")
 export scatter, lineplot
