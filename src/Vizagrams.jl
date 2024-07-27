@@ -174,8 +174,9 @@ include("scales/inferscales.jl")
 # include("auxiliar/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale, inverse
+
 include("scales/inferspecscales.jl")
-export infer_xy_axis_domain_q
+export infer_xy_axis_domain_q, infer_xy_axis_domain_n, infer_scale
 
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")

@@ -4,7 +4,12 @@
 Infer the y-axis for a given scale and variable.
 """
 function inferyaxis(
-    scale::Linear; title="y", nticks=10, tickvalues=nothing, ticktexts=nothing
+    scale::Scale;
+    title="y",
+    nticks=10,
+    tickvalues=nothing,
+    ticktexts=nothing,
+    axislength=nothing,
 )
     (; domain, codomain) = scale
 
@@ -12,7 +17,10 @@ function inferyaxis(
         scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     )
 
-    axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
+    axis = Arrow(; pts=[[0, 0], [0, axislength]])
+    if isnothing(axislength)
+        axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
+    end
 
     ticks = mapreduce(
         z -> begin
