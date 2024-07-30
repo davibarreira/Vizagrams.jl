@@ -26,3 +26,21 @@ function infercolorscale(ds, enc)
     end
     return scale
 end
+
+function infer_colorscale(; data, datatype, domain, codomain)
+    if datatype == :n
+        domain = isnothing(domain) ? unique(data) : domain
+        codomain = isnothing(codomain) ? :tableau_superfishel_stone : codomain
+        scale = Categorical(; domain=domain, codomain=codomain)
+    elseif datatype == :q
+        domain = isnothing(domain) ? [minimum(data), maximum(data)] : domain
+        codomain = isnothing(codomain) ? :hawaii : codomain
+        scale = Linear(; domain=domain, codomain=codomain)
+
+    elseif datatype == :o
+        domain = isnothing(domain) ? collect(minimum(data):maximum(data)) : domain
+        codomain = isnothing(codomain) ? :jblue : codomain
+        scale = Categorical(; domain=domain, codomain=codmain)
+    end
+    return scale
+end

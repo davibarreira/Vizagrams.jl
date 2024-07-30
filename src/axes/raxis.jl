@@ -1,6 +1,5 @@
-
 function inferraxis(
-    scale::Linear; title="r", nticks=10, tickvalues=nothing, ticktexts=nothing, angle=π / 2
+    scale::Scale; title="r", nticks=10, tickvalues=nothing, ticktexts=nothing, angle=π / 2
 )
     (; domain, codomain) = scale
 

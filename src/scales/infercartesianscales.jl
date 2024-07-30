@@ -34,32 +34,24 @@ end
 infer_scale(;data, framesize, coordinate=:cartesian, variable=nothing, datatype=nothing)
 
 """
-function infer_scale(;
-    data,
-    codomain_length,
-    coordinate=:cartesian,
-    variable=nothing,
-    datatype=nothing,
-    domain=nothing,
-    codomain=nothing,
+function infer_scale_cartesian(;
+    data, framesize, variable=nothing, datatype=nothing, domain=nothing, codomain=nothing
 )
-    if isnothing(datatype)
-        datatype = inferdatatype(data)
-    end
+    codomain_length = variable == :x ? framesize[1] : framesize[2]
 
     if datatype == :q
         domain = isnothing(domain) ? infer_xy_axis_domain_q(data) : domain
         codomain = isnothing(codomain) ? (0, codomain_length) : codomain
-        scale = Linear(; domain=domain, codomain=codomain)
-        return scale
+        return Linear(; domain=domain, codomain=codomain)
     elseif datatype == :n
         domain = isnothing(domain) ? string.(sort(unique(data))) : domain
         interval = codomain_length / length(domain)
 
         codomain =
             isnothing(codomain) ? (interval / 2, codomain_length - interval / 2) : codomain
-        scale = Categorical(; domain=domain, codomain=codomain)
+        return Categorical(; domain=domain, codomain=codomain)
     end
+    domain = isnothing(domain) ? sort(unique(data)) : domain
     codomain = isnothing(codomain) ? (0, codomain_length) : codomain
-    return Linear(; domain=domain, codomain=codomain)
+    return Categorical(; domain=domain, codomain=codomain)
 end

@@ -175,8 +175,9 @@ include("scales/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale, inverse
 
-include("scales/inferspecscales.jl")
-export infer_xy_axis_domain_q, infer_xy_axis_domain_n, infer_scale
+# include("scales/inferspecscales.jl")
+include("scales/infercartesianscales.jl")
+export infer_xy_axis_domain_q, infer_xy_axis_domain_n
 
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
@@ -195,6 +196,9 @@ export scatter, lineplot
 
 include("encoding/quickplot.jl")
 export plot
+
+include("encoding/inferencodings.jl")
+export infer_encodings, infer_encoding_scale, infer_encodings
 
 include("auxiliar/draw_tree_diagram.jl")
 export treediagram, fix_treediagram
