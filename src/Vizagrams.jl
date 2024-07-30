@@ -15,7 +15,7 @@ using FreeTypeAbstraction
 using Hyperscript: Hyperscript, Style, m
 using Librsvg_jll: Librsvg_jll, rsvg_convert
 using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅
-using MLStyle: MLStyle, @data
+using MLStyle: MLStyle, @data, @match
 using Memoize: @memoize
 using NamedTupleTools: NamedTupleTools
 using Query: Query, @groupby, @map, @orderby, @orderby_descending, key
@@ -171,13 +171,9 @@ include("scales/colorscale.jl")
 include("scales/sizescale.jl")
 include("scales/axisscales.jl")
 include("scales/inferscales.jl")
-# include("auxiliar/inferscales.jl")
-include("scales/getscales.jl")
-export inferscale, getscales, scaledata, getscale, inverse
 
-# include("scales/inferspecscales.jl")
-include("scales/infercartesianscales.jl")
-export infer_xy_axis_domain_q, infer_xy_axis_domain_n
+include("scales/getscales.jl")
+export inferscale, getscales, scaledata, getscale
 
 include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
