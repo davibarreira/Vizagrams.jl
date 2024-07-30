@@ -6,7 +6,7 @@ as either :q, :o or :n.
 """
 function inferdatatype(ds)
     if typeof(ds) <:
-        Union{Vector{<:AbstractChar},Vector{<:AbstractString},PooledArrays.PooledVector}
+       Union{Vector{<:AbstractChar},Vector{<:AbstractString},PooledArrays.PooledVector}
         return :n
     elseif typeof(ds) <: Vector{<:Int} && length(minimum(ds):1:maximum(ds)) < 10
         return :o

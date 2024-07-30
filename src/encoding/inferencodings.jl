@@ -1,4 +1,4 @@
-function infer_encodings_fields(; data, kwargs...)
+function infer_fields(; data, kwargs...)
     encodings = Dict()
     for (k, v) in kwargs
 
@@ -42,78 +42,27 @@ end
 
 function infer_encoding_scale(; data, coordinate, framesize, variable, partial_encoding)
     data = Tables.getcolumn(data, partial_encoding[:field])
-    scale = get(partial_encoding, :scale, nothing)
+    datatype = get(partial_encoding, :datatype, nothing)
     domain = get(partial_encoding, :scale_domain, nothing)
+
     codomain = get(partial_encoding, :scale_range, nothing)
     codomain = get(partial_encoding, :scale_codomain, codomain)
+    scaletype = getnested(partial_encoding, [:scale_type], nothing)
+    scale = get(partial_encoding, :scale, nothing)
 
-    datatype = get(partial_encoding, :datatype, inferdatatype(data))
-
-    if !isnothing(scale)
-        if scale isa Function
-            return GenericScale(scale)
-        end
-        return scale
-    elseif coordinate == :cartesian
-        if variable in [:x, :y]
-            return infer_scale_cartesian(;
-                data=data,
-                framesize=framesize,
-                variable=variable,
-                datatype=datatype,
-                domain=domain,
-                codomain=codomain,
-            )
-        elseif variable == :color
-            return infer_colorscale(;
-                data=data, datatype=datatype, domain=domain, codomain=codomain
-            )
-        elseif variable == :size
-            return infer_sizescale(;
-                data=data, datatype=datatype, domain=domain, codomain=codomain
-            )
-        end
-    elseif coordinate == :polar
-        if variable == :r
-            return infer_scale_cartesian(;
-                data=data,
-                framesize=framesize ./ 2,
-                variable=variable,
-                datatype=datatype,
-                domain=domain,
-                codomain=codomain,
-            )
-        elseif variable == :angle
-            domain = isnothing(domain) ? inferdomain(data, datatype) : domain
-            if datatype == :q
-                codomain = isnothing(codomain) ? (0, 2π) : codomain
-            else
-                codomain = if isnothing(codomain)
-                    collect(range(0, 2π; length=length(domain) + 1))[begin:(end - 1)]
-                else
-                    codomain
-                end
-                if datatype == :q
-                    codomain = isnothing(codomain) ? (0, 2π) : codomain
-                end
-            end
-        end
-    end
-
-    scaletype = getnested(partial_encoding, [:scale_type], inferscaletype(datatype))
-    domain = isnothing(domain) ? inferdomain(data, datatype) : domain
-    codomain = isnothing(codomain) ? (0, 1) : codomain
-
-    if scaletype == :Categorical
-        return Categorical(; domain=domain, codomain=codomain)
-    elseif scaletype == :Linear
-        return Linear(; domain=domain, codomain=codomain)
-    end
+    return infer_scale(;
+        data=data, variable=variable, scale=scale, domain=domain, codomain=codomain, scaletype=scaletype, datatype=datatype, coordinate=coordinate, framesize=framesize)
 end
 
-function infer_encodings(; data, config, encodings)
+function infer_encodings(; data, config, encodings=NamedTuple(), kwargs...)
     coordinate = get(config, :coordinate, :cartesian)
     framesize = get(config, :figsize, (300, 200))
+
+    if encodings == NamedTuple()
+        encodings = infer_fields(; data=data, kwargs...)
+    else
+        encodings = infer_fields(; data=data, encodings...)
+    end
     scales = NamedTuple(
         map(zip(keys(encodings), values(encodings))) do (k, v)
             scale = infer_encoding_scale(;

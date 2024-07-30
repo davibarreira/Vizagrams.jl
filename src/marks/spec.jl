@@ -4,19 +4,21 @@ struct Spec <: Mark # Unit specification taken from Vega-Lite paper
 end
 
 function Spec(;
-    data,
+    data=nothing,
     title="",
     figsize=(300, 200),
-    encodings=(x=(; field=:x), y=(; field=:y)),
+    encodings=NamedTuple(),
     config=NamedTuple(),
     coordinate=:cartesian,
+    kwargs...
 )
     default_config = (title=title, figsize=figsize, coordinate=coordinate)
     config = NamedTupleTools.rec_merge(default_config, config)
 
-    encodings = infer_encodings_fields(; data=data, encodings...)
-    encodings = infer_encodings(; data=data, config=config, encodings=encodings)
-    return Spec(unzip(config), encodings)
+    if !isnothing(data)
+        encodings = infer_encodings(; data=data, config=config, encodings=encodings, kwargs...)
+    end
+    return Spec(unzip(config), unzip(encodings))
 end
 
 function ζ(spec::Spec)::𝕋{Mark}

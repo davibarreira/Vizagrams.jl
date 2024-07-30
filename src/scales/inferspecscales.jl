@@ -1,4 +1,5 @@
 """
+
 infer_xy_axis_domain_q(data)
 
 Given a dataset, it infers the domain
@@ -31,6 +32,91 @@ function infer_xy_axis_domain_q(data)
 end
 
 """
+infer_datatype(data)
+
+Given a column of data, it tries to infer the datype
+as either :q, :o or :n.
+"""
+function infer_datatype(data)
+    if typeof(data) <:
+       Union{Vector{<:AbstractChar},Vector{<:AbstractString},PooledArrays.PooledVector}
+        return :n
+    elseif typeof(data) <: Vector{<:Int} && length(minimum(data):1:maximum(data)) < 10
+        return :o
+    end
+    return :q
+end
+
+"""
+infer_domain(; data, domain, datatype, variable, coordinate)
+
+Infers the scale domain.
+"""
+function infer_domain(; data, domain, datatype, variable, coordinate)
+    domain = @match (domain, datatype, variable, coordinate) begin
+        (nothing, :q, _, _) => (minimum(data), maximum(data))
+        (nothing, :n, _, _) => string.(sort(unique(data)))
+        (nothing, :o, _, _) => collect(minimum(data):maximum(data))
+
+        (nothing, :q, :x, :cartesian) => infer_xy_axis_domain_q(data)
+        (nothing, :q, :y, :cartesian) => infer_xy_axis_domain_q(data)
+
+        (nothing, :q, :r, :polar) => infer_xy_axis_domain_q(data)
+        (nothing, :q, :angle, :polar) => infer_xy_axis_domain_q(data)
+
+        (_, _, _, _) => domain
+    end
+end
+
+
+"""
+infer_codomain(; domain, codomain, datatype, variable, coordinate, framesize)
+
+Infers the scale codomain.
+"""
+function infer_codomain(; domain, codomain, datatype, variable, coordinate, framesize)
+    codomain = @match (codomain, datatype, variable, coordinate) begin
+        (nothing, :q, :x, :cartesian) => (0, framesize[1])
+        (nothing, :n, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
+        (nothing, :o, :x, :cartesian) => (0, framesize[1])
+
+        (nothing, :q, :y, :cartesian) => (0, framesize[2])
+        (nothing, :n, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
+        (nothing, :o, :y, :cartesian) => (0, framesize[2])
+
+        (nothing, :q, :r, :polar) => (0, minimum(framesize) / 2)
+        (nothing, :n, :r, :polar) => ((minimum(framesize) / length(domain)) / 4, minimum(framesize) / 2 - (minimum(framesize) / length(domain)) / 4)
+        (nothing, :o, :r, :polar) => (0, minimum(framesize) / 2)
+
+        (nothing, :q, :angle, :polar) => (0, 2π)
+        (nothing, :n, :angle, :polar) => collect(range(0, 2π; length=length(domain) + 1))[begin:(end-1)]
+        (nothing, :o, :angle, :polar) => collect(range(0, 2π; length=length(domain) + 1))[begin:(end-1)]
+
+        (nothing, :q, :size_) => (3, 10)
+        (nothing, :n, :size_) => collect(range(3, 10, length(domain)))
+        (nothing, :o, :size_) => collect(range(3, 10, length(domain)))
+
+        (nothing, :q, :color, _) => :hawaii
+        (nothing, :n, :color, _) => :tableau_superfishel_stone
+        (nothing, :o, :color, _) => :jblue
+        (nothing, _, _, _) => (0, 1)
+        (_, _, _, _) => codomain
+    end
+end
+"""
+infer_scaletype(datatype)
+
+Infers whether the scale is Categorical or Linear.
+"""
+function infer_scaletype(datatype)
+    if datatype in [:n, :o]
+        return :Categorical
+    end
+    return :Linear
+end
+
+
+"""
 infer_scale(;data, framesize, coordinate=:cartesian, variable=nothing, datatype=nothing)
 
 """
@@ -43,9 +129,8 @@ function infer_scale(;
     domain=nothing,
     codomain=nothing,
 )
-    if isnothing(datatype)
-        datatype = inferdatatype(data)
-    end
+
+    datatype = isnothing(datatype) ? infer_datatype(data) : datatype
 
     if datatype == :q
         domain = isnothing(domain) ? infer_xy_axis_domain_q(data) : domain
