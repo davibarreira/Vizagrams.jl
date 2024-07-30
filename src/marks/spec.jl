@@ -13,6 +13,8 @@ function Spec(;
 )
     default_config = (title=title, figsize=figsize, coordinate=coordinate)
     config = NamedTupleTools.rec_merge(default_config, config)
+
+    encodings = infer_encodings_fields(; data=data, encodings...)
     encodings = infer_encodings(; data=data, config=config, encodings=encodings)
     return Spec(unzip(config), encodings)
 end

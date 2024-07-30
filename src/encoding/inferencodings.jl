@@ -37,7 +37,7 @@ function infer_encodings_fields(; data, kwargs...)
             encodings[k] = merge(encodings[k], Dict(k_ => v_))
         end
     end
-    return encodings
+    return unzip(encodings)
 end
 
 function infer_encoding_scale(; data, coordinate, framesize, variable, partial_encoding)
