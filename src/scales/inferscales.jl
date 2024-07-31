@@ -126,15 +126,15 @@ Infers the scale domain.
 """
 function infer_domain(; data, domain, datatype, variable, coordinate)
     domain = @match (domain, datatype, variable, coordinate) begin
-        (nothing, :q, _, _) => (minimum(data), maximum(data))
-        (nothing, :n, _, _) => string.(sort(unique(data)))
-        (nothing, :o, _, _) => collect(minimum(data):maximum(data))
-
         (nothing, :q, :x, :cartesian) => infer_xy_axis_domain_q(data)
         (nothing, :q, :y, :cartesian) => infer_xy_axis_domain_q(data)
 
         (nothing, :q, :r, :polar) => infer_xy_axis_domain_q(data)
         (nothing, :q, :angle, :polar) => infer_xy_axis_domain_q(data)
+
+        (nothing, :q, _, _) => (minimum(data), maximum(data))
+        (nothing, :n, _, _) => string.(sort(unique(data)))
+        (nothing, :o, _, _) => collect(minimum(data):maximum(data))
 
         (_, _, _, _) => domain
     end

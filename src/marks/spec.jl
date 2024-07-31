@@ -3,6 +3,29 @@ struct Spec <: Mark # Unit specification taken from Vega-Lite paper
     encodings::NamedTuple
 end
 
+"""
+Spec(;
+    data=nothing,
+    title="",
+    figsize=(300, 200),
+    encodings=NamedTuple(),
+    config=NamedTuple(),
+    coordinate=:cartesian,
+    kwargs...
+)
+
+Creates an specification using `data` to infer the missing encodings.
+For example:
+```julia
+Spec(data=data,encodings=(x=(;field=:y),y=(;field=:y)))
+```
+The scales for the encodings above are inferred from the data.
+
+```julia
+spec = Spec(data=data,x=(;field=:y),y=(;field=:y))
+```
+
+"""
 function Spec(;
     data=nothing,
     title="",
@@ -16,6 +39,10 @@ function Spec(;
     config = NamedTupleTools.rec_merge(default_config, config)
 
     if !isnothing(data)
+        data = StructArray(Tables.rowtable(data))
+        encodings = infer_encodings(; data=data, config=config, encodings=encodings, kwargs...)
+    elseif length(kwargs) != 0
+        data, encodings = infer_data_encodings(; kwargs...)
         encodings = infer_encodings(; data=data, config=config, encodings=encodings, kwargs...)
     end
     return Spec(unzip(config), unzip(encodings))

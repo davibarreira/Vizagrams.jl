@@ -1,3 +1,29 @@
+function infer_data_encodings(; kwargs...)
+    encodings = Dict()
+    data = Dict()
+    for (k, v) in kwargs
+        # This is the case where the variable has only the data as in x=[1,2,4]
+        if v isa Vector
+            data[k] = v
+            encodings[k] = Dict(:field => k)
+            continue
+        end
+
+        # This is the case where the user passes the data and more x=(data=[1,2,3],datatype=:n,...)
+        for (k_, v_) in pairs(v)
+            if k_ == :value
+                data[k] = v_
+                encodings[k] = Dict(:field => k)
+                continue
+            end
+            encodings[k] = merge(encodings[k], Dict(k_ => v_))
+        end
+    end
+    data = StructArray(NamedTuple(data))
+
+    return data, encodings
+end
+
 function infer_fields(; data, kwargs...)
     encodings = Dict()
     for (k, v) in kwargs
@@ -37,7 +63,7 @@ function infer_fields(; data, kwargs...)
             encodings[k] = merge(encodings[k], Dict(k_ => v_))
         end
     end
-    return unzip(encodings)
+    return unzip(encodings), data
 end
 
 function infer_encoding_scale(; data, coordinate, framesize, variable, partial_encoding)
@@ -59,12 +85,13 @@ function infer_encodings(; data, config, encodings=NamedTuple(), kwargs...)
     framesize = get(config, :figsize, (300, 200))
 
     if encodings == NamedTuple()
-        encodings = infer_fields(; data=data, kwargs...)
+        encodings, data = infer_fields(; data=data, kwargs...)
     else
-        encodings = infer_fields(; data=data, encodings...)
+        encodings, data = infer_fields(; data=data, encodings...)
     end
     scales = NamedTuple(
         map(zip(keys(encodings), values(encodings))) do (k, v)
+            datatype = get(v, :datatype, infer_datatype(data))
             scale = infer_encoding_scale(;
                 data=data,
                 coordinate=coordinate,
@@ -72,7 +99,7 @@ function infer_encodings(; data, config, encodings=NamedTuple(), kwargs...)
                 variable=k,
                 partial_encoding=v,
             )
-            return (k => (scale=scale,))
+            return (k => (datatype=datatype, scale=scale))
         end,
     )
 
