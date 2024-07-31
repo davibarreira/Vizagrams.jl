@@ -31,19 +31,3 @@ function infersizescale(ds, enc)
         end
     end
 end
-
-function infer_sizescale(; data, datatype, domain, codomain)
-    if datatype == :n
-        domain = isnothing(domain) ? unique(data) : domain
-        codomain = isnothing(codomain) ? collect(range(3, 10, length(domain))) : codomain
-        scale = Categorical(; domain=domain, codomain=codomain)
-    elseif datatype == :q
-        domain = isnothing(domain) ? (minimum(data), maximum(data)) : domain
-        codomain = isnothing(codomain) ? (3, 10) : codomain
-        scale = Linear(; domain=domain, codomain=codomain)
-    elseif datatype == :o
-        domain = isnothing(domain) ? collect(minimum(data):maximum(data)) : domain
-        codomain = isnothing(codomain) ? collect(range(3, 10, length(domain))) : codomain
-        scale = Categorical(; domain=domain, codomain=codomain)
-    end
-end
