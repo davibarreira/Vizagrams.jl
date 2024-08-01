@@ -197,7 +197,6 @@ Returns
 [g*m1, s*m2]
 ```
 """
-# getmarkpath(M::Type, d::TMark) = cata(x -> getmarkpath(M, x), fmap(x -> Mark[x], d))
 function getmarkpath(M::Type, d::TMark)
     return cata(x -> getmarkpath(M, x), fmap(x -> getmarkpathvec(M, x), d))
 end
@@ -210,4 +209,19 @@ function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{G})
 end
 function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{S})
     return map(x -> x._1[2], getmarkpath(M, d))
+end
+
+
+"""
+getmarkpath(M::Vector{DataType}, d::Union{TMark,Mark})
+
+Given a TMark tree and a list of mark types, this function extracts a `Vector{TMark}`.
+"""
+function getmarkpath(M::Vector{DataType}, d::Union{TMark,Mark})
+    return getmarkpath(M, [d])
+end
+function getmarkpath(M::Vector{DataType}, d::Vector)
+    ap(t, diag) = mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, diag))
+    vap(t, ds) = mapreduce(v -> mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, v)), vcat, ds)
+    return foldl((acc, t) -> vap(t, acc), M, init=d)
 end
