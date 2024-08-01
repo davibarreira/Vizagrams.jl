@@ -53,6 +53,10 @@ using SafeTestsets
         include("./encoding/test_quickplot.jl")
     end
 
+    @safetestset "Auxiliar" begin
+        include("./auxiliar/test_treemanipulation.jl")
+    end
+
     # Tests below not working on GitHub Actions
     @safetestset "Visual Tests" begin
         include("./visual/plots.jl")
