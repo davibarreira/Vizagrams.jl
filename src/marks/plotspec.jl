@@ -99,6 +99,8 @@ function ζ(spec::PlotSpec)::𝕋{Mark}
         return T(figsize[1] / 2, figsize[2] / 2) * legends
     end
 
-    return (gridx + gridy + frame + xaxis + yaxis)↑(T(0, 10), title) →
+    stroke_frame = S(:fillOpacity => 0) * frame
+    background = S(:strokeWidth => 0) * frame
+    return (background + gridx + gridy + stroke_frame + xaxis + yaxis)↑(T(0, 10), title) →
            (T(10, frame.size[2]), legends)
 end

@@ -1,3 +1,11 @@
+getaction(m::FreeAct, g::Type{G}) = m._1[1]
+getaction(m::FreeComp, g::Type{G}) = G()
+getaction(m::Pure, g::Type{G}) = G()
+
+getaction(m::FreeAct, s::Type{S}) = m._1[2]
+getaction(m::FreeComp, s::Type{S}) = S()
+getaction(m::Pure, s::Type{S}) = S()
+
 function dtreeθ(m::Act)
     g = Prim(TextGeom(; text="g,s", fontsize=1.0))
     lines = Prim(Line([[0, -1], [0, -8]]))
@@ -197,7 +205,6 @@ Returns
 [g*m1, s*m2]
 ```
 """
-# getmarkpath(M::Type, d::TMark) = cata(x -> getmarkpath(M, x), fmap(x -> Mark[x], d))
 function getmarkpath(M::Type, d::TMark)
     return cata(x -> getmarkpath(M, x), fmap(x -> getmarkpathvec(M, x), d))
 end
@@ -206,8 +213,25 @@ getmarkpath(M::Type{<:GeometricPrimitive}, d::TMark) = getmarkpath(mlift(M), d)
 getmarkpath(M::Type{<:GeometricPrimitive}, d::Mark) = getmarkpath(mlift(M), ζ(d))
 
 function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{G})
-    return map(x -> x._1[1], getmarkpath(M, d))
+    return map(x -> getaction(x, g), getmarkpath(M, d))
 end
 function getmarkpath(M::Type, d::Union{TMark,Mark}, g::Type{S})
-    return map(x -> x._1[2], getmarkpath(M, d))
+    return map(x -> getaction(x, g), getmarkpath(M, d))
+end
+
+"""
+getmarkpath(M::Vector{DataType}, d::Union{TMark,Mark})
+
+Given a TMark tree and a list of mark types, this function extracts a `Vector{TMark}`.
+"""
+function getmarkpath(M::Vector{DataType}, d::TMark)
+    return getmarkpath(M, [d])
+end
+function getmarkpath(M::Vector{DataType}, d::Mark)
+    return getmarkpath(M, [ζ(d)])
+end
+function getmarkpath(M::Vector{DataType}, d::Vector)
+    # ap(t, diag) = mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, diag))
+    vap(t, ds) = mapreduce(v -> mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, v), init=[]), vcat, ds, init=[])
+    return foldl((acc, t) -> vap(t, acc), M, init=d)
 end
