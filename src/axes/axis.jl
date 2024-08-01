@@ -10,7 +10,10 @@ function get_tickvalues(
     end
     tickvalues = filter(x -> codomain[begin] ≤ scale(x) ≤ codomain[end], tickvalues)
     if isnothing(ticktexts)
-        ticktexts = showoff(tickvalues)
+        if !(tickvalues isa Vector{<:AbstractString})
+            ticktexts = showoff(tickvalues)
+        end
+        ticktexts = tickvalues
     end
 
     return tickvalues, ticktexts

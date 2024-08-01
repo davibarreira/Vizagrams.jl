@@ -3,11 +3,9 @@ function inferraxis(
 )
     (; domain, codomain) = scale
 
-    tickvalues, ticktexts = get_tickvalues(
-        scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
-    )
-
-    # axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
+    # tickvalues, ticktexts = get_tickvalues(
+    #     scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
+    # )
 
     # Radius Axis
     ticks = mapreduce(

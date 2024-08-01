@@ -27,7 +27,7 @@ function inferxaxis(
             tickvalue, ticktext = z
             x = scale(tickvalue)
             T(x, -2) *
-            (Rectangle(; w=1, h=4)↓(T(0, -2), TextMark(; text=ticktext, fontsize=7)))
+            (Rectangle(; w=1.0, h=5)↓(T(0, -2), TextMark(; text=ticktext, fontsize=7)))
         end,
         +,
         zip(tickvalues, ticktexts),

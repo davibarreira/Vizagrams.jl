@@ -47,3 +47,16 @@ function scaledata(plt::Union{PlotSpec,Plot})
     )
     return StructArray(NamedTuple{tuple(map(x -> x[1], scales)...)}(data))
 end
+
+
+function getscale(spec::Spec, scale::Symbol=:x)
+    return getnested(spec.encodings, [scale, :scale], nothing)
+end
+
+function scaledata(spec::Spec, data)
+    data = map(
+        var -> var.scale.(Tables.getcolumn(data, var.field)),
+        spec.encodings,
+    )
+    return StructArray(data)
+end

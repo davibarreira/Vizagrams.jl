@@ -27,7 +27,7 @@ function inferyaxis(
             tickvalue, ticktext = z
             y = scale(tickvalue)
             T(-2, y) *
-            (Rectangle(; w=4, h=1) ← (T(-2, 0), TextMark(; text=ticktext, fontsize=7)))
+            (Rectangle(; w=4, h=1.0) ← (T(-2, 0), TextMark(; text=ticktext, fontsize=7)))
         end,
         +,
         zip(tickvalues, ticktexts),

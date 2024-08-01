@@ -103,6 +103,10 @@ function infer_xy_axis_domain_q(data)
     return domain
 end
 
+function infer_r_axis_domain_q(data, nticks=5)
+    return (0, maximum(data))
+end
+
 """
 infer_datatype(data)
 
@@ -129,11 +133,11 @@ function infer_domain(; data, domain, datatype, variable, coordinate)
         (nothing, :q, :x, :cartesian) => infer_xy_axis_domain_q(data)
         (nothing, :q, :y, :cartesian) => infer_xy_axis_domain_q(data)
 
-        (nothing, :q, :r, :polar) => infer_xy_axis_domain_q(data)
+        (nothing, :q, :r, :polar) => infer_r_axis_domain_q(data)
         (nothing, :q, :angle, :polar) => infer_xy_axis_domain_q(data)
 
         (nothing, :q, _, _) => (minimum(data), maximum(data))
-        (nothing, :n, _, _) => string.(sort(unique(data)))
+        (nothing, :n, _, _) => sort(unique(data))
         (nothing, :o, _, _) => collect(minimum(data):maximum(data))
 
         (_, _, _, _) => domain
@@ -150,7 +154,7 @@ function infer_codomain(; domain, codomain, datatype, variable, coordinate, fram
     codomain = @match (codomain, datatype, variable, coordinate) begin
         (nothing, :q, :x, :cartesian) => (0, framesize[1])
         (nothing, :n, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
-        (nothing, :o, :x, :cartesian) => (0, framesize[1])
+        (nothing, :o, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
 
         (nothing, :q, :y, :cartesian) => (0, framesize[2])
         (nothing, :n, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)

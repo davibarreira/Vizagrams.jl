@@ -1,7 +1,7 @@
 module Vizagrams
 
 using Accessors: Accessors, PropertyLens, insert, set, @set
-using Colors: Color, Colorant, hex
+using Colors: Color, Colorant, hex, RGB
 using ColorSchemes: ColorSchemes, ColorScheme, colorschemes
 using CoordinateTransformations:
     CoordinateTransformations,
@@ -102,7 +102,7 @@ include("marks/face.jl")
 include("marks/plotspec.jl")
 include("marks/plot.jl")
 include("marks/spec.jl")
-export Spec
+export Spec, Plt
 export graphic
 
 include("marks/legend.jl")
