@@ -99,11 +99,14 @@ include("marks/bar.jl")
 include("marks/ticks.jl")
 include("marks/axes.jl")
 include("marks/face.jl")
+
+include("encoding/inferencodings.jl")
+export infer_encodings, infer_encoding_scale, infer_encodings
+include("marks/spec.jl")
+export Spec
+export graphic
 include("marks/plotspec.jl")
 include("marks/plot.jl")
-include("marks/spec.jl")
-export Spec, Plt
-export graphic
 
 include("marks/legend.jl")
 include("marks/legends.jl")
@@ -192,9 +195,6 @@ export scatter, lineplot
 
 include("encoding/quickplot.jl")
 export plot
-
-include("encoding/inferencodings.jl")
-export infer_encodings, infer_encoding_scale, infer_encodings
 
 include("auxiliar/draw_tree_diagram.jl")
 export treediagram, fix_treediagram
