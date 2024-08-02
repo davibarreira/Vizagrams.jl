@@ -12,10 +12,6 @@ function inferangleaxis(
         scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     )
 
-    # Axis
-    axis = S(:fillOpacity => 0, :stroke => :black)Circle(; r=radius)
-
-    # Ticks
     # Ticks
     ticks = mapreduce(
         z -> begin
@@ -26,9 +22,9 @@ function inferangleaxis(
             tickmark = R(angle - π / 2)Rectangle(; h=4, w=1)
             tickmark = T(x, y) * tickmark
 
-            x = cos(angle) * (radius + 10)
-            y = sin(angle) * (radius + 10)
-            ticktext = T(x, y) * TextMark(; text=ticktext, fontsize=7)
+            x = cos(angle) * (radius + 15)
+            y = sin(angle) * (radius + 15)
+            ticktext = T(x, y) * TextMark(; text=ticktext, anchor=:c, fontsize=7)
 
             tickmark + ticktext
         end,
@@ -36,5 +32,5 @@ function inferangleaxis(
         zip(tickvalues, ticktexts),
     )
 
-    return axis + ticks
+    return ticks
 end

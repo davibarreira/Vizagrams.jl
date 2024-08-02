@@ -7,6 +7,8 @@ function inferraxis(
     #     scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     # )
 
+    out_circ = S(:fillOpacity => 0, :stroke => :black)Circle(; r=codomain[end])
+    in_circ = S(:fillOpacity => 0, :stroke => :black)Circle(; r=codomain[begin])
     # Radius Axis
     ticks = mapreduce(
         z -> begin
@@ -24,5 +26,5 @@ function inferraxis(
         zip(tickvalues, ticktexts),
     )
 
-    return ticks
+    return out_circ + in_circ + ticks
 end
