@@ -17,6 +17,10 @@ function inferyaxis(
         scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     )
 
+    if !(ticktexts isa Vector{<:AbstractString})
+        ticktexts = showoff(tickvalues)
+    end
+
     axis = Arrow(; pts=[[0, 0], [0, axislength]])
     if isnothing(axislength)
         axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
@@ -26,8 +30,9 @@ function inferyaxis(
         z -> begin
             tickvalue, ticktext = z
             y = scale(tickvalue)
-            T(-2, y) *
-            (Rectangle(; w=4, h=1.0) ← (T(-2, 0), TextMark(; text=ticktext, fontsize=7)))
+            T(-2, y) * (
+                Rectangle(; w=4, h=1.0) ← (T(-2, 0), TextMark(; text=ticktext, fontsize=7))
+            )
         end,
         +,
         zip(tickvalues, ticktexts),
