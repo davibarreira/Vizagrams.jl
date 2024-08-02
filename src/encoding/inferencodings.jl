@@ -1,4 +1,4 @@
-function infer_data_encodings(; kwargs...)
+function infer_without_data(; kwargs...)
     encodings = Dict()
     data = Dict()
     for (k, v) in kwargs
@@ -21,10 +21,13 @@ function infer_data_encodings(; kwargs...)
     end
     data = StructArray(NamedTuple(data))
 
-    return data, encodings
+    return encodings, data
 end
 
-function infer_fields(; data, kwargs...)
+function infer_fields_data(; data, kwargs...)
+    if isnothing(data)
+        return infer_without_data(; kwargs...)
+    end
     encodings = Dict()
     for (k, v) in kwargs
 
@@ -77,17 +80,26 @@ function infer_encoding_scale(; data, coordinate, framesize, variable, partial_e
     scale = get(partial_encoding, :scale, nothing)
 
     return infer_scale(;
-        data=data, variable=variable, scale=scale, domain=domain, codomain=codomain, scaletype=scaletype, datatype=datatype, coordinate=coordinate, framesize=framesize)
+        data=data,
+        variable=variable,
+        scale=scale,
+        domain=domain,
+        codomain=codomain,
+        scaletype=scaletype,
+        datatype=datatype,
+        coordinate=coordinate,
+        framesize=framesize,
+    )
 end
 
-function infer_encodings(; data, config, encodings=NamedTuple(), kwargs...)
+function infer_encodings_data(; data, config, encodings=NamedTuple(), kwargs...)
     coordinate = get(config, :coordinate, :cartesian)
     framesize = get(config, :figsize, (300, 200))
 
     if encodings == NamedTuple()
-        encodings, data = infer_fields(; data=data, kwargs...)
+        encodings, data = infer_fields_data(; data=data, kwargs...)
     else
-        encodings, data = infer_fields(; data=data, encodings...)
+        encodings, data = infer_fields_data(; data=data, encodings...)
     end
     scales = NamedTuple(
         map(zip(keys(encodings), values(encodings))) do (k, v)
@@ -103,5 +115,5 @@ function infer_encodings(; data, config, encodings=NamedTuple(), kwargs...)
         end,
     )
 
-    return NamedTupleTools.rec_merge(encodings, scales)
+    return NamedTupleTools.rec_merge(unzip(encodings), scales), data
 end

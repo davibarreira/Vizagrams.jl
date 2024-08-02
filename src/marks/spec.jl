@@ -32,19 +32,26 @@ function Spec(;
     figsize=(300, 200),
     encodings=NamedTuple(),
     config=NamedTuple(),
-    coordinate=:cartesian,
-    kwargs...
+    coordinate=nothing,
+    kwargs...,
 )
-    default_config = (title=title, figsize=figsize, coordinate=coordinate)
-    config = NamedTupleTools.rec_merge(default_config, config)
-
     if !isnothing(data)
         data = StructArray(Tables.rowtable(data))
-        encodings = infer_encodings(; data=data, config=config, encodings=encodings, kwargs...)
+        encodings, data = infer_encodings_data(;
+            data=data, config=config, encodings=encodings, kwargs...
+        )
     elseif length(kwargs) != 0
-        data, encodings = infer_data_encodings(; kwargs...)
-        encodings = infer_encodings(; data=data, config=config, encodings=encodings, kwargs...)
+        encodings, data = infer_encodings_data(;
+            data=data, config=config, encodings=encodings, kwargs...
+        )
     end
+
+    default_config = (title=title, figsize=figsize, coordinate=nothing)
+    if !isnothing(get(encodings, :x, nothing))
+        default_config = (title=title, figsize=figsize, coordinate=:cartesian)
+    end
+    config = NamedTupleTools.rec_merge(default_config, config)
+
     return Spec(unzip(config), unzip(encodings))
 end
 
@@ -52,7 +59,7 @@ function ζ(spec::Spec)::𝕋{Mark}
     (; config, encodings) = spec
 
     title = get(config, :title, NilD())
-    if title isa String
+    if !(title isa Union{Mark,TMark})
         title = Title(
             TextMark(; text=title, fontfamily="Helvetica", fontsize=13, anchor=:e)
         )
@@ -62,13 +69,11 @@ function ζ(spec::Spec)::𝕋{Mark}
 
     framesize = get(config, :figsize, (300, 300))
 
-    coordinate = get(config, :coordinate, :cartesian)
+    coordinate = get(config, :coordinate, nothing)
 
-    frame = S(:fillOpacity => 0)get(config, :frame, NilD())
-    background = S(:stroke => 0)get(config, :frame, NilD())
+    frame = get(config, :frame, S(:opacity => 0)Rectangle(; w=framesize[1], h=framesize[2]))
     if coordinate == :cartesian
-        frame = S(:fillOpacity => 0) * get(config, :frame, Frame(; size=framesize))
-        background = S(:stroke => 0)get(config, :frame, Frame(; size=framesize))
+        frame = get(config, :frame, Frame(; size=framesize))
     end
 
     axes = NilD()
@@ -82,9 +87,11 @@ function ζ(spec::Spec)::𝕋{Mark}
             tickvalues, ticktexts = get_tickvalues(
                 scale; nticks=5, tickvalues=nothing, ticktexts=nothing
             )
-            xaxis = inferxaxis(scale; axislength=framesize[1], tickvalues=tickvalues, ticktexts=ticktexts)
+            xaxis = inferxaxis(
+                scale; axislength=framesize[1], tickvalues=tickvalues, ticktexts=ticktexts
+            )
             pos = map(t -> [scale(t), 0], tickvalues)
-            xgrid = Grid(positions=pos, l=framesize[2], angle=π / 2)
+            xgrid = Grid(; positions=pos, l=framesize[2], angle=π / 2)
         end
         y = get(encodings, :y, nothing)
         yaxis = NilD()
@@ -94,55 +101,77 @@ function ζ(spec::Spec)::𝕋{Mark}
             tickvalues, ticktexts = get_tickvalues(
                 scale; nticks=5, tickvalues=nothing, ticktexts=nothing
             )
-            yaxis = inferyaxis(scale; axislength=framesize[2], tickvalues=tickvalues, ticktexts=ticktexts)
+            yaxis = inferyaxis(
+                scale; axislength=framesize[2], tickvalues=tickvalues, ticktexts=ticktexts
+            )
             pos = map(t -> [0, scale(t)], tickvalues)
-            ygrid = Grid(positions=pos, l=framesize[1], angle=0)
+            ygrid = Grid(; positions=pos, l=framesize[1], angle=0)
         end
         grid = xgrid + ygrid
         axes = xaxis + yaxis
+
     elseif coordinate == :polar
         r = get(encodings, :r, nothing)
         raxis = NilD()
         if !isnothing(r)
             scale = get(r, :scale, IdScale())
             nticks = 5
-            tickvalues = scale isa Linear ? range(scale.domain[1], scale.domain[2], nticks) : scale.domain
-            ticktexts = showoff(tickvalues)
-            raxis = inferraxis(scale, tickvalues=tickvalues, ticktexts=ticktexts)
+            tickvalues = if scale isa Linear
+                range(scale.domain[1], scale.domain[2], nticks)
+            else
+                scale.domain
+            end
+
+            if !(tickvalues isa Vector{<:AbstractString})
+                ticktexts = showoff(tickvalues)
+            end
+            ticktexts = tickvalues
+            raxis = inferraxis(scale; tickvalues=tickvalues, ticktexts=ticktexts)
+            rgrid = mapreduce(
+                r ->
+                    S(:fillOpacity => 0, :stroke => :grey, :strokeOpacity => 0.5) *
+                    Circle(; r=r),
+                +,
+                scale.(tickvalues),
+            )
         end
         angle = get(encodings, :angle, nothing)
         angleaxis = NilD()
         if !isnothing(angle)
             scale = get(angle, :scale, IdScale())
-            angleaxis = inferangleaxis(scale)
+            rscale = get(r, :scale, IdScale())
+            rmin = rscale.codomain[begin]
+            rmax = rscale.codomain[end]
+            tickvalues, ticktexts = get_tickvalues(
+                scale; nticks=5, tickvalues=nothing, ticktexts=nothing
+            )
+            angleaxis = inferangleaxis(
+                scale; tickvalues=tickvalues, ticktexts=ticktexts, radius=rmax
+            )
+            anglegrid = mapreduce(
+                a -> begin
+                    xinit, yinit = rmin * cos(a), rmin * sin(a)
+                    x, y = rmax * cos(a), rmax * sin(a)
+                    S(
+                        :stroke => :grey, :strokeOpacity => 0.3
+                    )Line([[xinit, yinit], [x, y]])
+                end,
+                +,
+                scale.(tickvalues),
+            )
         end
+
         axes = angleaxis + raxis
+        grid = rgrid + anglegrid
     end
 
-    d = S(:vectorEffect => "none") * (background + grid + frame↑(T(0, 10), title) + axes)
+    legends = generatelegends(spec)
+
+    background = S(:stroke => 0)frame
+    frame = S(:fillOpacity => 0)frame
+
+    # d = S(:vectorEffect => "none") * (background + grid + frame↑(T(0, 10), title) + axes)
+    d = background + grid + frame↑(T(0, 10), title) + axes
+    d = d + atop(frame, legends) * bright(frame, legends) * T(20, 0) * legends
     return d
-end
-
-
-struct Plt <: Mark # Unit specification taken from Vega-Lite paper
-    data
-    spec::Spec
-    graphic::GraphicExpression
-end
-function Plt(; data=nothing, spec::Spec=Spec(), graphic::Union{GraphicExpression,Function,TMark,Mark,GeometricPrimitive,Prim}=GraphicExpression(x -> NilD()))
-    return Plt(data, spec, GraphicExpression(graphic))
-end
-
-function ζ(plt::Plt)::𝕋{Mark}
-    (; data, spec, graphic) = plt
-
-    sdata = scaledata(spec, data)
-    coord = getnested(spec.config, [:coordinate], :cartesian)
-    if coord == :polar
-        x = sdata.r .* cos.(sdata.angle)
-        y = sdata.r .* sin.(sdata.angle)
-        sdata = hconcat(sdata; x=x, y=y)
-    end
-    marks = graphic(sdata)
-    return spec + marks
 end
