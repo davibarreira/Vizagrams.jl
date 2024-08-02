@@ -69,7 +69,6 @@ function inferscale(spec::PlotSpec, variable::Symbol)
     end
 end
 
-
 """
 
 infer_xy_axis_domain_q(data)
@@ -115,7 +114,7 @@ as either :q, :o or :n.
 """
 function infer_datatype(data)
     if typeof(data) <:
-       Union{Vector{<:AbstractChar},Vector{<:AbstractString},PooledArrays.PooledVector}
+        Union{Vector{<:AbstractChar},Vector{<:AbstractString},PooledArrays.PooledVector}
         return :n
     elseif typeof(data) <: Vector{<:Int} && length(minimum(data):1:maximum(data)) < 10
         return :o
@@ -123,13 +122,14 @@ function infer_datatype(data)
     return :q
 end
 
+#! format: off
 """
 infer_domain(; data, domain, datatype, variable, coordinate)
 
 Infers the scale domain.
 """
 function infer_domain(; data, domain, datatype, variable, coordinate)
-    domain = @match (domain, datatype, variable, coordinate) begin
+    return domain = @match (domain, datatype, variable, coordinate) begin
         (nothing, :q, :x, :cartesian) => infer_xy_axis_domain_q(data)
         (nothing, :q, :y, :cartesian) => infer_xy_axis_domain_q(data)
 
@@ -144,7 +144,6 @@ function infer_domain(; data, domain, datatype, variable, coordinate)
     end
 end
 
-
 """
 infer_codomain(; domain, codomain, datatype, variable, coordinate, framesize)
 
@@ -158,7 +157,7 @@ function infer_codomain(; domain, codomain, datatype, variable, coordinate, fram
 
         (nothing, :q, :y, :cartesian) => (0, framesize[2])
         (nothing, :n, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
-        (nothing, :o, :y, :cartesian) => (0, framesize[2])
+        (nothing, :o, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
 
         (nothing, :q, :r, :polar) => (0, minimum(framesize) / 2)
         (nothing, :n, :r, :polar) => ((minimum(framesize) / length(domain)) / 4, minimum(framesize) / 2 - (minimum(framesize) / length(domain)) / 4)
@@ -168,9 +167,9 @@ function infer_codomain(; domain, codomain, datatype, variable, coordinate, fram
         (nothing, :n, :angle, :polar) => collect(range(0, 2π; length=length(domain) + 1))[begin:(end-1)]
         (nothing, :o, :angle, :polar) => collect(range(0, 2π; length=length(domain) + 1))[begin:(end-1)]
 
-        (nothing, :q, :size_) => (3, 10)
-        (nothing, :n, :size_) => collect(range(3, 10, length(domain)))
-        (nothing, :o, :size_) => collect(range(3, 10, length(domain)))
+        (nothing, :q, :size, _) => (3, 10)
+        (nothing, :n, :size, _) => collect(range(3, 10, length(domain)))
+        (nothing, :o, :size, _) => collect(range(3, 10, length(domain)))
 
         (nothing, :q, :color, _) => :hawaii
         (nothing, :n, :color, _) => :tableau_superfishel_stone
