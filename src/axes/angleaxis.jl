@@ -11,6 +11,8 @@ function inferangleaxis(
     tickvalues, ticktexts = get_tickvalues(
         scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     )
+    ticktextmarks = map(t -> TextMark(; text=t, anchor=:c, fontsize=7), ticktexts)
+    max_tick_texts_width = mapreduce(t -> boundingwidth(t), max, ticktextmarks) * 0.6
 
     # Ticks
     ticks = mapreduce(
@@ -22,8 +24,8 @@ function inferangleaxis(
             tickmark = R(angle - π / 2)Rectangle(; h=4, w=1)
             tickmark = T(x, y) * tickmark
 
-            x = cos(angle) * (radius + 15)
-            y = sin(angle) * (radius + 15)
+            x = cos(angle) * (radius + max_tick_texts_width)
+            y = sin(angle) * (radius + max_tick_texts_width)
             ticktext = T(x, y) * TextMark(; text=ticktext, anchor=:c, fontsize=7)
 
             tickmark + ticktext
