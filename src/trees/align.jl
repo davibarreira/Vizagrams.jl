@@ -42,15 +42,41 @@ end
 # acenter(d1::Valid, d2::Valid) = align_transform(dmlift(d1), dmlift(d2), [1 / 2, 0]) #\uparrow
 # amiddle(d1::Valid, d2::Valid) = align_transform(dmlift(d1), dmlift(d2), [0, 1 / 2]) #\uparrow
 function acenter(d1::Valid, d2::Valid)
-    m1 = (envelope(dmlift(d1), [1, 0]) - envelope(dmlift(d1), [-1, 0])) / 2
-    m2 = (envelope(dmlift(d2), [1, 0]) - envelope(dmlift(d2), [-1, 0])) / 2
+    e1 = envelope(dmlift(d1), [1, 0])
+    e_1 = envelope(dmlift(d1), [-1, 0])
+    e2 = envelope(dmlift(d2), [1, 0])
+    e_2 = envelope(dmlift(d2), [-1, 0])
+    if nothing in [e1, e_1, e2, e_2]
+        return T(0, 0)
+    end
+    m1 = (e1 - e_1) / 2
+    m2 = (e2 - e_2) / 2
     return T(m1 - m2, 0)
 end
+
 function amiddle(d1::Valid, d2::Valid)
-    m1 = (envelope(dmlift(d1), [0, 1]) - envelope(dmlift(d1), [0, -1])) / 2
-    m2 = (envelope(dmlift(d2), [0, 1]) - envelope(dmlift(d2), [0, -1])) / 2
+    e1 = envelope(dmlift(d1), [0, 1])
+    e_1 = envelope(dmlift(d1), [0, -1])
+    e2 = envelope(dmlift(d2), [0, 1])
+    e_2 = envelope(dmlift(d2), [0, -1])
+    if nothing in [e1, e_1, e2, e_2]
+        return T(0, 0)
+    end
+    m1 = (e1 - e_1) / 2
+    m2 = (e2 - e_2) / 2
     return T(0, m1 - m2)
 end
+
+# function acenter(d1::Valid, d2::Valid)
+#     m1 = (envelope(dmlift(d1), [1, 0]) - envelope(dmlift(d1), [-1, 0])) / 2
+#     m2 = (envelope(dmlift(d2), [1, 0]) - envelope(dmlift(d2), [-1, 0])) / 2
+#     return T(m1 - m2, 0)
+# end
+# function amiddle(d1::Valid, d2::Valid)
+#     m1 = (envelope(dmlift(d1), [0, 1]) - envelope(dmlift(d1), [0, -1])) / 2
+#     m2 = (envelope(dmlift(d2), [0, 1]) - envelope(dmlift(d2), [0, -1])) / 2
+#     return T(0, m1 - m2)
+# end
 
 aright(d1::Valid, d2::Valid) = align_transform(dmlift(d1), dmlift(d2), [1, 0]) #\rightarrow
 # function aright(d1::Tuple{G,Valid}, d2::Tuple{G,Valid})
