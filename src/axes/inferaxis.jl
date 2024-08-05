@@ -39,7 +39,7 @@ function cartesian_axes_grid_config(config, encodings)
         axislength = getnested(config, [:xaxis, :axislength], framesize[1])
         axis_style = getnested(config, [:xaxis, :axis_style], S())
         axisarrow = getnested(config, [:xaxis, :axisarrow], nothing)
-        tickmark = getnested(config, [:xaxis, :tickmark], Rectangle(; w=1.0, h=5))
+        tickmark = getnested(config, [:xaxis, :tickmark], Rectangle(; w=1.0, h=4))
 
         scale = get(x, :scale, IdScale())
         tickvalues, ticktexts = get_tickvalues(
