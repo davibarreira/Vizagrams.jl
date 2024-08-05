@@ -1,6 +1,4 @@
-function get_tickvalues(
-    scale::Union{Linear,Categorical}; nticks=10, tickvalues=nothing, ticktexts=nothing
-)
+function get_tickvalues(scale::Linear; nticks=10, tickvalues=nothing, ticktexts=nothing)
     (; domain, codomain) = scale
     if isnothing(tickvalues)
         tickvalues = scale.domain
@@ -9,6 +7,22 @@ function get_tickvalues(
         end
     end
     tickvalues = filter(x -> codomain[begin] ≤ scale(x) ≤ codomain[end], tickvalues)
+    if isnothing(ticktexts)
+        if !(tickvalues isa Vector{<:AbstractString})
+            ticktexts = showoff(tickvalues)
+        end
+        ticktexts = tickvalues
+    end
+
+    return tickvalues, ticktexts
+end
+function get_tickvalues(
+    scale::Categorical; nticks=10, tickvalues=nothing, ticktexts=nothing
+)
+    (; domain, codomain) = scale
+    if isnothing(tickvalues)
+        tickvalues = scale.domain
+    end
     if isnothing(ticktexts)
         if !(tickvalues isa Vector{<:AbstractString})
             ticktexts = showoff(tickvalues)
