@@ -136,6 +136,7 @@ for the polar coordinate system given in the config and encodings.
 """
 function polar_axes_grid_config(config, encodings)
     r = get(encodings, :r, nothing)
+    raxisangle = getnested(config, [:raxis, :angle], π / 2)
     raxis = NilD()
     if !isnothing(r)
         scale = get(r, :scale, IdScale())
@@ -148,9 +149,12 @@ function polar_axes_grid_config(config, encodings)
 
         if !(tickvalues isa Vector{<:AbstractString})
             ticktexts = showoff(tickvalues)
+        else
+            ticktexts = tickvalues
         end
-        ticktexts = tickvalues
-        raxis = inferraxis(scale; tickvalues=tickvalues, ticktexts=ticktexts)
+        raxis = inferraxis(
+            scale; tickvalues=tickvalues, ticktexts=ticktexts, angle=raxisangle
+        )
         rgrid = mapreduce(
             r ->
                 S(:fillOpacity => 0, :stroke => :grey, :strokeOpacity => 0.5) *
@@ -182,6 +186,11 @@ function polar_axes_grid_config(config, encodings)
             scale.(tickvalues),
         )
     end
+
+    rgrid = getnested(config, [:rgrid, :mark], rgrid)
+    raxis = getnested(config, [:raxis, :mark], raxis)
+    anglegrid = getnested(config, [:anglegrid, :mark], anglegrid)
+    angleaxis = getnested(config, [:angleaxis, :mark], angleaxis)
 
     axes = angleaxis + raxis
     grid = rgrid + anglegrid
