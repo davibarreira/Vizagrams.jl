@@ -178,9 +178,7 @@ include("scales/inferscales.jl")
 include("scales/getscales.jl")
 export inferscale, getscales, scaledata, getscale
 
-include("axes/inferaxistickvalues.jl")
 include("axes/inferaxis.jl")
-export inferaxis
 
 include("axes/axis.jl")
 include("axes/xaxis.jl")

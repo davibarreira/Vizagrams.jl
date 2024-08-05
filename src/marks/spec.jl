@@ -55,9 +55,12 @@ function Spec(;
     return Spec(unzip(config), unzip(encodings))
 end
 
-function ζ(spec::Spec)::𝕋{Mark}
-    (; config, encodings) = spec
+"""
+title_config(config)
 
+Creates the title based on the config spec. 
+"""
+function title_config(config)
     title = get(config, :title, NilD())
     if !(title isa Union{Mark,TMark})
         title = Title(
@@ -66,109 +69,59 @@ function ζ(spec::Spec)::𝕋{Mark}
     elseif title isa Mark
         title = title
     end
+    return title
+end
 
+"""
+frame_background_config(config)
+
+Creates the frame and background based on the config spec. 
+The frame is just the stroke and the background is only the filled part.
+Hence, when drawing the Spec, one can place the background before the
+frame, in order to get the proper order of rendering.
+
+By default, if no coordinate system is present in the config, the
+frame output is a transparent rectangle with size correspoding to
+the figsize and centered at the origin.
+"""
+function frame_background_config(config)
     framesize = get(config, :figsize, (300, 300))
-
     coordinate = get(config, :coordinate, nothing)
 
     frame = get(config, :frame, S(:opacity => 0)Rectangle(; w=framesize[1], h=framesize[2]))
     if coordinate == :cartesian
         frame = get(config, :frame, Frame(; size=framesize))
     end
+    background = S(:stroke => 0)frame
+    frame = S(:fillOpacity => 0)frame
+    return frame, background
+end
+
+function ζ(spec::Spec)::𝕋{Mark}
+    (; config, encodings) = spec
+
+    title = title_config(config)
+    framesize = get(config, :figsize, (300, 300))
+    coordinate = get(config, :coordinate, nothing)
 
     axes = NilD()
     grid = NilD()
     if coordinate == :cartesian
-        x = get(encodings, :x, nothing)
-        xaxis = NilD()
-        xgrid = NilD()
-        if !isnothing(x)
-            scale = get(x, :scale, IdScale())
-            tickvalues, ticktexts = get_tickvalues(
-                scale; nticks=5, tickvalues=nothing, ticktexts=nothing
-            )
-            xaxis = inferxaxis(
-                scale; axislength=framesize[1], tickvalues=tickvalues, ticktexts=ticktexts
-            )
-            pos = map(t -> [scale(t), 0], tickvalues)
-            xgrid = Grid(; positions=pos, l=framesize[2], angle=π / 2)
-        end
-        y = get(encodings, :y, nothing)
-        yaxis = NilD()
-        ygrid = NilD()
-        if !isnothing(y)
-            scale = get(y, :scale, IdScale())
-            tickvalues, ticktexts = get_tickvalues(
-                scale; nticks=5, tickvalues=nothing, ticktexts=nothing
-            )
-            yaxis = inferyaxis(
-                scale; axislength=framesize[2], tickvalues=tickvalues, ticktexts=ticktexts
-            )
-            pos = map(t -> [0, scale(t)], tickvalues)
-            ygrid = Grid(; positions=pos, l=framesize[1], angle=0)
-        end
-        grid = xgrid + ygrid
-        axes = xaxis + yaxis
+        axes, grid = cartesian_axes_grid_config(config, encodings)
+        axes = get(config, :axes, axes)
+        grid = get(config, :grid, grid)
 
     elseif coordinate == :polar
-        r = get(encodings, :r, nothing)
-        raxis = NilD()
-        if !isnothing(r)
-            scale = get(r, :scale, IdScale())
-            nticks = 5
-            tickvalues = if scale isa Linear
-                range(scale.domain[1], scale.domain[2], nticks)
-            else
-                scale.domain
-            end
-
-            if !(tickvalues isa Vector{<:AbstractString})
-                ticktexts = showoff(tickvalues)
-            end
-            ticktexts = tickvalues
-            raxis = inferraxis(scale; tickvalues=tickvalues, ticktexts=ticktexts)
-            rgrid = mapreduce(
-                r ->
-                    S(:fillOpacity => 0, :stroke => :grey, :strokeOpacity => 0.5) *
-                    Circle(; r=r),
-                +,
-                scale.(tickvalues),
-            )
-        end
-        angle = get(encodings, :angle, nothing)
-        angleaxis = NilD()
-        if !isnothing(angle)
-            scale = get(angle, :scale, IdScale())
-            rscale = get(r, :scale, IdScale())
-            rmin = rscale.codomain[begin]
-            rmax = rscale.codomain[end]
-            tickvalues, ticktexts = get_tickvalues(
-                scale; nticks=5, tickvalues=nothing, ticktexts=nothing
-            )
-            angleaxis = inferangleaxis(
-                scale; tickvalues=tickvalues, ticktexts=ticktexts, radius=rmax
-            )
-            anglegrid = mapreduce(
-                a -> begin
-                    xinit, yinit = rmin * cos(a), rmin * sin(a)
-                    x, y = rmax * cos(a), rmax * sin(a)
-                    S(
-                        :stroke => :grey, :strokeOpacity => 0.3
-                    )Line([[xinit, yinit], [x, y]])
-                end,
-                +,
-                scale.(tickvalues),
-            )
-        end
-
-        axes = angleaxis + raxis
-        grid = rgrid + anglegrid
+        axes, grid = polar_axes_grid_config(config, encodings)
+        axes = get(config, :axes, axes)
+        grid = get(config, :grid, grid)
     end
 
-    legends = generatelegends(spec)
+    legends = get(config, :legends, generatelegends(spec))
 
-    background = S(:stroke => 0)frame
-    frame = S(:fillOpacity => 0)frame
+    frame, background = frame_background_config(config)
+    frame = get(config, :frame, frame)
+    background = get(config, :background, background)
 
     # d = S(:vectorEffect => "none") * (background + grid + frame↑(T(0, 10), title) + axes)
     d = background + grid + frame↑(T(0, 10), title) + axes

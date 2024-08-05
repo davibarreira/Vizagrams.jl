@@ -10,6 +10,12 @@ function inferyaxis(
     tickvalues=nothing,
     ticktexts=nothing,
     axislength=nothing,
+    ticktextangle=0,
+    ticktextsize=7,
+    titlefontsize=7,
+    axisarrow=nothing,
+    titleangle=0,
+    tickmark=Rectangle(; w=4.0, h=1),
 )
     (; domain, codomain) = scale
 
@@ -18,12 +24,15 @@ function inferyaxis(
     )
 
     if !(ticktexts isa Vector{<:AbstractString})
-        ticktexts = showoff(tickvalues)
+        ticktexts = showoff(ticktexts)
     end
 
     axis = Arrow(; pts=[[0, 0], [0, axislength]])
     if isnothing(axislength)
         axis = Arrow(; pts=[[0, codomain[1]], [0, codomain[2]]])
+    end
+    if !isnothing(axisarrow)
+        axis = axisarrow
     end
 
     ticks = mapreduce(
@@ -31,14 +40,21 @@ function inferyaxis(
             tickvalue, ticktext = z
             y = scale(tickvalue)
             T(-2, y) * (
-                Rectangle(; w=4, h=1.0) ← (T(-2, 0), TextMark(; text=ticktext, fontsize=7))
+                tickmark ← (
+                    T(-2, 0),
+                    TextMark(; text=ticktext, fontsize=ticktextsize, angle=ticktextangle),
+                )
             )
         end,
         +,
         zip(tickvalues, ticktexts),
     )
 
-    title = TextMark(; text=title)
+    if !(title isa Union{Mark,TMark})
+        title = TextMark(; text=title, fontsize=titlefontsize, angle=titleangle)
+    elseif title isa Mark
+        title = title
+    end
 
     d = axis + ticks
     return d ← (T(-10, 0), amiddle(d, title) * title)
