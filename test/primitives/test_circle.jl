@@ -6,9 +6,9 @@ import Vizagrams: CovCircle, ϕ, ψ, coordinates
     t = T(1.0, 2.0)
     s = U(3.0)
     @testset "Constructor" begin
-        @test_throws AssertionError Circle(-1, [0, 0])
         @test Circle(1, [0, 0]).r == 1
         @test Circle(1, [0, 0]).c == [0, 0]
+        @test Circle(-1, [0, 0]).r == -1 #check that it works with negative radius
     end
 
     @testset "CovCircle" begin
