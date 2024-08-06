@@ -3,11 +3,10 @@ struct Circle <: GeometricPrimitive
     c::Vector
 
     function Circle(r, c)
-        @assert r > 0.0 "Radius must be a positive real number"
         return new(r, c)
     end
 end
-Circle(; r=1, c=[0, 0]) = r > 0.0 ? Circle(r, c) : NilD()
+Circle(; r=1, c=[0, 0]) = Circle(r, c)
 
 struct CovCircle
     _1::Vector

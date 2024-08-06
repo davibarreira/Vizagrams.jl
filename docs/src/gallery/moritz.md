@@ -163,13 +163,13 @@ scatter_plt = Plot(
     figsize=(1000,200),
     data=df,
     config=(
-        xaxis=(ticktextangle=π/2,grid=(flag=true,),),
-        yaxis=(grid=(flag=true,),),
+        xaxis=(title="Countries", ticktextangle=π/2),
+        yaxis=(title="Value in Topics",),
         ),
     encodings=(
-        x = (field = :Country, datatype = :n, guide=(title="Countries",)),
-        y = (field = :Value, datatype = :q, guide=(minlim=0,title="Value in Topics")),
-        color = (field = :Topic, datatype=:n, colorscheme=rainbow_12),
+        x = (field = :Country, datatype = :n),
+        y = (field = :Value, datatype = :q),
+        color = (field = :Topic, datatype=:n,scale_domain=unique(df.Topic),scale_range=rainbow_12),
     ),
     graphic = ∑(row->begin
             T(row[:x],row[:y])*S(:fill=>row[:color],:opacity=>0.8)*Circle(r=3)
@@ -188,13 +188,13 @@ flowerplt = Plot(
     figsize=(1000,200),
     data=df,
     config=(
-        xaxis=(ticktextangle=π/2,grid=(flag=true,),),
-        yaxis=(grid=(flag=true,),),
+        xaxis=(title="Countries", ticktextangle=π/2),
+        yaxis=(title="Value in Topics",),
         ),
     encodings=(
         x = (field = :Country, datatype = :n),
-        y = (field = :Value_sum, datatype = :q, guide=(minlim=0,)),
-        color = (field = :Topic, datatype=:n, colorscheme=rainbow_12),
+        y = (field = :Value_sum, datatype = :q),
+        color = (field = :Topic, datatype=:n,scale_domain=unique(df.Topic),scale_range=rainbow_12),
         h = (field=:Value, datatype=:q, scale=IdScale()),
     ),
     graphic= ∑(i=:x,orderby=:x, row-> begin
@@ -210,18 +210,18 @@ We finish with the OECD Better Index Plot using our Plant mark.
 
 ```@example 1
 plt = Plot(
-        title="",
         figsize=(1000,200),
         data=df,
         config=(
-            frame_style=S(:stroke=>:white),
-            xaxis=(ticktextangle=π/2,tickmark=NilD(),grid=(flag=false,)),
-            yaxis=(axisarrow=NilD(),grid=(flag=false,)),
+            frame=NilD(),
+            grid=NilD(),
+            xaxis=(ticktexts="",tickmark=NilD()),
+            yaxis=(axisarrow=NilD(),title=""),
             ),
         encodings=(
-            x = (field = :Country, datatype = :n, guide=(ticktexts="",)),
-            y = (field = :Value_sum, datatype = :q, guide=(lim=(0,8),title="")),
-            color = (field = :Topic, datatype=:n, colorscheme=rainbow_12),
+            x = (field = :Country, datatype = :n),
+            y = (field = :Value_sum, datatype = :q, scale_domain=(0,8)),
+            color = (field = :Topic, datatype=:n,scale_domain=unique(df.Topic),scale_range=rainbow_12),
             h = (field=:Value, datatype=:q, scale=IdScale(),),
             text=(field=:Country,datatype=:n, scale=IdScale()),
         ),

@@ -34,7 +34,7 @@ plt = Plot(
     encodings=(
         x = (field = :Horsepower,),
         y = (field = :Displacement,),
-        color = (field = :Origin, colorscheme=:tableau_superfishel_stone),
+        color = (field = :Origin, scale_range=:tableau_superfishel_stone),
         smile = (field = :Cylinders, scale_range=(-1,1), legend=(fmark=x->Face(size=7,smile=x),)),
     ),
     graphic = ∑() do row
@@ -63,7 +63,7 @@ plt = Plot(
     encodings=(
         x = (field = :Horsepower,),
         y = (field = :Displacement,),
-        color = (field = :Origin, colorscheme=:tableau_superfishel_stone),
+        color = (field = :Origin, scale_range=:tableau_superfishel_stone),
         smile = (field = :Cylinders, scale_range=(-1,1)),
     ),
     graphic = ∑() do row
@@ -81,7 +81,7 @@ legend_marks =
         (T(0,-0.4),TextMark(text="Cylinders = 3",fontsize=0.6)))
 legend = legend_title ↓ (T(0,-10),U(8)legend_marks)
 
-draw(plt + T(plt.figsize[1]+30,130)legend, height=400)
+draw(plt + T(plt.config.figsize[1]+30,130)legend, height=400)
 ```
 
 
@@ -98,21 +98,20 @@ gdf = sort(gdf,:Year)
 plt = Plot(
     config=(
             frame_style=S(:stroke=>:white),
+            xgrid = (;style=S(:strokeWidth=>30,:strokeOpacity=>0.05)),
             xaxis=(
                     title="years",
+                    titleangle=π/2,
                     titlefontsize=8,
                     ticktextangle=π/2,
                     ticktexts=collect(1970:1982),
                     axisarrow=S(:stroke=>:red,:fill=>:red)Arrow(pts=[[0,0],[300,0]],headsize=5),
-                    grid=(style=S(:strokeWidth=>30,:strokeOpacity=>0.05),),
             ),
+            ygrid=NilD(),
             yaxis=(
-                    titlemark=TextMark(text="Mean Horsepower",fontsize=7,style= S(:fontWeight=>:bold)),
-                    titleangle=-π/2,
-                    ticktextangle=0,
-                    ticktextanchor=:c,
-                    tickmark=Square(l=6),
-                    grid=(flag=false,),
+                    title=TextMark(text="Mean Horsepower",fontsize=7,style= S(:fontWeight=>:bold), angle=π/2),
+                    ticktextangle=π/2,
+                    tickmark=T(2,0)Square(l=6),
             ),
         ),
     data = gdf,

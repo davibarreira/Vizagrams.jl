@@ -113,7 +113,7 @@ p = Plot(
     encodings=(
         x=(field=:Horsepower,datatype=:q),
         y=(field=:Miles_per_Gallon,),
-        color=(field=:Acceleration,colorscheme=(:red,:blue)),
+        color=(field=:Acceleration,scale_range=(:red,:blue)),
         size = (field = :Cylinders,datatype=:o, scale_range=(1,3)),
     ),
     graphic=S(:stroke=>:black)Circle(r=3)
@@ -136,7 +136,7 @@ p = Plot(
     encodings=(
         x=(field=:Horsepower,datatype=:q),
         y=(field=:Miles_per_Gallon,),
-        color=(field=:Acceleration,colorscheme=(:red,:blue)),
+        color=(field=:Acceleration,scale_range=(:red,:blue)),
         size = (field = :Cylinders,datatype=:o, scale_range=(1,3)),
     ),
     graphic=S(:stroke=>:black)Circle(r=3)
@@ -230,7 +230,7 @@ plt = Plot(
     data=gdf,
     encodings=(
         x=(field=:Year,),
-        y=(field=:Horsepower_mean,guide=(lim=(0,400),)),
+        y=(field=:Horsepower_mean,scale_domain=(0,400)),
         color=(field=:Origin,),
     ),
     graphic= S(:stroke=>:black)Bar(w=20)
@@ -244,27 +244,20 @@ disasters = DataFrame(dataset("disasters"))
 disasters = dropmissing(disasters);
 disasters = filter(Cols(:Entity)=>x->x!="All natural disasters", disasters);
 
-plt = Plot(;
+plt = Plot(
     title="Disasters",
-    config=(xaxis=(grid=(flag=false,),), yaxis=(grid=(flag=false,),)),
-    figsize=(500, 400),
+    config = (
+        grid=NilD(),
+        ),
+    figsize=(500,400),
     data=disasters,
     encodings=(
-        x=(field=:Year, datatype=:q, guide=(lim=(1900, 2017),)),
-        y=(
-            field=:Entity,
-            datatype=:n,
-            guide=(tickvalues=unique(sort(disasters.Entity; rev=true)),),
-        ),
-        color=(field=:Entity, legend=(flag=false,)),
-        size=(
-            field=:Deaths,
-            datatype=:q,
-            scale_domain=(0, maximum(disasters.Deaths)),
-            scale_range=(2, 30),
-        ),
+        x = (field = :Year, datatype = :q, scale_domain=(1900,2017)),
+        y = (field = :Entity,datatype=:n, scale_domain=unique(sort(disasters.Entity, rev=true))),
+        color = (field = :Entity,legend=(flag=false,)),
+        size = (field = :Deaths,datatype=:q, scale_domain =(0,maximum(disasters.Deaths)), scale_range=(2,30))
     ),
-    graphic=S(:stroke => :black, :opacity => 0.8)Circle(),
+    graphic = S(:stroke=>:black,:opacity=>0.8)Circle()
 )
 
 draw(plt, height=500)

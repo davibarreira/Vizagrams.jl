@@ -1,7 +1,7 @@
 module Vizagrams
 
 using Accessors: Accessors, PropertyLens, insert, set, @set
-using Colors: Color, Colorant, hex
+using Colors: Color, Colorant, hex, RGB
 using ColorSchemes: ColorSchemes, ColorScheme, colorschemes
 using CoordinateTransformations:
     CoordinateTransformations,
@@ -15,7 +15,7 @@ using FreeTypeAbstraction
 using Hyperscript: Hyperscript, Style, m
 using Librsvg_jll: Librsvg_jll, rsvg_convert
 using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅
-using MLStyle: MLStyle, @data
+using MLStyle: MLStyle, @data, @match
 using Memoize: @memoize
 using NamedTupleTools: NamedTupleTools
 using Query: Query, @groupby, @map, @orderby, @orderby_descending, key
@@ -83,8 +83,6 @@ export hcheckers, vcheckers
 
 include("encoding/graphicalexpression.jl")
 export GraphicExpression, ∑
-# include("encoding/plotexpression.jl")
-# export PlotExpression, plotexpression
 
 include("scales/scales.jl")
 
@@ -99,16 +97,20 @@ include("marks/bar.jl")
 include("marks/ticks.jl")
 include("marks/axes.jl")
 include("marks/face.jl")
-include("marks/plotspec.jl")
-include("marks/plot.jl")
+
+include("encoding/inferencodings.jl")
+
+include("marks/spec.jl")
+export Spec
 export graphic
+# include("marks/plotspec.jl")
+include("marks/plot.jl")
 
 include("marks/legend.jl")
 include("marks/legends.jl")
 include("marks/grid.jl")
 include("marks/pizza.jl")
 include("marks/latex.jl")
-include("marks/polarframe.jl")
 include("marks/trail.jl")
 include("marks/histogram.jl")
 include("marks/boxplot.jl")
@@ -128,8 +130,6 @@ export Area,
     Linear,
     Pizza,
     Plot,
-    PlotSpec,
-    PolarFrame,
     Scale,
     TextMark,
     Tick,
@@ -157,27 +157,23 @@ include("auxiliar/treemanipulation.jl")
 export getmark,
     applytomark, replacemark, insertgs, listmarks, modifymark, getmarkpath, unzip
 
-include("auxiliar/plotmanipulation.jl")
-export getaxes, getyaxis, getxaxis
-# export getsizescale,getcolorscale
-
 include("auxiliar/zetareduction.jl")
 export ζreduction
 
-include("scales/inferdatatype.jl")
-include("scales/colorscale.jl")
-include("scales/sizescale.jl")
-include("scales/axisscales.jl")
 include("scales/inferscales.jl")
-# include("auxiliar/inferscales.jl")
-include("scales/getscales.jl")
-export inferscale, getscales, scaledata, getscale, inverse
 
-include("axes/inferaxistickvalues.jl")
+include("scales/getscales.jl")
+export getscales, scaledata, getscale
+
 include("axes/inferaxis.jl")
-export inferaxis
-# include("auxiliar/inferaxis.jl")
-# export inferaxis
+
+include("axes/axis.jl")
+include("axes/xaxis.jl")
+include("axes/yaxis.jl")
+include("axes/raxis.jl")
+include("axes/angleaxis.jl")
+# include("axes/arcaxis.jl")
+export inferxaxis, inferyaxis, inferraxis, inferangleaxis
 
 include("encoding/encoding.jl")
 export scatter, lineplot

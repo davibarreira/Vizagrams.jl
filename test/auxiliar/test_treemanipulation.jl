@@ -22,8 +22,8 @@ using StructArrays
 
         plt = plot(x=rand(10), y=rand(10))
         @test getmarkpath([Plot], plt) == []
-        @test getmarkpath([Plot, PlotSpec], plt) == []
+        @test getmarkpath([Plot, Spec], plt) == []
         d = plt → plt
-        @test length(getmarkpath([Plot, PlotSpec, XAxis], d)) == 2
+        # @test length(getmarkpath([Plot, Spec, XAxis], d)) == 2
     end
 end

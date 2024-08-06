@@ -53,6 +53,7 @@ using Vizagrams
 
 hist = Plot(
     data = data,
+    config=(;xaxis=(;tickvalues=collect(h.edges[1])),),
     encodings=(
         x=(field=:x,datatype=:q,guide=(tickvalues=collect(h.edges[1]),)),
         y=(field=:h,datatype=:q),
@@ -77,13 +78,13 @@ For example, we can remove the y-axis and add the values above the bars.
 ```@example 1
 hist2 = Plot(
     config =(
-        frame_style=S(:strokeWidth=>0),
-        xaxis=(ticktextangle=0,grid=(flag=false,)),
-        yaxis=(axisarrow=NilD(),tickmark=NilD(),ticktexts="",title="",grid=(flag=false,)),
+        frame=NilD(),
+        yaxis=NilD(),
+        grid=NilD(),
     ),
     data = data,
     encodings=(
-        x=(field=:x,datatype=:q,guide=(tickvalues=collect(h.edges[1]),)),
+        x=(field=:x,datatype=:q),
         y=(field=:h,datatype=:q),
         h=(field=:h,datatype=:q,scale=IdScale(),),
     ),

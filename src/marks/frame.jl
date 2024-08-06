@@ -10,10 +10,12 @@ end
 Frame(; size=(300, 200), s=S()) = Frame(size, s)
 
 function ζ(frame::Frame)::𝕋{Mark}
+    # default_color = "#" * hex(RGB(60 / 255, 60 / 255, 67 / 255))
+    default_color = :lightgray
     return S(
                :fill => :white,
-               :stroke => :lightgrey,
-               :strokeWidth => 1.5,
+               :stroke => default_color,
+               :strokeWidth => 1.0,
                :fillOpacity => 0,
            ) *
            frame.s *

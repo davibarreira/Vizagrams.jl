@@ -16,9 +16,9 @@ using StructArrays
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=∑() do row
                 S(:fill => row[:color])T(row[:x], row[:y])Circle(r=5)
@@ -50,9 +50,9 @@ using StructArrays
             ),
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:y, datatype=:q, colorscheme=(:red, :blue)),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:y, datatype=:q, scale_range=(:red, :blue)),
                 size=(field=:c, datatype=:n),
             ),
             graphic=scatter(opacity=1)
@@ -88,9 +88,9 @@ using StructArrays
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=∑() do row
                 Trip(c=[row[:x], row[:y]], r=5, colors=row[:color])
@@ -113,9 +113,9 @@ using StructArrays
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=Circle(r=20)
         )
@@ -132,7 +132,7 @@ using StructArrays
             data=gdf,
             encodings=(
                 x=(field=:c, datatype=:n),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 80),)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 80)),
                 color=(field=:c, datatype=:n),
             ),
             graphic=∑() do row
@@ -153,9 +153,9 @@ using StructArrays
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=∑(i=:color, orderby=:x) do row
                 S(:stroke => row.color[1], :strokeWidth => 2)Line(row.x, row.y)
@@ -181,8 +181,8 @@ using StructArrays
                 xaxis=(axisarrow=S(:stroke => :red)Arrow(pts=[[0, 0], [300, 0]], headsize=5),),
             ),
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 35),)),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 35)),
                 color=(field=:c, datatype=:n),
                 size=(field=:e, datatype=:o, scale_range=(8, 15)),
                 smile=(field=:d, scale=Linear(domain=[0, 1], codomain=[-1, 1])),
@@ -209,7 +209,7 @@ using StructArrays
             data=gdf,
             encodings=(
                 x=(field=:c,),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 80),)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 80)),
                 color=(field=:d, datatype=:n),
                 text=(field=:y, scale=x -> x)
             ),
@@ -223,7 +223,7 @@ using StructArrays
         )
 
         @test all(map(x -> x.w, getmark(Bar, plt)) .== 40)
-        @test all(map(x -> x.h, getmark(Bar, plt)) .== [50, 25, 75, 100])
+        @test all(map(x -> x.h, getmark(Bar, plt)) .== [25, 50, 100, 75])
         @test string(drawsvg(plt)) isa String
     end
 
@@ -235,13 +235,13 @@ using StructArrays
             config=(frame_style=S(:stroke => nothing),),
             encodings=(
                 x=(field=:c,),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 80),)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 80)),
                 color=(field=:d, datatype=:n),
                 θ=(field=:x, datatype=:q, scale=IdScale()),
                 text=(field=:x, scale=x -> x)
             ),
             graphic=∑(i=:x, row -> begin
-                r = plt.figsize[1] / 10
+                r = plt.config.figsize[1] / 10
                 ang = (row.θ / sum(row.θ)) * 2π
                 T(row.:x[1], row.:y[1]) * Pizza(rmajor=r, angles=ang, colors=row.color)
             end
@@ -249,16 +249,16 @@ using StructArrays
         )
 
         @test all(map(x -> x.angles[1], getmark(Pizza, plt)) .≈ [4.1887902047863905, 5.14078797860148])
-        @test string(drawsvg(plt)) isa String
+        @test string(draw(plt)) isa String
     end
 
     @testset "Area Plot and ordering" begin
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 6),)),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 40),)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                x=(field=:x, datatype=:q, scale_domain=(0, 6)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 40)),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=∑(i=:color, orderby=:color, descend=true, ∑(i=:color, orderby=:x) do row
                 Area(pts=row.x ⊗ row.y, color=row.color[1],
@@ -286,8 +286,8 @@ using StructArrays
                 xaxis=(grid=(flag=true,),),
                 yaxis=(grid=(flag=true,),),),
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(-1.5, 11),)),
-                y=(field=:y, datatype=:q, guide=(lim=(-1.5, 1.5),)),
+                x=(field=:x, datatype=:q, scale_domain=(-1.5, 11)),
+                y=(field=:y, datatype=:q, scale_domain=(-1.5, 1.5)),
                 z=(field=:z, datatype=:q, scale=IdScale()),
             ),
             graphic=data -> begin
@@ -323,11 +323,11 @@ using StructArrays
         plt = Plot(
             data=df,
             encodings=(
-                x=(field=:x, datatype=:q, guide=(lim=(0, 7),),),
-                y=(field=:y, datatype=:q, guide=(lim=(0, 35),),),
+                x=(field=:x, datatype=:q, scale_domain=(0, 7)),
+                y=(field=:y, datatype=:q, scale_domain=(0, 35)),
                 bill_d=(field=:d, datatype=:q, scale_range=(4, 20)),
                 bill_l=(field=:e, datatype=:q, scale_range=(30, 50)),
-                color=(field=:c, datatype=:n, colorscheme=:julia),
+                color=(field=:c, datatype=:n, scale_range=:julia),
             ),
             graphic=∑() do row
                 S(:fill => row[:color], :opacity => 1.0)T(row[:x], row[:y])U(20)PenguinBill(bill_length=row[:bill_l], bill_depth=row[:bill_d])
@@ -406,7 +406,7 @@ using StructArrays
         plt = plot(df, x=:x, y=:y,
             bill_d=(field=:d, datatype=:q, scale_range=(4, 20)),
             bill_l=(field=:e, datatype=:q, scale_range=(30, 50)),
-            color=(field=:c, datatype=:n, colorscheme=:julia),
+            color=(field=:c, datatype=:n, scale_range=:julia),
             graphic=∑() do row
                 S(:fill => row[:color], :opacity => 1.0)T(row[:x], row[:y])U(20)PenguinBill(bill_length=row[:bill_l], bill_depth=row[:bill_d])
             end)
