@@ -163,7 +163,7 @@ export ζreduction
 include("scales/inferdatatype.jl")
 include("scales/colorscale.jl")
 include("scales/sizescale.jl")
-include("scales/axisscales.jl")
+# include("scales/axisscales.jl")
 include("scales/inferscales.jl")
 
 include("scales/getscales.jl")
