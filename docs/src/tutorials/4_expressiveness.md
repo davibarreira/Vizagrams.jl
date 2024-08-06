@@ -166,7 +166,7 @@ plt = Plot(
     encodings=(
         x = (field = :Horsepower,),
         y = (field = :Displacement,),
-        color = (field = :Origin, colorscheme=:tableau_superfishel_stone),
+        color = (field = :Origin, scale_range=:tableau_superfishel_stone),
         smile = (field = :Cylinders, scale_range=(-1,1),),
     ),
     graphic = ∑() do row
@@ -236,7 +236,7 @@ plt = Plot(
         y=(field=:Horsepower_mean,),
         color=(field=:Origin,),
     ),
-    graphic = ∑(i=:color,orderby=:color,descend=true) do row
+    graphic = ∑(i=:color,orderby=:color,descend=false) do row
         S(:strokeWidth=>5)Area(pts=row.x ⊗ row.y,color=row.color[1])
     end
 )
@@ -297,7 +297,7 @@ plt = Plot(
     data=gdf,
     encodings=(
         x=(field=:Cylinders,),
-        y=(field=:Miles_per_Gallon_mean,guide=(lim = (0,100),)),
+        y=(field=:Miles_per_Gallon_mean,scale_domain = (0,100)),
         color=(field=:Origin,datatype=:n),
     ),
     graphic =
@@ -346,7 +346,7 @@ plt = Plot(;
     data=gdf,
     encodings=(
         x=(field=:Cylinders,),
-        y=(field=:Miles_per_Gallon_mean, guide=(lim=(0, 100),)),
+        y=(field=:Miles_per_Gallon_mean, scale_domain=(0, 100)),
         color=(field=:Origin, datatype=:n),
         text=(field=:Miles_per_Gallon_mean, scale=x -> x),
     ),
@@ -378,7 +378,7 @@ plt = Plot(;
     data=gdf,
     encodings=(
         x=(field=:Cylinders,),
-        y=(field=:Miles_per_Gallon_mean, guide=(lim=(0, 100),)),
+        y=(field=:Miles_per_Gallon_mean, scale_domain=(0, 100)),
         color=(field=:Origin, datatype=:n),
         text=(field=:Miles_per_Gallon_mean, scale=IdScale()),
         w=(

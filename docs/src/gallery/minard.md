@@ -20,17 +20,15 @@ cities = RDatasets.dataset("HistData", "Minard.cities");
 plt = Plot(
     title="Minard",
     config=(
-        xaxis=(
-            title="",
-            tickmark=NilD(),
-            ticktexts=""),
+        xaxis=NilD(),
+        yaxis=(titleangle=π/2,),
     ),
     figsize=(1000,300),
     data=troops,
     encodings=(
         x = (field = :Long,),
-        y = (field = :Lat,guide=(lim=(53.8,56),)),
-        color = (field = :Direction, datatype=:n, colorscheme=["#bd9e39",:gray]),
+        y = (field = :Lat,scale_domain=(53.8,56)),
+        color = (field = :Direction, datatype=:n, scale_range=["#bd9e39",:gray]),
         detail = (field = :Group, datatype=:n),
         size = (field=:Survivors, scale_range=(1,10)),
     ),
@@ -39,7 +37,7 @@ plt = Plot(
     end)
 )
 
-# Add Text Label for the Cities
+
 cities_graphic = ∑() do row
     T(plt(row,:Long,:x),plt(row,:Lat,:y))*TextMark(text=row.City)
 end(cities);
@@ -52,8 +50,10 @@ Next, we produce the temperature plot.
 plt_temp = Plot(
     figsize=(1000,100),
     config = (
-        xaxis=(title="Logitude",grid=(flag=true,)),
-        yaxis=(title="Temperature",grid=(flag=false,))),
+        ygrid=NilD(),
+        xaxis=(title="Logitude",),
+        yaxis=(title="Temperature",titleangle=π/2),
+        ),
     data=temp,
     encodings=(
         x = (field = :Long,scale = getscale(plt,:x)),
