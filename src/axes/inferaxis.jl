@@ -77,7 +77,7 @@ function cartesian_axes_grid_config(config, encodings)
 
     if !isnothing(y)
         title = getnested(config, [:yaxis, :title], get(y, :field, :y))
-        titleangle = getnested(config, [:yaxis, :titleangle], 0)
+        titleangle = getnested(config, [:yaxis, :titleangle], π / 2)
         tickvalues = getnested(config, [:yaxis, :tickvalues], nothing)
         ticktexts = getnested(config, [:yaxis, :ticktexts], nothing)
         nticks = getnested(config, [:yaxis, :nticks], 5)
