@@ -28,14 +28,14 @@ function getscale(plt::Plot, scale::Symbol=:x)
 end
 
 """
-scaledata(plt::Union{PlotSpec,Plot})
+scaledata(plt::Plot)
 
 Gets the scales from a plot and applies to the data according to
 the encoding specification.
 Returns a `StructArray` with column names corresponding to the encoders.
 ```
 """
-function scaledata(plt::Union{PlotSpec,Plot})
+function scaledata(plt::Plot)
     scales = getscales(plt)
     data = map(
         scale -> scale[2].(Tables.getcolumn(plt.data, plt.encodings[scale[1]][:field])),

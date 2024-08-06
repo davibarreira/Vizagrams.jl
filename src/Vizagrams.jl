@@ -83,8 +83,6 @@ export hcheckers, vcheckers
 
 include("encoding/graphicalexpression.jl")
 export GraphicExpression, ∑
-# include("encoding/plotexpression.jl")
-# export PlotExpression, plotexpression
 
 include("scales/scales.jl")
 
@@ -101,11 +99,11 @@ include("marks/axes.jl")
 include("marks/face.jl")
 
 include("encoding/inferencodings.jl")
-export infer_encodings, infer_encoding_scale, infer_encodings
+
 include("marks/spec.jl")
 export Spec
 export graphic
-include("marks/plotspec.jl")
+# include("marks/plotspec.jl")
 include("marks/plot.jl")
 
 include("marks/legend.jl")
@@ -113,7 +111,6 @@ include("marks/legends.jl")
 include("marks/grid.jl")
 include("marks/pizza.jl")
 include("marks/latex.jl")
-include("marks/polarframe.jl")
 include("marks/trail.jl")
 include("marks/histogram.jl")
 include("marks/boxplot.jl")
@@ -133,8 +130,6 @@ export Area,
     Linear,
     Pizza,
     Plot,
-    PlotSpec,
-    PolarFrame,
     Scale,
     TextMark,
     Tick,
@@ -162,10 +157,6 @@ include("auxiliar/treemanipulation.jl")
 export getmark,
     applytomark, replacemark, insertgs, listmarks, modifymark, getmarkpath, unzip
 
-include("auxiliar/plotmanipulation.jl")
-export getaxes, getyaxis, getxaxis
-# export getsizescale,getcolorscale
-
 include("auxiliar/zetareduction.jl")
 export ζreduction
 
@@ -176,7 +167,7 @@ include("scales/axisscales.jl")
 include("scales/inferscales.jl")
 
 include("scales/getscales.jl")
-export inferscale, getscales, scaledata, getscale
+export getscales, scaledata, getscale
 
 include("axes/inferaxis.jl")
 
