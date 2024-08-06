@@ -1,31 +1,4 @@
 """
-inferdomain(ds, datatype)
-
-Infers the scale domain based on the input data
-and datatype.
-"""
-function inferdomain(ds, datatype)
-    if datatype == :n
-        return unique(ds)
-    elseif datatype == :o
-        return collect(minimum(ds):maximum(ds))
-    end
-    return (minimum(ds), maximum(ds))
-end
-
-"""
-inferscaletype(datatype)
-
-Infers whether the scale is Categorical or Linear.
-"""
-function inferscaletype(datatype)
-    if datatype in [:n, :o]
-        return :Categorical
-    end
-    return :Linear
-end
-
-"""
 
 infer_xy_axis_domain_q(data)
 
@@ -58,10 +31,6 @@ function infer_xy_axis_domain_q(data)
     return domain
 end
 
-function infer_r_axis_domain_q(data, nticks=5)
-    return (0, maximum(data))
-end
-
 """
 infer_datatype(data)
 
@@ -89,7 +58,7 @@ function infer_domain(; data, domain, datatype, variable, coordinate)
         (nothing, :q, :x, :cartesian) => infer_xy_axis_domain_q(data)
         (nothing, :q, :y, :cartesian) => infer_xy_axis_domain_q(data)
 
-        (nothing, :q, :r, :polar) => infer_r_axis_domain_q(data)
+        (nothing, :q, :r, :polar) => (0, maximum(data))
         (nothing, :q, :angle, :polar) => infer_xy_axis_domain_q(data)
 
         (nothing, :q, _, _) => (minimum(data), maximum(data))

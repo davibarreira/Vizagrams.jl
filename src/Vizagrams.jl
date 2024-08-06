@@ -160,10 +160,6 @@ export getmark,
 include("auxiliar/zetareduction.jl")
 export ζreduction
 
-include("scales/inferdatatype.jl")
-include("scales/colorscale.jl")
-include("scales/sizescale.jl")
-# include("scales/axisscales.jl")
 include("scales/inferscales.jl")
 
 include("scales/getscales.jl")
@@ -176,8 +172,8 @@ include("axes/xaxis.jl")
 include("axes/yaxis.jl")
 include("axes/raxis.jl")
 include("axes/angleaxis.jl")
-include("axes/arcaxis.jl")
-export inferxaxis, inferyaxis, inferraxis, inferangleaxis, inferarcaxis
+# include("axes/arcaxis.jl")
+export inferxaxis, inferyaxis, inferraxis, inferangleaxis
 
 include("encoding/encoding.jl")
 export scatter, lineplot
