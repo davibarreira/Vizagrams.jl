@@ -51,7 +51,7 @@ function inferxaxis(
 
     if !(title isa Union{Mark,TMark})
         title = TextMark(; text=title, fontsize=titlefontsize, angle=titleangle)
-    elseif title isa Mark
+    else
         title = title
     end
 

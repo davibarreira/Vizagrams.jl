@@ -97,36 +97,6 @@ function frame_background_config(config)
     return frame, background
 end
 
-# function ζ(spec::Spec)::𝕋{Mark}
-#     (; config, encodings) = spec
-
-#     title = title_config(config)
-#     framesize = get(config, :figsize, (300, 300))
-#     coordinate = get(config, :coordinate, nothing)
-
-#     axes = NilD()
-#     grid = NilD()
-#     if coordinate == :cartesian
-#         axes, grid = cartesian_axes_grid_config(config, encodings)
-#         axes = get(config, :axes, axes)
-#         grid = get(config, :grid, grid)
-
-#     elseif coordinate == :polar
-#         axes, grid = polar_axes_grid_config(config, encodings)
-#         axes = get(config, :axes, axes)
-#         grid = get(config, :grid, grid)
-#     end
-
-#     legends = generatelegends(spec)
-
-#     frame, background = frame_background_config(config)
-
-#     # d = S(:vectorEffect => "none") * (background + grid + frame↑(T(0, 10), title) + axes)
-#     d = background + grid + frame↑(T(0, 10), title) + axes
-#     d = d + atop(frame, legends) * bright(frame, legends) * T(20, 0) * legends
-#     return d
-# end
-
 function ζ(spec::Spec)::𝕋{Mark}
     (; config, encodings) = spec
 

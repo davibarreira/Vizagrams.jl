@@ -30,7 +30,7 @@ function cartesian_axes_grid_config(config, encodings)
     end
 
     if !isnothing(x)
-        title = getnested(config, [:xaxis, :title], get(encodings, :field, :x))
+        title = getnested(config, [:xaxis, :title], get(x, :field, :x))
         titleangle = getnested(config, [:xaxis, :titleangle], 0)
         tickvalues = getnested(config, [:xaxis, :tickvalues], nothing)
         ticktexts = getnested(config, [:xaxis, :ticktexts], nothing)
@@ -76,7 +76,7 @@ function cartesian_axes_grid_config(config, encodings)
     ygrid = NilD()
 
     if !isnothing(y)
-        title = getnested(config, [:yaxis, :title], get(encodings, :field, :y))
+        title = getnested(config, [:yaxis, :title], get(y, :field, :y))
         titleangle = getnested(config, [:yaxis, :titleangle], 0)
         tickvalues = getnested(config, [:yaxis, :tickvalues], nothing)
         ticktexts = getnested(config, [:yaxis, :ticktexts], nothing)
