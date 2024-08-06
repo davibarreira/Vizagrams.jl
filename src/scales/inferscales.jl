@@ -108,11 +108,13 @@ Infers the scale codomain.
 function infer_codomain(; domain, codomain, datatype, variable, coordinate, framesize)
     codomain = @match (codomain, datatype, variable, coordinate) begin
         (nothing, :q, :x, :cartesian) => (0, framesize[1])
-        (nothing, :n, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
+        # (nothing, :n, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
+        (nothing, :n, :x, :cartesian) => (framesize[1] / (length(domain) + 2), framesize[1] - framesize[1] / (length(domain) + 2))
         (nothing, :o, :x, :cartesian) => ((framesize[1] / length(domain)) / 2, framesize[1] - (framesize[1] / length(domain)) / 2)
 
         (nothing, :q, :y, :cartesian) => (0, framesize[2])
-        (nothing, :n, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
+        # (nothing, :n, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
+        (nothing, :n, :y, :cartesian) => (framesize[2] / (length(domain) + 2), framesize[2] - framesize[2] / (length(domain) + 2))
         (nothing, :o, :y, :cartesian) => ((framesize[2] / length(domain)) / 2, framesize[2] - (framesize[2] / length(domain)) / 2)
 
         (nothing, :q, :r, :polar) => (0, minimum(framesize) / 2)
