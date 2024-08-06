@@ -11,7 +11,7 @@ function Legend(; title="", titleplacement=:se, fmark=x -> U(x)Circle(), scale, 
 end
 
 function setcolorbar(scale, h=150, w=20, n=20, nticks=3)
-    values = collect(range(scale.domain[1], scale.domain[2], n))
+    values = reverse(collect(range(scale.domain[1], scale.domain[2], n)))
     colors = scale.(values)
     cbar = foldr(
         (s, acc) ->
@@ -19,7 +19,7 @@ function setcolorbar(scale, h=150, w=20, n=20, nticks=3)
         colors;
         init=NilD(),
     )
-    tickvalues = showoff(range(scale.domain[1], scale.domain[2], nticks))
+    tickvalues = showoff(reverse(range(scale.domain[1], scale.domain[2], nticks)))
     pos = collect(range(0, -h, nticks))
     ticks = foldr(
         (s, acc) -> T(0, s[2]) * TextMark(; text=s[1], anchor=:c, fontsize=7) + acc,
