@@ -147,11 +147,14 @@ function polar_axes_grid_config(config, encodings)
             scale.domain
         end
 
+        tickvalues = getnested(config, [:raxis, :tickvalues], tickvalues)
         if !(tickvalues isa Vector{<:AbstractString})
             ticktexts = showoff(tickvalues)
         else
             ticktexts = tickvalues
         end
+        ticktexts = getnested(config, [:raxis, :ticktexts], ticktexts)
+
         raxis = inferraxis(
             scale; tickvalues=tickvalues, ticktexts=ticktexts, angle=raxisangle
         )

@@ -133,6 +133,11 @@ function ζ(spec::Spec)::𝕋{Mark}
     title = title_config(config)
     framesize = get(config, :figsize, (300, 300))
     coordinate = get(config, :coordinate, nothing)
+    guide = get(config, :guide, nothing)
+
+    if typeof(guide) <: Union{Mark,TMark}
+        return dmlift(guide)
+    end
 
     axes = NilD()
     grid = NilD()
