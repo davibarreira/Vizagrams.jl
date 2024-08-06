@@ -7,8 +7,8 @@ struct Slice <: GeometricPrimitive
 
     function Slice(rmajor, rminor, c, ang, θ)
         @assert rmajor ≥ rminor "Major radius must be ≥ than the minor radius"
-        @assert rmajor > 0.0 "Major radius must be a positive real number"
-        @assert rminor ≥ 0.0 "Minor radius must be a zero or positive real number"
+        # @assert rmajor > 0.0 "Major radius must be a positive real number"
+        # @assert rminor ≥ 0.0 "Minor radius must be a zero or positive real number"
         @assert ang ≥ 0.0 "Angle must be larger than 0"
         if ang ≈ 2π || ang ≥ 2π
             ang = 2π * 0.999999

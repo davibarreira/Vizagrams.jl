@@ -12,7 +12,7 @@ function inferangleaxis(
         scale; nticks=nticks, tickvalues=tickvalues, ticktexts=ticktexts
     )
     ticktextmarks = map(t -> TextMark(; text=t, anchor=:c, fontsize=7), ticktexts)
-    max_tick_texts_width = mapreduce(t -> boundingwidth(t), max, ticktextmarks) * 0.6
+    max_tick_texts_width = mapreduce(t -> boundingwidth(t), max, ticktextmarks) * 0.8
 
     # Ticks
     ticks = mapreduce(
