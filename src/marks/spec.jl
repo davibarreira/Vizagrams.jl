@@ -86,14 +86,15 @@ the figsize and centered at the origin.
 """
 function frame_background_config(config)
     framesize = get(config, :figsize, (300, 300))
+    framestyle = get(config, :frame_style, S())
     coordinate = get(config, :coordinate, nothing)
 
     frame = get(config, :frame, S(:opacity => 0)Rectangle(; w=framesize[1], h=framesize[2]))
     if coordinate == :cartesian
-        frame = get(config, :frame, Frame(; size=framesize))
+        frame = get(config, :frame, Frame(; size=framesize, s=framestyle))
     end
-    background = S(:stroke => 0)frame
-    frame = S(:fillOpacity => 0)frame
+    background = S(:stroke => 0) * framestyle * frame
+    frame = S(:fillOpacity => 0) * framestyle * frame
     return frame, background
 end
 
@@ -134,10 +135,10 @@ function ζ(spec::Spec)::𝕋{Mark}
     frame = get(config, :frame, frame)
     background = get(config, :background, background)
 
-    d = background + grid + frame↑(T(0, 10), title) + axes
+    frame_axes = background + grid + axes
 
-    default_transform = atop(frame, legends) * bright(d, legends) * T(20, 0)
+    default_transform = atop(frame_axes, legends) * bright(frame_axes, legends) * T(20, 0)
     legends_transform = isnothing(legends_transform) ? default_transform : legends_transform
-    d = d + legends_transform * legends
+    d = frame_axes + frame_axes↑(T(0, 10), title) + legends_transform * legends
     return d
 end

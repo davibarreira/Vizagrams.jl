@@ -28,6 +28,8 @@ function get_tickvalues(
             ticktexts = showoff(tickvalues)
         end
         ticktexts = tickvalues
+    elseif ticktexts isa AbstractString
+        ticktexts = map(t -> ticktexts, 1:length(tickvalues))
     end
 
     return tickvalues, ticktexts
