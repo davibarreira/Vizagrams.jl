@@ -24,6 +24,7 @@ makedocs(sitename="Vizagrams.jl",
             "Minard's Chart" => "gallery/minard.md",
             "OECD Better Life Index" => "gallery/moritz.md",
             "Penguins" => "gallery/penguins.md",
+            "Rose Diagram" => "gallery/nightingale.md",
         ],
     ]
 )
