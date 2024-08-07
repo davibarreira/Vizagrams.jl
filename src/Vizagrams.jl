@@ -113,6 +113,8 @@ include("marks/pizza.jl")
 include("marks/latex.jl")
 include("marks/trail.jl")
 include("marks/histogram.jl")
+export countbin, bindata, bin_edges
+
 include("marks/boxplot.jl")
 export Area,
     Arrow,

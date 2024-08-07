@@ -16,9 +16,7 @@ function get_tickvalues(scale::Linear; nticks=10, tickvalues=nothing, ticktexts=
 
     return tickvalues, ticktexts
 end
-function get_tickvalues(
-    scale::Categorical; nticks=10, tickvalues=nothing, ticktexts=nothing
-)
+function get_tickvalues(scale::Scale; nticks=10, tickvalues=nothing, ticktexts=nothing)
     (; domain, codomain) = scale
     if isnothing(tickvalues)
         tickvalues = scale.domain

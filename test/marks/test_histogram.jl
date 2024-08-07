@@ -40,6 +40,23 @@ using StructArrays
         @test string(draw(plt)) isa String
 
         # Checking the number of drawn bars
-        @test length(getmark(Bar, plt)) == 10
+        @test length(getmark([Hist, Bar], plt)) == 10
+    end
+    @testset "bindata and countbin functions" begin
+
+        @test countbin([1, 1, 10, 10]) == [2, 2, 2, 2]
+        @test bindata([1, 1, 10, 10]) == [1.5, 1.5, 9.5, 9.5]
+
+        Random.seed!(4)
+        data = StructArray(x=rand(100))
+        plt = Plot(
+            data=data,
+            x=bindata(data.x),
+            y=countbin(data.x),
+            graphic=Hist()
+        )
+
+        @test string(draw(plt)) isa String
+        @test length(getmark([Hist, Bar], plt)) == 10
     end
 end

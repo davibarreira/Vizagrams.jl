@@ -9,8 +9,8 @@ function infer_xy_axis_domain_q(data)
     data_range = dmax - dmin
 
     # Add some extra spacing so that data does not touch the axis
-    dmin = dmin - data_range / 10
-    dmax = dmax + data_range / 10
+    dmin = dmin - data_range / 15
+    dmax = dmax + data_range / 15
 
     nticks = 5
     tickvalues = generate_tick_labels(dmin, dmax, nticks)
