@@ -163,6 +163,7 @@ include("auxiliar/zetareduction.jl")
 export ζreduction
 
 include("scales/inferscales.jl")
+export infer_scale
 
 include("scales/getscales.jl")
 export getscales, scaledata, getscale

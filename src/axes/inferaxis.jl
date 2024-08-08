@@ -107,7 +107,7 @@ function cartesian_axes_grid_config(config, encodings)
 
         grid_style = getnested(
             config,
-            [:yaxis, :grid_style],
+            [:ygrid, :style],
             S(
                 :opacity => 0.6,
                 :stroke => :grey,

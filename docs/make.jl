@@ -16,6 +16,7 @@ makedocs(sitename="Vizagrams.jl",
             "4 - Graphic Expressions" => "tutorials/4_expressiveness.md"
             "5 - Customizing Visualizations" => "tutorials/5_customization.md"
             "6 - Polar Visualizations" => "tutorials/6_polar.md"
+            "7 - Composite Visualizations" => "tutorials/7_composite.md"
         ],
         "Gallery" => [
             "BoxPlot" => "gallery/boxplot.md",
