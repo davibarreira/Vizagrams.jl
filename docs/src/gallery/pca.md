@@ -134,5 +134,5 @@ py = getscale(plt,:y)(py)
 
 viz = plt_line + T(px,py)R(-π/2 + ang)U(rel)T(-hbb,0)hist
 
-draw(viz, height=700)
+draw(viz, height=500)
 ```
