@@ -134,9 +134,11 @@ function ▷(t::Union{G,S,H}, Σ₁::GraphicExpression)
 end
 
 function Base.:+(t::Union{GeometricPrimitive,Prim,Mark,𝕋{Mark}}, Σ₁::GraphicExpression)
-    return GraphicExpression(s -> dmlift(t) + Σ₁.expr(s), Σ₁.coalg, Σ₁.alg)
+    # return GraphicExpression(s -> dmlift(t) + Σ₁.expr(s), Σ₁.coalg, Σ₁.alg)
+    return GraphicExpression(t) + Σ₁
 end
 
 function Base.:+(Σ₁::GraphicExpression, t::Union{GeometricPrimitive,Prim,Mark,𝕋{Mark}})
-    return GraphicExpression(s -> Σ₁.expr(s) + dmlift(t), Σ₁.coalg, Σ₁.alg)
+    # return GraphicExpression(s -> Σ₁.expr(s) + dmlift(t), Σ₁.coalg, Σ₁.alg)
+    return Σ₁ + GraphicExpression(t)
 end
