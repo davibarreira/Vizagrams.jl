@@ -30,6 +30,22 @@ hist = Plot(
 draw(hist)
 ```
 
+We can also add some text on top of each bar:
+
+```@example 1
+hist = Plot(
+    data=data,
+    x=bindata(data.x),
+    y=countbin(data.x),
+    h=(value=countbin(data.x),scale=IdScale()),
+    graphic= Hist() + ∑(i=:x) do row
+        T(row.x[1],row.y[1]+10)TextMark(text=row.h[1],fontsize=8)
+    end
+)
+
+draw(hist)
+```
+
 ## 2. Histogram Graphic Expression
 Let us now show how we can draw the histogram using only bars.
 ```@example 1
