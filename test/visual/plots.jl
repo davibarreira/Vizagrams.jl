@@ -15,6 +15,9 @@ using StructArrays
     @testset "Scatter Plot" begin
         plt = Plot(
             data=df,
+            config=(;
+                xaxis=(; title=L"x", ticktexts=""),
+            ),
             encodings=(
                 x=(field=:x, datatype=:q, scale_domain=(0, 6)),
                 y=(field=:y, datatype=:q, scale_domain=(0, 40)),
