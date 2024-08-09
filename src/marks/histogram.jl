@@ -28,9 +28,9 @@ function ζ(hist::Hist)::𝕋{Mark}
 end
 
 function GraphicExpression(hist::Hist)
-    return ge = data -> begin
+    return ge = GraphicExpression(data -> begin
         Hist(; xs=data.x, ys=data.y)
-    end
+    end)
 end
 
 """
