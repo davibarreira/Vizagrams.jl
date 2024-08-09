@@ -41,6 +41,23 @@ using StructArrays
 
         # Checking the number of drawn bars
         @test length(getmark([Hist, Bar], plt)) == 10
+
+
+        # Testing histogram with textmark over bars
+        Random.seed!(4)
+        data = StructArray(x=rand(100))
+
+        plt = Plot(
+            data=data,
+            x=bindata(data.x),
+            y=countbin(data.x),
+            h=(value=countbin(data.x), scale=IdScale()),
+            graphic=Hist() + ∑() do row
+                T(row.x, row.y + 10)TextMark(text=row.h, fontsize=10)
+            end
+        )
+
+        @test string(draw(plt)) isa String
     end
     @testset "bindata and countbin functions" begin
 
