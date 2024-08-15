@@ -41,7 +41,7 @@ export uniformscaling, U, R, T, M, angle_between_vectors
 include("auxiliar/generate_ticks_ext_wilkinson.jl")
 export generate_tick_labels
 include("auxiliar/helperfunctions.jl")
-export getnested, setfields, insertcol, getcols, getcol, ⊗, hconcat
+export getnested, setfields, insertcol, getcols, getcol, ⊗, hconcat, vconcat
 
 # PRIMITIVES
 include("primitives/graphical_primitives.jl")
