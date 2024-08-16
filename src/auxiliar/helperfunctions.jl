@@ -212,3 +212,26 @@ unzip(d) = d
 #     newcol = keys(nt)
 #     StructArray(NamedTuple{(cols..., newcol...)}((map(s -> get(data, s), cols)..., values(nt)...)))
 # end
+"""
+    vconcat(d1::StructArray, d2::StructArray)
+Computes the outer unino of two struct arrays.
+"""
+function vconcat(d1::StructArray, d2::StructArray; fill=nothing)
+    cols1, cols2 = propertynames(d1), propertynames(d2)
+    len1, len2 = length(d1), length(d2)
+    is = intersect(cols1, cols2)
+
+    # Concatenate common columns
+    cols = union(cols1, cols2)
+    d = (StructArray ∘ NamedTuple)(
+        map(cols) do col
+            if col in is
+                return col => vcat(getcol(d1, col), getcol(d2, col))
+            elseif col in cols1
+                return col => vcat(getcol(d1, col), map(x -> fill, 1:len2))
+            elseif col in cols2
+                return col => vcat(map(x -> fill, 1:len1), getcol(d2, col))
+            end
+        end,
+    )
+end

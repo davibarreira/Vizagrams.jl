@@ -56,6 +56,9 @@ using SafeTestsets
     @safetestset "Auxiliar" begin
         include("./auxiliar/test_treemanipulation.jl")
     end
+    @safetestset "Helper Functions" begin
+        include("./auxiliar/test_helperfunctions.jl")
+    end
 
     # Tests below not working on GitHub Actions
     @safetestset "Visual Tests" begin

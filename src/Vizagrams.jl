@@ -1,6 +1,6 @@
 module Vizagrams
 
-using Accessors: Accessors, PropertyLens, insert, set, @set
+using Accessors: Accessors, PropertyLens, insert, set, @set, @delete
 using Colors: Color, Colorant, hex, RGB
 using ColorSchemes: ColorSchemes, ColorScheme, colorschemes
 using CoordinateTransformations:
@@ -41,7 +41,7 @@ export uniformscaling, U, R, T, M, angle_between_vectors
 include("auxiliar/generate_ticks_ext_wilkinson.jl")
 export generate_tick_labels
 include("auxiliar/helperfunctions.jl")
-export getnested, setfields, insertcol, getcols, getcol, ⊗, hconcat
+export getnested, setfields, insertcol, getcols, getcol, ⊗, hconcat, vconcat
 
 # PRIMITIVES
 include("primitives/graphical_primitives.jl")
@@ -199,5 +199,8 @@ include("scales/applyscales.jl")
 export applyscales
 
 include("encoding/context.jl")
+
+include("encoding/appendplot.jl")
+export replot
 
 end
