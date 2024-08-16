@@ -1,6 +1,6 @@
 module Vizagrams
 
-using Accessors: Accessors, PropertyLens, insert, set, @set
+using Accessors: Accessors, PropertyLens, insert, set, @set, @delete
 using Colors: Color, Colorant, hex, RGB
 using ColorSchemes: ColorSchemes, ColorScheme, colorschemes
 using CoordinateTransformations:
@@ -199,5 +199,8 @@ include("scales/applyscales.jl")
 export applyscales
 
 include("encoding/context.jl")
+
+include("encoding/appendplot.jl")
+export replot
 
 end
