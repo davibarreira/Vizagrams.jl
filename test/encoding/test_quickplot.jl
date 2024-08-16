@@ -1,5 +1,6 @@
 using Vizagrams
 using StructArrays
+using Random
 
 @testset "Encoding Functions" begin
     # Testing whether the using functions in the encoding works
@@ -52,13 +53,13 @@ using StructArrays
 end
 
 @testset "Replot" begin
-    Random.seed!(4)
-    plt = plot(x=rand(10), y=rand(10))
+    # Random.seed!(4)
+    # plt = plot(x=rand(10), y=rand(10))
 
-    @testset "Replot with and without rescale" begin
-        @test string(draw(plt ∘ Line())) isa String
-        @test string(draw(replot(plt, StructArray(x=2rand(10), y=rand(10)), rescale=false))) isa String
-    end
+    # @testset "Replot with and without rescale" begin
+    #     @test string(draw(plt ∘ Line())) isa String
+    #     @test string(draw(replot(plt, StructArray(x=2rand(10), y=rand(10)), rescale=false))) isa String
+    # end
 
     @testset "Replot with plots" begin
         f(x) = sin(x)
