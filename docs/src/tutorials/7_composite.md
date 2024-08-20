@@ -177,8 +177,7 @@ example of this would be parallel coordinate plots. The difficulty in creating s
 visualizations involves having to coordinate distict scales in order.
 
 Our example is inspired in one of the visualizations presented in the
-paper ["Dece: Decision explorer with counterfactual explanations for machine learning models"](
-https://doi.org/10.48550/arXiv.2008.08353)
+paper "Dece: Decision explorer with counterfactual explanations for machine learning models"
 (2020, Cheng, Furui and Ming, Yao and Qu, Huamin).
 
 Let us start by creating a dataset.
