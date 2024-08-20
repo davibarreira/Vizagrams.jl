@@ -63,7 +63,7 @@ hist = Plot(
     graphic = data-> begin
 
         # compute the bin width
-        w = let 
+        w = let
             u = sort(unique(data.x))
             u[2]-u[1]-1
         end
@@ -115,7 +115,7 @@ hist = Plot(
 draw(hist)
 ```
 
-The benefit of having the complete specification is that we can modify in order to customize our visualization.
+The benefit of having the complete specification is that we can modify it in order to customize our visualization.
 For example, we can remove the y-axis and add the values above the bars.
 
 

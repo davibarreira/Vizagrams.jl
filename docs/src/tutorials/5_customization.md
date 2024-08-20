@@ -24,7 +24,7 @@ to alter such deafults in order to produce custom visuals.
 
 ## 1. Legends
 
-When visualizations become more complex, so does their legends.
+When visualizations become more complex, so do their legends.
 Consider, for example, the scatter plot with faces as marks.
 
 ```@example 1
@@ -49,7 +49,7 @@ draw(plt, height=400)
 
 When a user defines a new encoder, such as `smile`, by default, no
 legend will be drawn. If the user wants a legend, it is possible to
-specify an `fmark` function, which takes the values encoded and draws a
+specify a function, through the  `fmark` argument, which takes the values encoded and draws a
 mark. Another option is for users to draw the legends as a separate
 diagram, and incorporate it into the plot.
 
@@ -72,8 +72,8 @@ plt = Plot(
 )
 
 
-legend_title = S(:fontWeight => "bold")TextMark(fontfamily="Helvetica",text="Smile",fontsize=8) 
-legend_marks = 
+legend_title = S(:fontWeight => "bold")TextMark(fontfamily="Helvetica",text="Smile",fontsize=8)
+legend_marks =
         Face(smile=-1) ↓
         (T(0,-0.4),TextMark(text="Cylinders = 3",fontsize=0.6)) →
         (T(2,0),TextMark(text="...",fontsize=1)) →
@@ -87,7 +87,7 @@ draw(plt + T(plt.config.figsize[1]+30,130)legend, height=400)
 
 ## 2. Frames and Axes
 
-Using the `config` in the graphic specification, users can thoroughly
+Through the `config` argument in the graphic specification, users can thoroughly
 customize the frame and axes of plots.
 
 ```@example 1

@@ -36,7 +36,7 @@ function Vizagrams.ζ(boxplot::BoxPlot)
     return boxtop + boxbottom + linem + linetop + linebottom
 end
 ```
-By creating the struct and defining the `ζ` function, we have specifyied the bare minimum for the
+By creating the struct and defining the `ζ` method, we have specifyied the bare minimum for the
 creation of a graphical mark.
 
 ## 2. Plot Specification using BoxPlot

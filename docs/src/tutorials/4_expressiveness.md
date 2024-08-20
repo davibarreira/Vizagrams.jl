@@ -8,11 +8,11 @@ In data visualization, our goal is to represet data as a diagram
 (drawing) such that we can infer information about the data from the
 image generated. For this to work, we need a "sensible" way of mapping
 data to graphical marks. This "sensible" way of converting data to
-diagrams is done in Vizagrams through *graphic expressions*. The ideia
+diagrams is done in Vizagrams through *graphic expressions*. The idea
 of a graphic expression is that the way we draw graphics can be divided
-in three components:
+into three components:
 
-- Coalgebra - This describes how to traverse the data, e.g. we can traverse the data row by row, or we can group it by a given column;
+- Coalgebra - This describes how to traverse the data, e.g., we can traverse the data row by row, or we can group it by a given column;
 
 - Expression - This is a function that says how to take a portion of the data (e.g. a row) and express it as a diagram;
 
@@ -49,7 +49,7 @@ nothing #hide
 ## 1. Scatter Plots v.s. Line Plots
 
 In a scatter plot, the process of drawing the graphic is distinct from
-that of a line plot. How so? Suppose we have a dataset with x, y and
+that of a line plot. How so? Suppose we have a dataset with x, y, and
 color values. For the scatter plot, we traverse the dataset row by row,
 drawing a circle in position (x,y) with a given color for each row.
 Hence, the number of circles (or any other mark used to represent a
@@ -67,8 +67,8 @@ summing them together. Note that the result of the above equation is
 equal to:
 ```math
 \text{S(:stroke=>data[1,:color])}*\text{Circle(c=[data[1,:x],data[1,y])} + \\
-... \\ 
-+\text{S(:stroke=>data[N,:color])}*\text{Circle(c=[data[N,:x],data[N,y])} 
+... \\
++\text{S(:stroke=>data[N,:color])}*\text{Circle(c=[data[N,:x],data[N,y])}
 ```
 The idea is that `data[n,:x]` means picking row `n` column `:x` for
 the dataset.
@@ -84,7 +84,7 @@ Since each iteration has the same value for color, we use
 `rows.color[1]` to get a single color value, and use it to color the
 whole line.
 
-In tutorial 3, we have shown how to create scatter plots and line plots
+In Tutorial 3, we have shown how to create scatter plots and line plots
 simply by picking a mark such as `Circle` or `Line`. Under the hood,
 what Vizagrams was doing was to infer the graphic expressions for such
 marks. Now, let us instead pass the actual graphic expression:
@@ -143,7 +143,7 @@ This time, we used the following graphic expression:
 
 ``` julia
 ∑(i=:color) do rows
-    S(:stroke=>rows.color[1],:strokeWidth=>2)Line(rows.x,rows.y)
+    S(:stroke=>rows.color[1],:strokeWidth=>3)Line(rows.x,rows.y)
 end
 ```
 
@@ -155,7 +155,7 @@ this is a summation where we are indexing the data by the color value.
 
 Note that the graphic expressions for the scatter plot and the line plot
 can easily be modified to produce other plots. Consider, for example,
-that we wish to create a scatter plot with a mark `Face`. The
+that we wish to create a scatter plot with a `Face` mark. The
 specification is almost the same as the one for the scatter plot with
 circles:
 
@@ -304,7 +304,7 @@ plt = Plot(
         ∑(i=:x,op=+,
             ∑(i=:color,op=↑,orderby=:color, descend=false,
                 ∑() do row
-                    S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = 40) 
+                    S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = 40)
                 end
             )
         )
@@ -328,7 +328,7 @@ expression is doing.
 ∑(i=:x,op=+,
     ∑(i=:color,op=↑,orderby=:color, descend=false,
         ∑() do row
-            S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = 40) 
+            S(:fill=>row[:color])Bar(h=row[:y],c=[row[:x],0], w = 40)
         end
     )
 )

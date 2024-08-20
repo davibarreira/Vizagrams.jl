@@ -14,15 +14,15 @@ Vizagrams is a visualization framework that integrates
 of providing high expressiveness with intuitive usability.
 
 The framework implements a diagramming DSL together
-with a visualization grammar, thus allowing users to 
+with a visualization grammar, thus allowing users to
 create diagrams by combining and transforming plots,
-as well as create new visualization specifications using diagram construction
+as well as to create new visualization specifications using diagram construction
 operations.
 
 -----
 ## :page_with_curl: Why another visualization package?
 
-The moto for Vizagrams is "high expressiveness with intuitive usability".
+The moto for Vizagrams is "high expressiveness with intuitive usability."
 In other words, the goal is for users to be able to produce (complex) visualizations without having to become
 power-users or resorting to ad-hoc methods, where the complexity is hidden by several
 lines of code.
@@ -39,8 +39,8 @@ them using diagramming operations such as composition, translation, rotation, st
 and so on.
 
 One of the core assumptions of Vizagrams is that once users understand the basics of the framework,
-the task of creating new visualizations becomes similar to diagramming, hence the "intuitive usability".
-In terms of "expressiveness", we let the gallery of examples speak for itself.
+the task of creating new visualizations becomes similar to diagramming, hence the "intuitive usability."
+In terms of "expressiveness," we let the gallery of examples speak for itself.
 
 ## Package Features
 
@@ -64,7 +64,7 @@ draw(d)
 <img src="./assets/readme/diag1.svg" align="center" height="200" />
 
 Note that `+` represents composition, and `T(2,0)` is translation. Besides translations,
-we have rotation (`R(ang)`), uniform scaling (`U(x)`) and stylistic transformations (`S(...)`).
+we have rotation (`R(ang)`), uniform scaling (`U(x)`), mirror reflection (`M(ang)`),  and stylistic transformations (`S(...)`).
 Let us increment our previous diagram:
 
 ```julia
@@ -73,7 +73,7 @@ draw(d)
 ```
 <img src="./assets/readme/diag2.svg" align="center" height="200" />
 
-For plotting, we use the visualization grammar syntax. If you know used [VegaLite.jl](https://github.com/queryverse/VegaLite.jl),
+For plotting, we use the visualization grammar syntax. If you have used [VegaLite.jl](https://github.com/queryverse/VegaLite.jl),
 this might look familiar:
 
 ```julia
@@ -112,12 +112,12 @@ draw(new_plt)
 ```
 <img src="./assets/readme/diag4.svg" align="center" height="200" />
 
-And we can manipulate our plots and add new diagram elements in order to produce new visualizations:
+We can manipulate our plots and add new diagram elements in order to produce new visualizations:
 ```julia
 viz_title = TextMark(text="Creating a New Viz",anchor=:c,fontsize=20)
 viz_frame = S(:fillOpacity=>0,:stroke=>:black)T(400,100)*Rectangle(h=370,w=1000)
 
-new_viz = new_plt + T(470,0)plt + viz_frame + T(400,250)*viz_title 
+new_viz = new_plt + T(470,0)plt + viz_frame + T(400,250)*viz_title
 
 draw(new_viz)
 ```
