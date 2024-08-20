@@ -2,7 +2,7 @@
 
 In this example, we reproduce [Minard’s depiction of Napoleon’s march on Russia](https://commons.wikimedia.org/wiki/File:Minard.png#).
 The visualization can be broken down in two subplots. The first contains
-a trail plot with the number of troops marching, and the second is the temperature
+a `Trail` plot with the number of troops marching, and the second is the temperature
 variation.
 
 First, we create the marching plot, and then draw the text labels over the plot.

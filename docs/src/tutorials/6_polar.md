@@ -42,7 +42,7 @@ Note that we must adjust the scale for the angle so that the domain goes from `0
 ranging from 0 to 2π. We must also adjust the scale for the radius variable `r`, so that our pizza is large enough
 compared to the `figsize`.
 
-We can replicate the pizza plot using Slice marks instead. This makes the construction process more explicit
+We can replicate the pizza plot using `Slice` marks instead. This makes the construction process more explicit
 and allows us to more easily create new types of visualizations.
 
 ```@example 1
@@ -116,7 +116,7 @@ draw(plt)
 
 Our next examples are radar plots. These are distinct from pizza plots in the sense that they
 actually use polar coordinates. In order to user polar coordinates in a graphic specification,
-we must simply pass `coordinate = :polar` to the `config`. While the Cartesian coordinates
+we must simply pass `coordinate = :polar` through `config`. While the Cartesian coordinates
 require the `x` and `y` encoding variables, the polar coordinate requires the radius variable `r`
 and the `angle`. Vizagrams then computes the `x` and `y` values automatically, which can be used
 in graphic expressions.
@@ -143,9 +143,9 @@ plt = Plot(
 draw(plt)
 ```
 
-Using the Polygon with the Circle marks we can produce the radar plot. Other marks could also be used
+Using the `Polygon` mark with the `Circle` mark we can produce the radar plot. Other marks could also be used
 in order to produce other types of visualizations. In the next example, we change the radius scale range
-so that the frame resembles a donut. Note that we also use `guide=(a_tick_flag=:in,)` within the `config`
+so that the frame resembles a donut. Note that we also use `guide=(a_tick_flag=:in,)` within the `config` specification
 in order place the ticks to be in the inner radius.
 
 ```@example 1

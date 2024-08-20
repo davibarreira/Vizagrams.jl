@@ -28,7 +28,7 @@ In the code above, we simply define a diagram `d` as containing a
 `Circle`. Note that this circle has a default radius of `1` and center
 `[0,0]`. By calling `draw(d)`, we turn the diagram `d` into an SVG file,
 which can then be rendered by the browser. Note that the `draw` also
-scales the drawing to fit an specific height. In this case, the default
+scales the drawing to fit a specific height. In this case, the default
 height is 500. We can pass another height in order to get either a
 smaller or larger diagram, or we can use a `pad` to apply some padding
 to the output SVG.
@@ -41,7 +41,7 @@ draw(d,height=100, pad=20)
 
 Graphical transformations can be either geometric or aesthetic. The
 geometric transformations are translations (`T(x,y)`), rotations
-(`R(θ)`), uniform scaling (`U(s)`) and reflection (`M(p)`). For aesthetic (stylistic)
+(`R(θ)`), uniform scaling (`U(s)`), and reflection (`M(p)`). For aesthetic (stylistic)
 transformations, we use `S(attr)`, where `attr` is something like
 `:fill=>:red`, which will apply the fill color of red.
 
@@ -78,7 +78,7 @@ similar to how in an SVG file we write the tag for a different geometry
 one after another.
 
 ```@example 1
-d = S(:fill=>:blue)Circle() + S(:fill=>:red)RegularPolygon(n=3) +S(:fill=>:green)Square() 
+d = S(:fill=>:blue)Circle() + S(:fill=>:red)RegularPolygon(n=3) +S(:fill=>:green)Square()
 draw(d,height=100)
 ```
 
@@ -86,7 +86,7 @@ We now have the tools to create very complex diagrams, it is just a
 matter of adding marks and applying transformations.
 
 ```@example 1
-d = T(3,0)Circle() + T(0,2)RegularPolygon(n=3) +R(π/10)U(2)Square() 
+d = T(3,0)Circle() + T(0,2)RegularPolygon(n=3) +R(π/10)U(2)Square()
 draw(d,height=100)
 ```
 
@@ -115,7 +115,7 @@ draw(d,height=100)
 
 ## 5. Stacking Diagrams
 
-The basic geometric transformations translations, rotations and scaling.
+The basic geometric transformations are translations, rotations, reflections, and scaling.
 Yet, Vizagrams provides some stacking transformations to ease the
 process of diagram drawing. The process of stacking consists in placing
 two marks one right next to the other given a certain direction. This is
@@ -162,7 +162,7 @@ around the center of the canvas, in order to make clear how the text
 moves.
 
 ```@example 1
-cross = Line([[-3,0],[3,0]]) + R(π/2)Line([[-3,0],[3,0]]) 
+cross = Line([[-3,0],[3,0]]) + R(π/2)Line([[-3,0],[3,0]])
 
 anchors = [:c, :s, :n, :e, :w, :se, :sw, :ne, :nw]
 d = mapreduce(a ->cross + TextMark(text=uppercase("$a"),anchor=a,fontsize=1),

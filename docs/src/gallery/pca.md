@@ -115,8 +115,8 @@ maxerr = findmax(identity,abs.(df.err))[2]
 error_width = getscale(plt,:y)(pcaeq(df[maxerr,:x])) - getscale(plt,:y)(df[maxerr,:y])
 
 # Compute the PCA angle
-Δx = getscale(plt,:x)(lx)[2] - getscale(plt,:x)(lx)[1] 
-Δy = getscale(plt,:y)(ly)[2] - getscale(plt,:y)(ly)[1] 
+Δx = getscale(plt,:x)(lx)[2] - getscale(plt,:x)(lx)[1]
+Δy = getscale(plt,:y)(ly)[2] - getscale(plt,:y)(ly)[1]
 ang = atan(Δy/Δx)
 
 # Compute the histogram pixel size

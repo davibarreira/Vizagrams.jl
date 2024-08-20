@@ -4,12 +4,12 @@ In Vizagrams, every drawing is, in final analysis, just a collection of
 graphical primitives. These primitives are geometric shapes such as
 circles, lines, polygons, and so on. A graphical mark is a subtype of
 the abstract type `Mark` for which there exists a function that turns it
-into a diagram, in other words, a mark is a data type for which we can
+into a diagram, in other words, a mark is a data type which we can
 represent as a diagram.
 
 Note that, according to this definition, every primitive shape is itself
-a mark, since the output diagram is just themselves. Hence, when we
-define a diagram using primitives, this is equivalent to be using marks.
+a mark, since the output diagram is just itself. Hence, when we
+define a diagram using primitives, this is equivalent to using marks.
 
 ## 1. Introducing Existing Marks
 
@@ -29,7 +29,7 @@ subtypes(Mark)
 ```
 
 Note that many of the existing marks involve data visualization
-components, such as ticks, axes, legen and so on. We are not going to
+components, such as ticks, axes, legend and so on. We are not going to
 use them now, as our goal is not to introduce the data visualization
 aspects of Vizagram. Let us instead start with some simpler examples:
 
@@ -41,7 +41,7 @@ draw(d, height=100)
 
 When we draw an instance of `Arrow`, we are drawing a line together with
 a triangle. The advantage of encapsulating into a mark is that we can
-specify how to parametrize in order to get the desired behavior. This
+specify how to parametrize this mark in order to get the desired behavior. This
 becomes clearer in the next example:
 
 ```@example 1
@@ -74,8 +74,8 @@ Besides the marks provided in Vizagrams, users can create their own
 marks and use them to create diagrams. The process of mark creation can
 be divided in two steps. First, the user must create a new data type and
 make it a subtype of `Mark`, which is the abstract type provided by
-Vizagrams. Secondly, the user must define a function `ζ`
-(`\zeta`). This `ζ` function is the one responsible for turning
+Vizagrams. Secondly, the user must define a method for the generic function `ζ`
+(`\zeta`). This `ζ` method is the one responsible for turning
 the new mark into a diagram.
 
 ```@example 1
@@ -100,7 +100,7 @@ function ζ(tree::Tree)
         Circle(r=0.5)+
         mapreduce(x->T(cos(x)*(0.5),sin(x)*(0.5))Circle(r=0.3),+,angles)
         )
-    
+
     # combining the trunk and the leaves to draw the tree
     return trunk + T(0,height)leaves
 end
@@ -111,7 +111,7 @@ draw(d)
 
 
 The power of creating marks is that we can now use them to create other
-marks. Hence, we can gradually increase the complixity of our marks. Let
+marks. Hence, we can gradually increase the complexity of our marks. Let
 us use our tree mark to define a forest.
 
 ```@example 1
@@ -134,4 +134,3 @@ end
 
 draw(Forest(50))
 ```
-

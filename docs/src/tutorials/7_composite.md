@@ -44,7 +44,7 @@ Note that, in the code above, we are using the `∑` operator to group the datas
 the column `Origin`. Once the dataset is grouped, we create a plot. Then, each plot
 is combined using the beside operator `→`.
 
-One might with to apply different colors to each plot. This can be done by creating a
+One might wish to apply different colors to each plot. This can be done by creating a
 scale function, as shown next:
 
 ```@example 1
@@ -80,7 +80,7 @@ facet = Plot(
     y=(field=:Miles_per_Gallon,scale=IdScale()),
     color=(field=:Origin,),
     origin=(field=:Origin,scale=IdScale()),
-    
+
     graphic= data->begin
         ∑(i=:color,op=(x,y)->x→(T(10,0),y)) do gdf
             Plot(
@@ -146,7 +146,7 @@ plt = Plot(
     miles=(field=:Miles_per_Gallon,scale=IdScale()),
     cylinder=(field=:Cylinders,scale=IdScale(),datatype=:o),
     origin=(field=:Origin,scale=IdScale()),
-    
+
     graphic=
         ∑(i=:cylinder,orderby=:cylinder,descend=true,
             ∑(i=:origin,orderby=:origin,) do gdf
@@ -164,7 +164,7 @@ plt = Plot(
                     color=(field=:color,scale=IdScale())
             ))
             end
-    ) 
+    )
 )
 draw(plt,width=800)
 ```
@@ -177,8 +177,9 @@ example of this would be parallel coordinate plots. The difficulty in creating s
 visualizations involves having to coordinate distict scales in order.
 
 Our example is inspired in one of the visualizations presented in the
-paper "Dece: Decision explorer with counterfactual explanations for machine learning models"
-(2020, heng, Furui and Ming, Yao and Qu, Huamin).
+paper ["Dece: Decision explorer with counterfactual explanations for machine learning models"](
+https://doi.org/10.48550/arXiv.2008.08353)
+(2020, Cheng, Furui and Ming, Yao and Qu, Huamin).
 
 Let us start by creating a dataset.
 ```@example 1
@@ -221,14 +222,14 @@ function tohist(data, title)
             ),
         y = bindata(data),
         x = (value=countbin(data),scale_domain=(0,maximum(countbin(data))+2)),
-        
+
         graphic = data-> begin
         # compute the bin width
-        w = let 
+        w = let
             u = sort(unique(data.y))
             u[2]-u[1]-1
         end
-    
+
         # draw each bar
         ∑(i=:y) do row
                 S(:fillOpacity=>0.9,:fill=>:steelblue)*
@@ -266,7 +267,7 @@ draw(d,width=800)
 ```
 
 To draw the lines we must obtain the position in each axis and apply the same translation
-as used in each plot. To do this, we must do two things. We must get the scale in each
+as used in each plot. To do this, we must do two things. First, we must get the scale in each
 plot, and apply it to the `y` value in our lines. Secondly, we must get how much
 each plot is translated left, and use this in the `x` value.
 The first task is done using the `getscale` function, while the second is done using the

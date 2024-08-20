@@ -84,7 +84,7 @@ end
 function ζ(stem::Stem)
     (;height, text) = stem
     stem_bar = T(0,height) * T(0,-height)Bar(h=height,w=0.05)
-    
+
     t = TextMark(text=text,angle=π/2,fontsize=7)
     textbox = U(1.2)rectboundingbox(t,S(:fill=>:white)) + t
     textbox = U(0.05) * textbox
@@ -99,7 +99,7 @@ draw(stem)
 ```
 
 ## 4. Creating Plant
-With the Flower and Stem, we can create the Plant mark as shown in the OECD Better Life Index visualization.
+With the Flower and Stem, we can create the `Plant` mark as shown in the OECD Better Life Index visualization.
 
 ```@example 1
 struct Plant <: Mark
@@ -109,7 +109,7 @@ struct Plant <: Mark
     stem_height::Real
     stem_text::String
 end
-Plant(;flower_heights, flower_widths, flower_colors, stem_height, stem_text) = Plant(flower_heights, flower_widths, flower_colors, stem_height, stem_text) 
+Plant(;flower_heights, flower_widths, flower_colors, stem_height, stem_text) = Plant(flower_heights, flower_widths, flower_colors, stem_height, stem_text)
 
 function ζ(plant::Plant)
     (;flower_heights, flower_widths, flower_colors, stem_height, stem_text) = plant
@@ -127,14 +127,14 @@ draw(plant)
 ```
 ## 5. Making the Plot
 
-We use the OECD Better Life Index found in ["https://stats.oecd.org/Index.aspx?DataSetCode=BLI"](https://stats.oecd.org/Index.aspx?DataSetCode=BLI).
+We use the OECD Better Life Index found at [https://stats.oecd.org/Index.aspx?DataSetCode=BLI](https://stats.oecd.org/Index.aspx?DataSetCode=BLI).
 
 First, let us fix the dataset. We are using the OECD Better Life Index, the one used by
 Moritz. The original dataset is not in the proper format for the visualization. We need
 to do some transformations in order to get something more similar to the data used by Moritz.
 
 Thus, we do some data normalization in order to compute the indexes for each topic.
-We do no claim that index values we compute are the actual correct indexes. But this
+We do not claim that index values we compute are the actual correct indexes. But this
 does not matter to us, as our goal is just to replicate the visualization, not the
 dataset.
 
