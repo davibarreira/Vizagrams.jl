@@ -21,6 +21,6 @@ Transducers = "28d57a85-8fef-5791-bfe6-a80928e7c999"
 VegaDatasets = "0ae4a718-28b7-58ec-9efb-cded64d6d5b4"
 
 [compat]
-Aqua = "0.8.4"
-JET = "0.8.29"
+Aqua = "0.8.7"
+JET = "0.9.9"
 julia = "1.10"
