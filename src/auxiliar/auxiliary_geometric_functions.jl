@@ -121,6 +121,16 @@ function angle_between_vectors(v1::Vector, v2::Vector)
     return angle
 end
 
+"""
+atan2pi(v::Vector)
+
+Similar to `atan`, but returns an angle between [0,2pi].
+"""
+function atan2pi(v::Vector)
+    θ = atan(v[2], v[1])
+    return θ >= 0 ? θ : θ + 2π
+end
+
 # """
 # svector2ify(v::Vector{Vector{T}}) where {T}
 

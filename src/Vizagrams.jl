@@ -14,7 +14,7 @@ using FreeTypeAbstraction
 
 using Hyperscript: Hyperscript, Style, m
 using Librsvg_jll: Librsvg_jll, rsvg_convert
-using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅
+using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅, Diagonal
 using MLStyle: MLStyle, @data, @match
 using Memoize: @memoize
 using NamedTupleTools: NamedTupleTools
@@ -51,6 +51,7 @@ include("primitives/circle.jl")
 include("primitives/square.jl")
 include("primitives/rectangle.jl")
 include("primitives/line.jl")
+include("primitives/ellipse.jl")
 export intersects
 include("primitives/bezier.jl")
 include("primitives/polygon.jl")
@@ -59,7 +60,7 @@ include("primitives/slice.jl")
 include("primitives/gradient.jl")
 
 include("primitives/envelopes.jl")
-export Circle, Square, Rectangle, Line, Polygon
+export Circle, Square, Rectangle, Line, Polygon, Ellipse
 export RegularPolygon, TextGeom, Bezier, QBezier, CBezier
 export QBezierPolygon, CBezierPolygon, Slice, LinearAlgebra
 

@@ -157,6 +157,42 @@ function envelope(t::LinearGradient, s::S, v::Vector)
     return nothing
 end
 
+function envelope(e::Ellipse, s::S, v::Vector)
+    # Normalize the direction vector
+    v_global = normalize(v)
+
+    # Compute the rotation matrix for the ellipse
+    cosθ = cos(e.ang)
+    sinθ = sin(e.ang)
+    Rot = [cosθ -sinθ; sinθ cosθ]
+
+    # Compute the covariance matrix of the ellipse
+    D = Diagonal([e.rx^2, e.ry^2])
+    Se = Rot * D * Rot'
+
+    # Compute the support function (envelope)
+    s = sqrt(v_global' * Se * v_global)
+
+    # Return the envelope value
+    return dot(e.c, v_global) + s
+end
+
+# function envelope(e::Ellipse, s::S, v::Vector)
+#     # Normalize the direction vector
+#     v = normalize(v)
+
+#     vlocal = R(-e.ang)(normalize(v))
+
+#     # Compute the envelope by scaling the vector according to the axes of the ellipse
+#     vlocal = [e.rx * vlocal[1], e.ry * vlocal[2]]
+
+#     # p = e.c + [e.rx * v[1], e.ry * v[2]]
+#     p = e.c + R(e.ang)(vlocal)
+
+#     # Return the dot product of the resulting point and the vector v
+#     return dot(p, v)
+# end
+
 envelope(p::Prim, v::Vector) = envelope(p.geom, p.s, v);
 envelope(p::GeometricPrimitive, v::Vector) = envelope(p, S(), v);
 
