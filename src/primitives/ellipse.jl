@@ -40,3 +40,10 @@ end
 #     ang = p.ang
 #     return pts = [R(ang)([a * cos(θ), b * sin(θ)]) + c for θ in 0:(2π / 100):(2π)]
 # end
+
+# Function to compute a point on the ellipse for a given angle
+function point_on_ellipse(angle, rx, ry, c)
+    x = rx * cos(angle)
+    y = ry * sin(angle)
+    return c .+ [x, y]
+end
