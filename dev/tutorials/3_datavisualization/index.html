@@ -4,7 +4,7 @@ using DataFrames
 using Statistics
 using Random</code></pre><h2 id="1.-First-Data-Visualization"><a class="docs-heading-anchor" href="#1.-First-Data-Visualization">1. First Data Visualization</a><a id="1.-First-Data-Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#1.-First-Data-Visualization" title="Permalink"></a></h2><p>We start with a very simple example. We generate some random values, and then create a plot using the function, you guessed it, <code>plot</code>. This function is just a quick way to specify a plot without having to write the whole specification.</p><pre><code class="language-julia hljs">Random.seed!(4)
 plt = plot(x=rand(10),y=rand(10))
-draw(plt,height=300)</code></pre><img src="df09ca4d.svg" alt="Example block output"/><p>We have a plot. More interestingly, the <code>plt</code> object is a diagram, thus, we can manipulate and compose with other marks.</p><pre><code class="language-julia hljs">d1 = plt↑S(:fontWeight =&gt; :bold)TextMark(; text=&quot;This is my plot&quot;, anchor=:e, fontsize=14)
+draw(plt,height=300)</code></pre><img src="36cf9171.svg" alt="Example block output"/><p>We have a plot. More interestingly, the <code>plt</code> object is a diagram, thus, we can manipulate and compose with other marks.</p><pre><code class="language-julia hljs">d1 = plt↑S(:fontWeight =&gt; :bold)TextMark(; text=&quot;This is my plot&quot;, anchor=:e, fontsize=14)
 d2 =
     R(π / 5) * (
         plt↑(
@@ -14,7 +14,7 @@ d2 =
     )
 
 d = d1 → (T(50, 0), d2)
-draw(d)</code></pre><img src="5d85a747.svg" alt="Example block output"/><h2 id="2.-Graphic-Specification"><a class="docs-heading-anchor" href="#2.-Graphic-Specification">2. Graphic Specification</a><a id="2.-Graphic-Specification-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Graphic-Specification" title="Permalink"></a></h2><p>For more control over a data visualization, one can use a graphic specification. A specification is a description of the plot, which contains information such as how to map the data to the visual variables, which type of graphical marks one must use, how to scale the data, and so on. As we have stated, Vizagrams follows the specification style from Vega-Lite.</p><p>First, let us import a dataframe to be visualized.</p><pre><code class="language-julia hljs">using VegaDatasets
+draw(d)</code></pre><img src="8eb1aca3.svg" alt="Example block output"/><h2 id="2.-Graphic-Specification"><a class="docs-heading-anchor" href="#2.-Graphic-Specification">2. Graphic Specification</a><a id="2.-Graphic-Specification-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Graphic-Specification" title="Permalink"></a></h2><p>For more control over a data visualization, one can use a graphic specification. A specification is a description of the plot, which contains information such as how to map the data to the visual variables, which type of graphical marks one must use, how to scale the data, and so on. As we have stated, Vizagrams follows the specification style from Vega-Lite.</p><p>First, let us import a dataframe to be visualized.</p><pre><code class="language-julia hljs">using VegaDatasets
 df = DataFrame(dataset(&quot;cars&quot;));
 
 # We need to drop missing values, as Vizagrams does not handle them yet.
@@ -27,7 +27,7 @@ df = dropmissing(df);</code></pre><pre><code class="language-julia hljs">plt = P
     ),
     graphic=Circle(r=5)
 )
-draw(plt)</code></pre><img src="05474540.svg" alt="Example block output"/><p>Note that in the example above, Vizagrams tries to infer the proper scaling and axes for the given plot based on the underlying data. For example, Vizgrams is guessing that both <code>:Horsepower</code> and <code>:Miles_per_Gallon</code> are quantitative data, while <code>:Origin</code> is nominal.</p><p>Users can provide more parameters to the graphic specifcation in order to get a graphic closer to ones preferences. For example, besides <code>data</code>, <code>encoding</code> and <code>graphic</code>, one can use parameters such as <code>title</code>, <code>figsize</code> and <code>config</code>.</p><p>Below we increment the previous plot with more parameters:</p><pre><code class="language-julia hljs">p = Plot(
+draw(plt)</code></pre><img src="b81b95c2.svg" alt="Example block output"/><p>Note that in the example above, Vizagrams tries to infer the proper scaling and axes for the given plot based on the underlying data. For example, Vizgrams is guessing that both <code>:Horsepower</code> and <code>:Miles_per_Gallon</code> are quantitative data, while <code>:Origin</code> is nominal.</p><p>Users can provide more parameters to the graphic specifcation in order to get a graphic closer to ones preferences. For example, besides <code>data</code>, <code>encoding</code> and <code>graphic</code>, one can use parameters such as <code>title</code>, <code>figsize</code> and <code>config</code>.</p><p>Below we increment the previous plot with more parameters:</p><pre><code class="language-julia hljs">p = Plot(
     title=&quot;Plot&quot;,
     figsize=(500,300),
     config=(
@@ -44,7 +44,7 @@ draw(plt)</code></pre><img src="05474540.svg" alt="Example block output"/><p>Not
     graphic=S(:stroke=&gt;:black)Circle(r=3)
 )
 
-draw(p, height=300)</code></pre><img src="32c163d8.svg" alt="Example block output"/><p>Let us explore a bit of our specification:</p><pre><code class="language-julia hljs">p = Plot(
+draw(p, height=300)</code></pre><img src="fb3401cf.svg" alt="Example block output"/><p>Let us explore a bit of our specification:</p><pre><code class="language-julia hljs">p = Plot(
     title=&quot;Plot&quot;,
     figsize=(300,300),
     config=(
@@ -71,7 +71,7 @@ plt = Plot(
     ),
     graphic= S(:strokeWidth=&gt;4)Line()
 )
-draw(plt)</code></pre><img src="d71fe4f9.svg" alt="Example block output"/><p>If we want to draw the points over the line, we can just add the circles.</p><pre><code class="language-julia hljs">plt = Plot(
+draw(plt)</code></pre><img src="3a2a1893.svg" alt="Example block output"/><p>If we want to draw the points over the line, we can just add the circles.</p><pre><code class="language-julia hljs">plt = Plot(
     config=(xaxis=(ticktextangle=π/2,),),
     data=gdf,
     encodings=(
@@ -81,7 +81,7 @@ draw(plt)</code></pre><img src="d71fe4f9.svg" alt="Example block output"/><p>If 
     ),
     graphic= S(:strokeWidth=&gt;4)Line() + S(:opacity=&gt;1)Square(l=10)
 )
-draw(plt)</code></pre><img src="244cab00.svg" alt="Example block output"/><p>Vizagrams also has default behavior for marks such as bars.</p><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
+draw(plt)</code></pre><img src="7a0895d8.svg" alt="Example block output"/><p>Vizagrams also has default behavior for marks such as bars.</p><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
 
 plt = Plot(
     config=(xaxis=(ticktextangle=π/2,),),
@@ -92,7 +92,7 @@ plt = Plot(
     ),
     graphic= S(:fill=&gt;:steelblue)Bar(w=20)
 )
-draw(plt)</code></pre><img src="93c8fbd9.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
+draw(plt)</code></pre><img src="3ccc193a.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
 
 plt = Plot(
     config=(xaxis=(ticktextangle=π/2,),),
@@ -104,7 +104,7 @@ plt = Plot(
     ),
     graphic= S(:stroke=&gt;:black)Bar(w=20)
 )
-draw(plt)</code></pre><img src="85a5ec23.svg" alt="Example block output"/><pre><code class="language-julia hljs">disasters = DataFrame(dataset(&quot;disasters&quot;))
+draw(plt)</code></pre><img src="94ea7eae.svg" alt="Example block output"/><pre><code class="language-julia hljs">disasters = DataFrame(dataset(&quot;disasters&quot;))
 disasters = dropmissing(disasters);
 disasters = filter(Cols(:Entity)=&gt;x-&gt;x!=&quot;All natural disasters&quot;, disasters);
 
@@ -124,4 +124,4 @@ plt = Plot(
     graphic = S(:stroke=&gt;:black,:opacity=&gt;0.8)Circle()
 )
 
-draw(plt, height=500)</code></pre><img src="c1ac5e2d.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../2_custommarks/">« 2 - Custom Marks</a><a class="docs-footer-nextpage" href="../4_expressiveness/">4 - Graphic Expressions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Monday 23 September 2024 12:39">Monday 23 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+draw(plt, height=500)</code></pre><img src="1d590b5e.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../2_custommarks/">« 2 - Custom Marks</a><a class="docs-footer-nextpage" href="../4_expressiveness/">4 - Graphic Expressions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Thursday 26 September 2024 00:55">Thursday 26 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

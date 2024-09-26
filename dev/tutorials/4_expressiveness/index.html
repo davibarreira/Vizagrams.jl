@@ -27,7 +27,7 @@ plt = Plot(
         S(:fill=&gt;row.color)Circle(r=5,c=[row.x,row.y])
     end
 )
-draw(plt)</code></pre><img src="bcf4ac7c.svg" alt="Example block output"/><p>Note that in our <code>graphic</code> parameter we passed:</p><pre><code class="language-julia hljs">∑() do row
+draw(plt)</code></pre><img src="ed907d26.svg" alt="Example block output"/><p>Note that in our <code>graphic</code> parameter we passed:</p><pre><code class="language-julia hljs">∑() do row
     S(:fill=&gt;row.color)Circle(r=5,c=[row.x,row.y])
 end</code></pre><p>This is how we write that summation notation for the graphic expression. In the case above, the sum <code>∑()</code> is doing the job of <span>$\sum^{+}_{\text{iterate by row}}$</span>.</p><p>Let us now show how to do the lineplot.</p><pre><code class="language-julia hljs">plt = Plot(
     config=(xaxis=(ticktextangle=π/2,),),
@@ -41,7 +41,7 @@ end</code></pre><p>This is how we write that summation notation for the graphic 
         S(:stroke=&gt;rows.color[1],:strokeWidth=&gt;3)Line(rows.x,rows.y)
     end
 )
-draw(plt)</code></pre><img src="ebf0443a.svg" alt="Example block output"/><p>This time, we used the following graphic expression:</p><pre><code class="language-julia hljs">∑(i=:color) do rows
+draw(plt)</code></pre><img src="7b668434.svg" alt="Example block output"/><p>This time, we used the following graphic expression:</p><pre><code class="language-julia hljs">∑(i=:color) do rows
     S(:stroke=&gt;rows.color[1],:strokeWidth=&gt;3)Line(rows.x,rows.y)
 end</code></pre><p>Here, the <code>∑(i=:color)</code> is how we define that the data must be grouped by <code>:color</code>. The <code>i</code> is to invoke the idea of indexing, in other words, this is a summation where we are indexing the data by the color value.</p><h2 id="2.-Exploring-Graphic-Expressions"><a class="docs-heading-anchor" href="#2.-Exploring-Graphic-Expressions">2. Exploring Graphic Expressions</a><a id="2.-Exploring-Graphic-Expressions-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Exploring-Graphic-Expressions" title="Permalink"></a></h2><p>Note that the graphic expressions for the scatter plot and the line plot can easily be modified to produce other plots. Consider, for example, that we wish to create a scatter plot with a <code>Face</code> mark. The specification is almost the same as the one for the scatter plot with circles:</p><pre><code class="language-julia hljs">plt = Plot(
     title=&quot;MyPlot&quot;,
@@ -58,7 +58,7 @@ end</code></pre><p>Here, the <code>∑(i=:color)</code> is how we define that th
 )
 
 
-draw(plt, height=400)</code></pre><img src="488bc0d0.svg" alt="Example block output"/><p>The graphic expression is very straightforward. We simply iterate over each row, drawing the face mark. Instead of passing the x and y positions to the mark, we are using a translation transformation. We also use the scaling <code>U(5)</code> in order to enlarge the mark.</p><pre><code class="language-julia hljs">∑() do row
+draw(plt, height=400)</code></pre><img src="81e681de.svg" alt="Example block output"/><p>The graphic expression is very straightforward. We simply iterate over each row, drawing the face mark. Instead of passing the x and y positions to the mark, we are using a translation transformation. We also use the scaling <code>U(5)</code> in order to enlarge the mark.</p><pre><code class="language-julia hljs">∑() do row
     T(row[:x],row[:y])U(5)Face(headstyle=S(:fill=&gt;row[:color]),smile=row[:smile])
 end</code></pre><p>For the encoding specification, the main difference is the <code>smile</code> variable.</p><pre><code class="language-julia hljs">smile = (field = :Cylinders, scale_range=(-1,1),),</code></pre><p>In the specifcation above, we are encoding the data columns <code>Cylinders</code> and applying a linear scaling function where the cylinder values are mapped to values between -1 and 1.</p><pre><code class="language-julia hljs">plt = Plot(
     config=(xaxis=(ticktextangle=π/2,),),
@@ -73,7 +73,7 @@ end</code></pre><p>For the encoding specification, the main difference is the <c
         Arrow(rows.x,rows.y,headsize=5,headstyle=S(:fill=&gt;rows.color[1]))
     end
 )
-draw(plt)</code></pre><img src="dc8ef240.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
+draw(plt)</code></pre><img src="a17cd727.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Year,:Origin]),:Horsepower=&gt;mean,:Miles_per_Gallon=&gt;mean)
 
 gdf = sort(gdf,:Year)
 
@@ -94,7 +94,7 @@ plt = Plot(
     end
 )
 
-draw(plt)</code></pre><img src="631edf27.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Origin]),nrow,)
+draw(plt)</code></pre><img src="c13d6f38.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Origin]),nrow,)
 gdf = rename(gdf, :nrow=&gt;:Total_Cars);
 
 plt = Plot(
@@ -110,7 +110,7 @@ plt = Plot(
         return bar ↑ (T(row[:x],5),text)
     end
 )
-draw(plt)</code></pre><img src="998dbeae.svg" alt="Example block output"/><p>As we have stated, a graphic expression has a coalgebra (how to iterate over the data), an expression (how to turn sections of the data into diagrams) and an algebra (how to combine diagrams). In our previous example, both graphic expressions use the <code>+</code> operator as the algebra. Yet, different operations could be used, such as stacking. For example:</p><p class="math-container">\[\sum^{\uparrow}_{\text{iterate by row}} Circle(r=row.size)\]</p><p>is equal to</p><p class="math-container">\[Circle(r=data[1,:size]) \uparrow Circle(r=data[2,:size])  \uparrow ... \uparrow Circle(r=data[N,:size]).\]</p><p>Moreover, we can compose graphic expressions in order to perform a nested iteration. For example,</p><p class="math-container">\[\sum^{alg = +}_{i=\text{:x}}\sum^{alg=\uparrow}_{j=\text{:color}} expr\]</p><p>In this graphic expression, we first group the data by values of <code>:x</code>, then each group if further grouped by values of <code>:color</code>. Think of this as nested for-loops.</p><p>The example we just gave is actually how we can construct stacked bar plots. Note:</p><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Origin, :Cylinders]),:Miles_per_Gallon=&gt;mean,:Horsepower=&gt;mean);
+draw(plt)</code></pre><img src="d9d8d06c.svg" alt="Example block output"/><p>As we have stated, a graphic expression has a coalgebra (how to iterate over the data), an expression (how to turn sections of the data into diagrams) and an algebra (how to combine diagrams). In our previous example, both graphic expressions use the <code>+</code> operator as the algebra. Yet, different operations could be used, such as stacking. For example:</p><p class="math-container">\[\sum^{\uparrow}_{\text{iterate by row}} Circle(r=row.size)\]</p><p>is equal to</p><p class="math-container">\[Circle(r=data[1,:size]) \uparrow Circle(r=data[2,:size])  \uparrow ... \uparrow Circle(r=data[N,:size]).\]</p><p>Moreover, we can compose graphic expressions in order to perform a nested iteration. For example,</p><p class="math-container">\[\sum^{alg = +}_{i=\text{:x}}\sum^{alg=\uparrow}_{j=\text{:color}} expr\]</p><p>In this graphic expression, we first group the data by values of <code>:x</code>, then each group if further grouped by values of <code>:color</code>. Think of this as nested for-loops.</p><p>The example we just gave is actually how we can construct stacked bar plots. Note:</p><pre><code class="language-julia hljs">gdf = combine(groupby(df,[:Origin, :Cylinders]),:Miles_per_Gallon=&gt;mean,:Horsepower=&gt;mean);
 plt = Plot(
     data=gdf,
     encodings=(
@@ -127,7 +127,7 @@ plt = Plot(
             )
         )
     )
-draw(plt, height=400)</code></pre><img src="6c9feba3.svg" alt="Example block output"/><p>The process of drawing the stacked bars can be described as follows:</p><pre><code class="nohighlight hljs">Group data by values of x
+draw(plt, height=400)</code></pre><img src="698d1112.svg" alt="Example block output"/><p>The process of drawing the stacked bars can be described as follows:</p><pre><code class="nohighlight hljs">Group data by values of x
     Group data by values of color
         Iterate over each row drawing bar
     Stack bars vertically
@@ -165,7 +165,7 @@ plt = Plot(;
         ),
     ),
 )
-draw(plt; height=400)</code></pre><img src="316a3385.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(
+draw(plt; height=400)</code></pre><img src="c6ab4ecc.svg" alt="Example block output"/><pre><code class="language-julia hljs">gdf = combine(
     groupby(df, [:Origin, :Cylinders]), :Miles_per_Gallon =&gt; mean, :Horsepower =&gt; mean
 );
 plt = Plot(;
@@ -210,4 +210,4 @@ plt = Plot(;
         ),
     ),
 )
-draw(plt; height=400)</code></pre><img src="72fdf8b1.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../3_datavisualization/">« 3 - Data Vizualization Basics</a><a class="docs-footer-nextpage" href="../5_customization/">5 - Customizing Visualizations »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Monday 23 September 2024 12:39">Monday 23 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+draw(plt; height=400)</code></pre><img src="3a886008.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../3_datavisualization/">« 3 - Data Vizualization Basics</a><a class="docs-footer-nextpage" href="../5_customization/">5 - Customizing Visualizations »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Thursday 26 September 2024 00:55">Thursday 26 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

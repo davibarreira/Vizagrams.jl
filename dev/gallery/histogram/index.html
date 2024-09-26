@@ -13,7 +13,7 @@ hist = Plot(
     graphic=Hist()
 )
 
-draw(hist)</code></pre><img src="ea4420d0.svg" alt="Example block output"/><p>We can also add some text on top of each bar:</p><pre><code class="language-julia hljs">hist = Plot(
+draw(hist)</code></pre><img src="d37630f9.svg" alt="Example block output"/><p>We can also add some text on top of each bar:</p><pre><code class="language-julia hljs">hist = Plot(
     data=data,
     x=bindata(data.x),
     y=countbin(data.x),
@@ -23,7 +23,7 @@ draw(hist)</code></pre><img src="ea4420d0.svg" alt="Example block output"/><p>We
     end
 )
 
-draw(hist)</code></pre><img src="7d2de86f.svg" alt="Example block output"/><h2 id="2.-Histogram-Graphic-Expression"><a class="docs-heading-anchor" href="#2.-Histogram-Graphic-Expression">2. Histogram Graphic Expression</a><a id="2.-Histogram-Graphic-Expression-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Histogram-Graphic-Expression" title="Permalink"></a></h2><p>Let us now show how we can draw the histogram using only bars.</p><pre><code class="language-julia hljs">hist = Plot(
+draw(hist)</code></pre><img src="331f11c9.svg" alt="Example block output"/><h2 id="2.-Histogram-Graphic-Expression"><a class="docs-heading-anchor" href="#2.-Histogram-Graphic-Expression">2. Histogram Graphic Expression</a><a id="2.-Histogram-Graphic-Expression-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Histogram-Graphic-Expression" title="Permalink"></a></h2><p>Let us now show how we can draw the histogram using only bars.</p><pre><code class="language-julia hljs">hist = Plot(
     data = data,
     config=(;
         grid=NilD(),
@@ -50,7 +50,7 @@ draw(hist)</code></pre><img src="7d2de86f.svg" alt="Example block output"/><h2 i
     end
 )
 
-draw(hist)</code></pre><img src="a55fee77.svg" alt="Example block output"/><h2 id="3.-Computing-the-Histogram-Manually"><a class="docs-heading-anchor" href="#3.-Computing-the-Histogram-Manually">3. Computing the Histogram Manually</a><a id="3.-Computing-the-Histogram-Manually-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Computing-the-Histogram-Manually" title="Permalink"></a></h2><p>Next, let us compute the histogram bins manually and draw them.</p><pre><code class="language-julia hljs">Random.seed!(4)
+draw(hist)</code></pre><img src="afe39f7d.svg" alt="Example block output"/><h2 id="3.-Computing-the-Histogram-Manually"><a class="docs-heading-anchor" href="#3.-Computing-the-Histogram-Manually">3. Computing the Histogram Manually</a><a id="3.-Computing-the-Histogram-Manually-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Computing-the-Histogram-Manually" title="Permalink"></a></h2><p>Next, let us compute the histogram bins manually and draw them.</p><pre><code class="language-julia hljs">Random.seed!(4)
 # Create a histogram
 h = fit(Histogram, rand(100), nbins=10)
 
@@ -79,7 +79,7 @@ hist = Plot(
     end
 )
 
-draw(hist)</code></pre><img src="8fb3fe96.svg" alt="Example block output"/><p>The benefit of having the complete specification is that we can modify it in order to customize our visualization. For example, we can remove the y-axis and add the values above the bars.</p><pre><code class="language-julia hljs">hist2 = Plot(
+draw(hist)</code></pre><img src="1e2e1f39.svg" alt="Example block output"/><p>The benefit of having the complete specification is that we can modify it in order to customize our visualization. For example, we can remove the y-axis and add the values above the bars.</p><pre><code class="language-julia hljs">hist2 = Plot(
     config =(
         frame=NilD(),
         yaxis=NilD(),
@@ -104,4 +104,4 @@ draw(hist)</code></pre><img src="8fb3fe96.svg" alt="Example block output"/><p>Th
     end
 )
 
-draw(hist2)</code></pre><img src="60d030aa.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../groupedbar/">« Grouped Bar Chart</a><a class="docs-footer-nextpage" href="../minard/">Minard&#39;s Chart »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Monday 23 September 2024 12:39">Monday 23 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+draw(hist2)</code></pre><img src="a91b5344.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../groupedbar/">« Grouped Bar Chart</a><a class="docs-footer-nextpage" href="../minard/">Minard&#39;s Chart »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.7.0 on <span class="colophon-date" title="Thursday 26 September 2024 00:55">Thursday 26 September 2024</span>. Using Julia version 1.10.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
