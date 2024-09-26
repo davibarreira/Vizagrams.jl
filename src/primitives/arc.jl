@@ -16,6 +16,22 @@ struct Arc <: GeometricPrimitive
     end
 end
 
+"""
+    Arc(; rx=1, ry=1, c=[0, 0], rot=0, initangle=0, finalangle=π / 2)
+
+Creates an `Arc` object with the specified parameters.
+
+# Arguments
+- `rx::Float64`: The x-radius of the arc. Default is `1`.
+- `ry::Float64`: The y-radius of the arc. Default is `1`.
+- `c::Vector{Float64}`: The center coordinates of the arc as a 2-element vector. Default is `[0, 0]`.
+- `rot::Float64`: The rotation angle of the arc in radians. Default is `0`.
+- `initangle::Float64`: The initial angle of the arc in radians. Default is `0`.
+- `finalangle::Float64`: The final angle of the arc in radians. Default is `π / 2`.
+
+# Returns
+- An `Arc` object with the specified parameters.
+"""
 function Arc(; rx=1, ry=1, c=[0, 0], rot=0, initangle=0, finalangle=π / 2)
     return Arc(rx, ry, c, rot, initangle, finalangle)
 end
