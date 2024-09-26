@@ -29,14 +29,14 @@ function ϕ(p::Ellipse)
     )
 end
 
-"""
-    coordinates(p::Ellipse)
-Generate points in the ellipse.
-"""
-function coordinates(p::Ellipse)
-    a = p.rx
-    b = p.ry
-    c = p.c
-    ang = p.ang
-    return pts = [R(ang)([a * cos(θ), b * sin(θ)]) + c for θ in 0:(2π / 100):(2π)]
-end
+# """
+#     coordinates(p::Ellipse)
+# Generate points in the ellipse.
+# """
+# function coordinates(p::Ellipse)
+#     a = p.rx
+#     b = p.ry
+#     c = p.c
+#     ang = p.ang
+#     return pts = [R(ang)([a * cos(θ), b * sin(θ)]) + c for θ in 0:(2π / 100):(2π)]
+# end
