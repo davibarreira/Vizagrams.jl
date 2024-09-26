@@ -310,11 +310,39 @@ function primtosvg(geom::LinearGradient, s::S)
     )
 end
 
-function reducesvg(x::Vector{SVG}; kwargs...)
-    # reduce(⋄, x; init=m("svg"; kwargs...))
-    return reduce(
-        ⋄, x; init=m("svg"; xmlns="http://www.w3.org/2000/svg", version="1.1", kwargs...)
+"""
+primtosvg(g::Ellipse, s::Style) =
+m("ellipse", cx=p.geom.c[1], cy=p.geom.c[2], rx=p.geom.rx, ry=p.geom.ry, transform="rotate(\$(r.ang))", style=dicttostring(p.s.d))
+"""
+function primtosvg(geom::Ellipse, s::S)
+    sty, attr = split_style_attributes(s)
+    return m(
+        "ellipse";
+        cx=geom.c[1],
+        cy=geom.c[2],
+        rx=geom.rx,
+        ry=geom.ry,
+        style=dicttostring(sty),
+        transform="scale(1,-1) rotate($(rad2deg(geom.ang)) $(geom.c[1]) $(geom.c[2]))",
+        attr...,
     )
+end
+
+function reducesvg(x::Vector{SVG}; style="", kwargs...)
+    reduce(⋄, x; init=m("svg"; kwargs...))
+#     tag = m("svg"; xmlns="http://www.w3.org/2000/svg", version="1.1", kwargs...)
+#     style_tag = m(
+#         "style",
+#         """
+# .mycircle {
+#   fill: gold !important;
+#   stroke: maroon;
+#   stroke-width: 2px;
+# }
+# """,
+#     )
+#     tag = tag ⋄ style_tag
+#     return reduce(⋄, x; init=tag)
 end
 
 """
