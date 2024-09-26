@@ -65,13 +65,13 @@ function ϕ(p::Arc)
     return CovArc(p1, p2, p3, p4, p5)
 end
 
-function coordinates(p::Arc)
-    a = p.rx
-    b = p.ry
-    c = p.c
-    ang = p.rot
-    return pts = [
-        R(ang)([a * cos(θ), b * sin(θ)]) + c for
-        θ in range(p.initangle + ang, p.finalangle + ang, 100)
-    ]
-end
+# function coordinates(p::Arc)
+#     a = p.rx
+#     b = p.ry
+#     c = p.c
+#     ang = p.rot
+#     return pts = [
+#         R(ang)([a * cos(θ), b * sin(θ)]) + c for
+#         θ in range(p.initangle + ang, p.finalangle + ang, 100)
+#     ]
+# end
