@@ -51,8 +51,14 @@ function ψ(p::CovArc)
     ry = norm(p._2 - p._3)
     c = p._3
     rot = atan2pi(p._1 - p._3)
-    initangle = atan2pi(p._4) - rot
-    finalangle = atan2pi(p._5) - rot
+
+    # Compute the angle. Note that this solves for p = [rx * cos(ang), ry * cos(ang)]
+    # For which we wish to find `ang`.
+    x,y = rotatevec(p._4 - p._3,-rot)
+    initangle = atan2pi([x/rx,y/ry])
+
+    x,y = rotatevec(p._5 - p._3,-rot)
+    finalangle = atan2pi([x/rx,y/ry])
     return Arc(rx, ry, c, rot, initangle, finalangle)
 end
 
@@ -60,8 +66,8 @@ function ϕ(p::Arc)
     p1 = rotatevec([p.rx, 0], p.rot) + p.c
     p2 = rotatevec([0, p.ry], p.rot) + p.c
     p3 = p.c
-    p4 = rotatevec(point_on_ellipse(p.initangle, p.rx, p.ry, p.c), p.rot)
-    p5 = rotatevec(point_on_ellipse(p.finalangle, p.rx, p.ry, p.c), p.rot)
+    p4 = rotatevec(point_on_ellipse(p.initangle, p.rx, p.ry, [0.,0.]), p.rot) + p.c
+    p5 = rotatevec(point_on_ellipse(p.finalangle, p.rx, p.ry, [0.,0.]), p.rot) + p.c
     return CovArc(p1, p2, p3, p4, p5)
 end
 

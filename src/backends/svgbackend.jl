@@ -334,11 +334,11 @@ function primtosvg(geom::Arc, s::S)
     sty, attr = split_style_attributes(s)
     # Compute the start and stop points on the unrotated ellipse
     start_point = rotatevec(
-        point_on_ellipse(geom.initangle, geom.rx, geom.ry, geom.c), geom.rot
-    )
+        point_on_ellipse(geom.initangle, geom.rx, geom.ry, [0,0]), geom.rot
+    ) + geom.c
     stop_point = rotatevec(
-        point_on_ellipse(geom.finalangle, geom.rx, geom.ry, geom.c), geom.rot
-    )
+        point_on_ellipse(geom.finalangle, geom.rx, geom.ry, [0,0]), geom.rot
+    ) + geom.c
     if start_point ≈ stop_point
         return nothing
     end

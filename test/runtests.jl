@@ -28,6 +28,8 @@ using SafeTestsets
         include("./primitives/test_polygon.jl")
         include("./primitives/test_text.jl")
         include("./primitives/test_slice.jl")
+        include("./primitives/test_ellipse.jl")
+        include("./primitives/test_arc.jl")
         include("./primitives/test_graphical_primitives.jl")
         include("./primitives/test_envelopes.jl")
     end
