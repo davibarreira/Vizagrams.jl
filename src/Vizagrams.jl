@@ -52,6 +52,7 @@ include("primitives/square.jl")
 include("primitives/rectangle.jl")
 include("primitives/line.jl")
 include("primitives/ellipse.jl")
+include("primitives/arc.jl")
 export intersects
 include("primitives/bezier.jl")
 include("primitives/polygon.jl")
@@ -60,7 +61,7 @@ include("primitives/slice.jl")
 include("primitives/gradient.jl")
 
 include("primitives/envelopes.jl")
-export Circle, Square, Rectangle, Line, Polygon, Ellipse
+export Circle, Square, Rectangle, Line, Polygon, Ellipse, Arc
 export RegularPolygon, TextGeom, Bezier, QBezier, CBezier
 export QBezierPolygon, CBezierPolygon, Slice, LinearAlgebra
 

@@ -1,5 +1,7 @@
 SVG = Hyperscript.Node{Hyperscript.HTMLSVG}
 ⋄(x::SVG, y::SVG) = x(y)
+⋄(x::Nothing, y::SVG) = y
+⋄(x::SVG, y::Nothing) = x
 
 """
 dicttostring(d::Dict)
@@ -327,22 +329,54 @@ function primtosvg(geom::Ellipse, s::S)
         attr...,
     )
 end
+function primtosvg(geom::Arc, s::S)
+    s = S(:fill => "none", :stroke => :black) ⋄ s
+    sty, attr = split_style_attributes(s)
+    # Compute the start and stop points on the unrotated ellipse
+    start_point = rotatevec(
+        point_on_ellipse(geom.initangle, geom.rx, geom.ry, geom.c), geom.rot
+    )
+    stop_point = rotatevec(
+        point_on_ellipse(geom.finalangle, geom.rx, geom.ry, geom.c), geom.rot
+    )
+    if start_point ≈ stop_point
+        return nothing
+    end
+
+    # SVG uses degrees for rotation
+    rot_degrees = rad2deg(geom.rot)
+
+    # Calculate flags for large arc and sweep (clockwise vs counterclockwise)
+    large_arc_flag = abs(geom.finalangle - geom.initangle) > π ? 1 : 0
+    sweep_flag = geom.finalangle > geom.initangle ? 1 : 0
+    # SVG path command for the elliptical arc
+    path_data = "M $(start_point[1]) $(start_point[2]) A $(geom.rx) $(geom.ry) $rot_degrees $large_arc_flag $sweep_flag $(stop_point[1]) $(stop_point[2])"
+
+    # Return the complete SVG path element
+    return m(
+        "path";
+        d=path_data,
+        style=dicttostring(sty),
+        transform="scale(1,-1)",  # Flips y-axis
+        attr...,
+    )
+end
 
 function reducesvg(x::Vector{SVG}; style="", kwargs...)
-    reduce(⋄, x; init=m("svg"; kwargs...))
-#     tag = m("svg"; xmlns="http://www.w3.org/2000/svg", version="1.1", kwargs...)
-#     style_tag = m(
-#         "style",
-#         """
-# .mycircle {
-#   fill: gold !important;
-#   stroke: maroon;
-#   stroke-width: 2px;
-# }
-# """,
-#     )
-#     tag = tag ⋄ style_tag
-#     return reduce(⋄, x; init=tag)
+    return reduce(⋄, x; init=m("svg"; kwargs...))
+    #     tag = m("svg"; xmlns="http://www.w3.org/2000/svg", version="1.1", kwargs...)
+    #     style_tag = m(
+    #         "style",
+    #         """
+    # .mycircle {
+    #   fill: gold !important;
+    #   stroke: maroon;
+    #   stroke-width: 2px;
+    # }
+    # """,
+    #     )
+    #     tag = tag ⋄ style_tag
+    #     return reduce(⋄, x; init=tag)
 end
 
 """

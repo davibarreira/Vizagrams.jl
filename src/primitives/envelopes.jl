@@ -177,21 +177,15 @@ function envelope(e::Ellipse, s::S, v::Vector)
     return dot(e.c, v_global) + s
 end
 
-# function envelope(e::Ellipse, s::S, v::Vector)
-#     # Normalize the direction vector
-#     v = normalize(v)
-
-#     vlocal = R(-e.ang)(normalize(v))
-
-#     # Compute the envelope by scaling the vector according to the axes of the ellipse
-#     vlocal = [e.rx * vlocal[1], e.ry * vlocal[2]]
-
-#     # p = e.c + [e.rx * v[1], e.ry * v[2]]
-#     p = e.c + R(e.ang)(vlocal)
-
-#     # Return the dot product of the resulting point and the vector v
-#     return dot(p, v)
-# end
+function envelope(a::Arc, s::S, v::Vector)
+    v = normalize(v)
+    vang = atan2pi(v)
+    if angle_in_sector(vang, a.initangle + a.rot, a.finalangle + a.rot)
+        return envelope(Ellipse(a.rx, a.ry, a.c, a.rot), v)
+    end
+    cov = ϕ(a)
+    return mapreduce(p -> dot(p, v), max, [cov._4, cov._5])
+end
 
 envelope(p::Prim, v::Vector) = envelope(p.geom, p.s, v);
 envelope(p::GeometricPrimitive, v::Vector) = envelope(p, S(), v);
