@@ -98,7 +98,7 @@ function infer_codomain(; domain, codomain, datatype, variable, coordinate, fram
         (nothing, :n, :size, _) => collect(range(3, 10, length(domain)))
         (nothing, :o, :size, _) => collect(range(3, 10, length(domain)))
 
-        (nothing, :q, :color, _) => :hawaii
+        (nothing, :q, :color, _) => :turbo
         (nothing, :n, :color, _) => :tableau_superfishel_stone
         (nothing, :o, :color, _) => :jblue
         (nothing, _, _, _) => (0, 1)
