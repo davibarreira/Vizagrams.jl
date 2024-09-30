@@ -6,7 +6,7 @@ ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
 
 makedocs(sitename="Vizagrams.jl",
-    format=Documenter.HTML(size_threshold=nothing, assets=["assets/favicon.ico"]),
+    format=Documenter.HTML(size_threshold=nothing, example_size_threshold=nothing, assets=["assets/favicon.ico"]),
     pages=[
         "Home" => "index.md",
         "Tutorials" => [
