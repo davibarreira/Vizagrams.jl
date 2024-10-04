@@ -8,8 +8,11 @@ struct Arc <: GeometricPrimitive
     function Arc(rx, ry, c, rot, initangle, finalangle)
         @assert rx > 0.0 "Radius must be a positive real number"
         @assert ry ≥ 0.0 "Radius must be a positive real number"
-        if finalangle ≈ 2π || finalangle ≥ 2π
-            finalangle = 2π * 0.999999
+
+        initangle = mod2pi(Float64(initangle))
+        finalangle = mod2pi(Float64(finalangle))
+        if initangle > finalangle
+            initangle = initangle - 2π
         end
 
         return new(rx, ry, c, rot, initangle, finalangle)
@@ -54,11 +57,12 @@ function ψ(p::CovArc)
 
     # Compute the angle. Note that this solves for p = [rx * cos(ang), ry * cos(ang)]
     # For which we wish to find `ang`.
-    x,y = rotatevec(p._4 - p._3,-rot)
-    initangle = atan2pi([x/rx,y/ry])
+    x, y = rotatevec(p._4 - p._3, -rot)
+    initangle = atan2pi([x / rx, y / ry])
 
-    x,y = rotatevec(p._5 - p._3,-rot)
-    finalangle = atan2pi([x/rx,y/ry])
+    x, y = rotatevec(p._5 - p._3, -rot)
+    finalangle = atan2pi([x / rx, y / ry])
+
     return Arc(rx, ry, c, rot, initangle, finalangle)
 end
 
@@ -66,8 +70,8 @@ function ϕ(p::Arc)
     p1 = rotatevec([p.rx, 0], p.rot) + p.c
     p2 = rotatevec([0, p.ry], p.rot) + p.c
     p3 = p.c
-    p4 = rotatevec(point_on_ellipse(p.initangle, p.rx, p.ry, [0.,0.]), p.rot) + p.c
-    p5 = rotatevec(point_on_ellipse(p.finalangle, p.rx, p.ry, [0.,0.]), p.rot) + p.c
+    p4 = rotatevec(point_on_ellipse(p.initangle, p.rx, p.ry, [0.0, 0.0]), p.rot) + p.c
+    p5 = rotatevec(point_on_ellipse(p.finalangle, p.rx, p.ry, [0.0, 0.0]), p.rot) + p.c
     return CovArc(p1, p2, p3, p4, p5)
 end
 
