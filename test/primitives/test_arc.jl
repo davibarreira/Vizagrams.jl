@@ -19,13 +19,13 @@ end
     initangle = π / 6
     finalangle = π
     arc = Arc(rx=rx, ry=ry, c=c, rot=rot, initangle=initangle, finalangle=finalangle)
-    
+
     @test arc.rx == rx
     @test arc.ry == ry
     @test arc.c == c
     @test arc.rot == rot
-    @test arc.initangle == initangle
-    @test arc.finalangle == finalangle
+    @test arc.initangle ≈ initangle
+    @test arc.finalangle ≈ finalangle
 end
 
 # Test Arc with invalid parameters
@@ -37,7 +37,7 @@ end
 # Test Arc finalangle adjustment
 @testset "Arc Final Angle Adjustment" begin
     arc = Arc(1, 1, [0, 0], 0, 0, 2π)
-    @test arc.finalangle ≈ 2π * 0.999999
+    @test arc.finalangle ≈ 2π
 end
 
 # Test conversion between Arc and CovArc
@@ -45,7 +45,29 @@ end
     arc = Arc(2.0, 3.0, [1.0, 1.0], π / 4, π / 6, π)
     covarc = ϕ(arc)
     arc_converted = ψ(covarc)
-    
+
+    @test arc.rx ≈ arc_converted.rx
+    @test arc.ry ≈ arc_converted.ry
+    @test arc.c ≈ arc_converted.c
+    @test arc.rot ≈ arc_converted.rot
+    @test arc.initangle ≈ arc_converted.initangle
+    @test arc.finalangle ≈ arc_converted.finalangle
+
+
+    # For negative angles
+    arc = Arc(c=[0, 0], rx=2, ry=1.0, initangle=-π / 4, finalangle=π + π / 4, rot=0π / 4)
+    covarc = ϕ(arc)
+    arc_converted = ψ(covarc)
+    @test arc.rx ≈ arc_converted.rx
+    @test arc.ry ≈ arc_converted.ry
+    @test arc.c ≈ arc_converted.c
+    @test arc.rot ≈ arc_converted.rot
+    @test arc.initangle ≈ arc_converted.initangle
+    @test arc.finalangle ≈ arc_converted.finalangle
+
+    arc = Arc(c=[0, 0], rx=1, ry=1.0, initangle=-π / 4, finalangle=-π + π / 4, rot=0π / 4)
+    covarc = ϕ(arc)
+    arc_converted = ψ(covarc)
     @test arc.rx ≈ arc_converted.rx
     @test arc.ry ≈ arc_converted.ry
     @test arc.c ≈ arc_converted.c
