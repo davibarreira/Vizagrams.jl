@@ -118,7 +118,9 @@ function ζ(latex::LaTeX)::𝕋{Mark}
     w = p2[1] - p1[1]
     h = p2[2] - p1[2]
     t = T(0, 0)
-    if anchor == :c
+    if anchor == :w
+        t = T(-p2[1], 0)
+    elseif anchor == :c
         t = T(-w / 2, -h / 2 - p1[2])
     elseif anchor == :ce
         t = T(0, -h / 2 - p1[2])

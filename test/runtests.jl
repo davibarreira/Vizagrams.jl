@@ -36,6 +36,7 @@ using SafeTestsets
     @safetestset "Marks" begin
         include("./marks/test_boxplot.jl")
         include("./marks/test_histogram.jl")
+        include("./marks/test_latex.jl")
     end
 
     @safetestset "Trees" begin
