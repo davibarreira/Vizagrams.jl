@@ -22,12 +22,11 @@ df = stack(df, [:Ontario, :England, :Kentucky], variable_name=:location, value_n
 coalg_pairwise(lst) = [(lst[i],lst[i+1]) for i in 1:length(lst)-1]
 df = combine(groupby(df,:location)) do gdf
     hcat(
-        DataFrame(coalg_pairwise(gdf[!,:Column1]),[:low,:high]),
-        DataFrame(coalg_pairwise(gdf[!,:value]),[:l,:h])
+        DataFrame(coalg_pairwise(gdf[!,:Column1]),[:label_low,:label_high]),
+        DataFrame(coalg_pairwise(gdf[!,:value]),[:low_temp,:high_temp])
     )
-    
 end
-df[!,:low_high] = df[!,:low] .* "_" .* df[!,:high]
+df[!,:label_temp] = df[!,:label_low] .* " | " .* df[!,:label_high]
 df
 ```
 
@@ -38,15 +37,14 @@ plt = Plot(
     config = (;yaxis=(;title="Temperature (°C)")),
     data=df,
     x = :location,
-    y = (field=:h,scale_domain=(-10,40), scale_range=(0,200)),
-    low_y = (field=:l,scale_domain=(-10,40), scale_range=(0,200)),
-    color = (field=:low_high,scale_range=["#F28E2B","#4E79A7","#FFBE7D","#A0CBE8"]),
-    graphic = ∑(i=:x) do rows
+    y = (field=:high_temp,scale_domain=(-10,40), scale_range=(0,200)),
+    low_y = (field=:low_temp,scale_domain=(-10,40), scale_range=(0,200)),
+    color = (field=:label_temp,scale_range=["#F28E2B","#4E79A7","#FFBE7D","#A0CBE8"]),
+    graphic =
         ∑() do row
             S(:fill=>row.color,:stroke=>:white)*
             Trail([[row.x,row.low_y],[row.x,row.y]],20)
-        end(rows)
-    end
+        end
 )
 
 draw(plt, height=400)
