@@ -26,7 +26,7 @@ e |      c      | w
 se       s       sw
 ```
 """
-# TextMark(; text="", pos=[0, 0], fontsize=10, angle=0, anchor=:c, fontfamily="Helvetica") =
+# TextMark(; text="", pos=[0, 0], fontsize=10, angle=0, anchor=:c, fontfamily="TeXGyreHeros") =
 #     TextMark(string(text), pos, fontsize, angle, anchor, fontfamily)
 
 function TextMark(;
@@ -35,7 +35,7 @@ function TextMark(;
     fontsize=10,
     angle=0,
     anchor=:c,
-    fontfamily="Helvetica",
+    fontfamily="TeXGyreHeros",
     style=S(),
 )
     if text isa Number || text isa Symbol || text isa Char
