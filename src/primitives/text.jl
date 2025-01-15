@@ -18,7 +18,7 @@ end
 
 act(g::G, x::CovText) = CovText(x.text, g(x._1), g(x._2), x.fontfamily)
 
-function TextGeom(; text="", pos=[0, 0], fontsize=12, θ=0, fontfamily="Helvetica")
+function TextGeom(; text="", pos=[0, 0], fontsize=12, θ=0, fontfamily="TeXGyreHeros")
     return TextGeom(text, pos, fontsize, θ, fontfamily)
 end
 
