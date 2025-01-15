@@ -98,6 +98,7 @@ function stringinkbox(face::FTFont, str::String)
     ymin = mapreduce(x -> x[1][2], min, v)
     ymax = mapreduce(x -> x[2][2], max, v)
 
+    @assert !isnan(xmin) && !isnan(ymin) && !isnan(xmax) && !isnan(ymax) "inkbox computation resulted in NaNs (the font may be broken)"
     return [xmin, ymin], [xmax, ymax]
 end
 
