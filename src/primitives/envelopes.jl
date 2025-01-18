@@ -120,11 +120,7 @@ end
 
 @memoize function load_font(fontfamily)
     face = FreeTypeAbstraction.findfont(fontfamily)
-    if isnothing(face)
-        fontname = "helvetica.ttf"
-        fpath = joinpath(FONTS, fontname)
-        face = FreeTypeAbstraction.try_load(fpath)
-    end
+    isnothing(face) && throw(DomainError(fontfamily, "font family could not be loaded"))
     return face
 end
 

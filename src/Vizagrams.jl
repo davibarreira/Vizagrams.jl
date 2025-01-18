@@ -33,9 +33,6 @@ using LaTeXStrings
 using MathTeXEngine
 using UUIDs
 
-using RelocatableFolders
-const FONTS = @path joinpath(@__DIR__, "..", "assets", "fonts")
-
 include("auxiliar/auxiliary_geometric_functions.jl")
 export uniformscaling, U, R, T, M, angle_between_vectors
 include("auxiliar/generate_ticks_ext_wilkinson.jl")
