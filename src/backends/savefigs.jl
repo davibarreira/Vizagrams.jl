@@ -1,5 +1,5 @@
 """
-savesvg(plt::𝕋{Mark};filename::String, directory::String="./", height::Real=400, pad::Real=0)
+savesvg(plt::𝕋{Mark};filename::String, directory::String="./", height::Union{Real,Nothing}=400, pad::Union{Real,Nothing}=0)
 
 Saves the graphic as an svg figure. The function wraps the whole graphic into an
 svg tag with a given view height equal to `height` + `pad`. The `pad` is just
@@ -7,7 +7,7 @@ some white space added around the figure. The use of padding is recommended
 in order to guarantee that the image is fully displayed.
 """
 function savesvg(
-    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Real=300, pad::Real=10
+    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10
 )
     img = string(drawsvg(plt; height=height, pad=pad))
     fname = filename
@@ -20,7 +20,7 @@ function savesvg(
 end
 
 """
-savefig(plt::𝕋{Mark}; filename::String, directory::String="./", height::Real=300, pad::Real=10)
+savefig(plt::𝕋{Mark}; filename::String, directory::String="./", height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10)
 
 Saves the graphic as inferring the extension from the filename. The function wraps the whole graphic into an
 svg tag with a given view height equal to `height` + `pad`. The `pad` is just
@@ -29,7 +29,7 @@ in order to guarantee that the image is fully displayed. For raster images
 such as `.png`, the height is used to determine the number of pixels in the image.
 """
 function savefig(
-    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Real=300, pad::Real=10
+    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10
 )
     extension = filename[(end - 2):end]
     if extension == "svg"

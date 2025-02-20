@@ -430,7 +430,7 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height::Real=300, pad::Real=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...)
+function drawsvg(d::𝕋; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...)
     bb = boundingbox(d)
     if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
@@ -464,7 +464,7 @@ function drawsvg(d::𝕋; height::Real=300, pad::Real=10, width::Union{Real,Noth
     )
 end
 function drawsvg(
-    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark}; height=300, pad=10, kwargs...
+    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark}; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...
 )
-    return drawsvg(dmlift(p); height=height, pad=pad, kwargs...)
+    return drawsvg(dmlift(p); height=height, pad=pad, width=width, adjust_stroke=adjust_stroke, kwargs...)
 end
