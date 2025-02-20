@@ -414,7 +414,7 @@ tosvg(dmark::𝕋Mark; height=200, width=1000)
 
 Converts a Diagram of Marks into an svg
 """
-function tosvg(dmark::𝕋{<:Mark}; height=200, width=1000, kwargs...)
+function tosvg(dmark::𝕋{<:Mark}; height::Real=200, width::Union{Real,Nothing}=1000, kwargs...)
     return reducesvg(
         map(p -> primtosvg(p), flatten(dmark));
         height=height,
@@ -430,7 +430,7 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height=300, pad=10, width=nothing, adjust_stroke=false, kwargs...)
+function drawsvg(d::𝕋; height::Real=300, pad::Real=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...)
     bb = boundingbox(d)
     if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
