@@ -414,7 +414,7 @@ tosvg(dmark::𝕋Mark; height=200, width=1000)
 
 Converts a Diagram of Marks into an svg
 """
-function tosvg(dmark::𝕋{<:Mark}; height=200, width=1000, kwargs...)
+function tosvg(dmark::𝕋{<:Mark}; height::Real=200, width::Union{Real,Nothing}=1000, kwargs...)
     return reducesvg(
         map(p -> primtosvg(p), flatten(dmark));
         height=height,
@@ -430,7 +430,7 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
+function drawsvg(d::𝕋; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...)
     bb = boundingbox(d)
     if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
@@ -451,6 +451,8 @@ function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
     height = isnothing(height) ? widthproportion * boxheight : height
     width = isnothing(width) ? boxwidth * heightproportion : width
     pad = pad / heightproportion
+    
+    viewBox="$(bb[1][1]-pad/2) $(-bb[2][2]-pad/2) $(boxwidth+pad) $(boxheight+pad)",
 
     return tosvg(
         d;
@@ -462,7 +464,7 @@ function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
     )
 end
 function drawsvg(
-    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark}; height=300, pad=10, kwargs...
+    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark}; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...
 )
-    return drawsvg(dmlift(p); height=height, pad=pad, kwargs...)
+    return drawsvg(dmlift(p); height=height, pad=pad, width=width, adjust_stroke=adjust_stroke, kwargs...)
 end

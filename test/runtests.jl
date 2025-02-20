@@ -68,4 +68,7 @@ using SafeTestsets
         include("./visual/plots.jl")
         include("./visual/test_polar.jl")
     end
+    @safetestset "Savefigs" begin
+        include("./backends/test_savefigs.jl")
+    end
 end
