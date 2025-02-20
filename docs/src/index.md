@@ -115,6 +115,10 @@ new_viz = new_plt + T(470,0)plt + viz_frame + T(400,250)*viz_title
 draw(new_viz)
 ```
 
+Finally, we can save the diagram using `savefig(new_viz, filename="myviz.svg")`. You can change
+the output type by simply changing the extension of the `filename`, for example,
+`savefig(new_viz, filename="myviz.pdf")` saves the figures as a PDF.
+
 Check the documentation for a more thorough exposition.
 
 ## Installation
