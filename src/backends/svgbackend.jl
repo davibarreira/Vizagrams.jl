@@ -430,7 +430,7 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
+function drawsvg(d::𝕋; height=300, pad=10, width=nothing, adjust_stroke=false, kwargs...)
     bb = boundingbox(d)
     if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
@@ -451,6 +451,8 @@ function drawsvg(d::𝕋; height=300, pad=10, width=nothing, kwargs...)
     height = isnothing(height) ? widthproportion * boxheight : height
     width = isnothing(width) ? boxwidth * heightproportion : width
     pad = pad / heightproportion
+    
+    viewBox="$(bb[1][1]-pad/2) $(-bb[2][2]-pad/2) $(boxwidth+pad) $(boxheight+pad)",
 
     return tosvg(
         d;

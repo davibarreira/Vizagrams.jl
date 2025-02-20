@@ -20,7 +20,7 @@ function savesvg(
 end
 
 """
-savefig(plt::𝕋{Mark}; filename::String, directory::String="./", height=400, pad=0)
+savefig(plt::𝕋{Mark}; filename::String, directory::String="./", height=300, pad=10)
 
 Saves the graphic as inferring the extension from the filename. The function wraps the whole graphic into an
 svg tag with a given view height equal to `height` + `pad`. The `pad` is just
@@ -29,7 +29,7 @@ in order to guarantee that the image is fully displayed. For raster images
 such as `.png`, the height is used to determine the number of pixels in the image.
 """
 function savefig(
-    plt::Union{Mark,𝕋{Mark}}; filename::String, directory::String="./", height=300, pad=10
+    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height=300, pad=10
 )
     extension = filename[(end - 2):end]
     if extension == "svg"
@@ -37,6 +37,13 @@ function savefig(
     end
 
     img = string(drawsvg(plt; height=height, pad=pad))
+    # Extract viewBox height from SVG string
+    viewbox_match = match(r"viewBox=\"[^\"]*\s+[^\"]*\s+[^\"]*\s+([^\"]*)", img)
+    viewbox_height = parse(Float64, viewbox_match[1])
+
+    # Recompute the height to fix the stroke width
+    img = string(drawsvg(U(300/viewbox_height) * plt; height=height, pad=pad))
+
     fname = filename
     dirpath = directory
     fpath = joinpath(dirpath, fname)
