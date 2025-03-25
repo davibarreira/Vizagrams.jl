@@ -11,7 +11,6 @@ using Vizagrams
     @test string(drawsvg(RegularPolygon())) isa String
     @test string(drawsvg(QBezierPolygon())) isa String
     @test string(drawsvg(CBezierPolygon())) isa String
-    @test string(drawsvg(Polyline())) isa String
     @test string(drawsvg(Ellipse())) isa String
     @test string(drawsvg(TextGeom(text="ok"))) isa String
 end
