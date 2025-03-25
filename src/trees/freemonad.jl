@@ -44,6 +44,12 @@ unfree(x::FreeAct) = Act{𝕋}(x._1, x._2)
 free(x::Comp) = FreeComp(x._1, x._2)
 free(x::Act) = FreeAct(x._1, x._2)
 
+
+# Implemented only to avoid errors by JET
+free(x::Pure) = x
+free(x::FreeComp) = x
+free(x::FreeAct) = x
+
 # The existence of the fmap shows that Free is a functor
 fmap(f::Function, x::Pure) = Pure(f(x._1))
 fmap(f::Function, x::𝕋) = free(fmap(y -> fmap(f, y), unfree(x)))
