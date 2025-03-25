@@ -5,7 +5,8 @@
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![Jet](https://img.shields.io/badge/%F0%9F%9B%A9%EF%B8%8F_tested_with-JET.jl-233f9a)](https://github.com/aviatesk/JET.jl)
-[![DOI](https://zenodo.org/badge/826922668.svg)](https://zenodo.org/doi/10.5281/zenodo.12772755)
+[![DOI](https://zenodo.org/badge/826922668.svg)](https://doi.org/10.5281/zenodo.12772755)
+
 
 
 
