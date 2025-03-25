@@ -68,4 +68,7 @@ using SafeTestsets
     @safetestset "Savefigs" begin
         include("./backends/test_savefigs.jl")
     end
+    @safetestset "SVG" begin
+        include("./backends/test_svgprims.jl")
+    end
 end

@@ -79,6 +79,12 @@ struct QBezierPolygon <: GeometricPrimitive
     end
 end
 act(g::G, x::QBezierPolygon) = QBezierPolygon(map(g, x.bpts), map(g, x.cpts))
+function QBezierPolygon(;
+    bpts=[[0, 0], [1, 0], [1, 1], [0, 1]],
+    cpts=[[0.5, -0.1], [1.1, 0.5], [0.5, 1.1], [-0.1, 0.5]],
+)
+    return QBezierPolygon(bpts, cpts)
+end
 
 struct CBezierPolygon <: GeometricPrimitive
     bpts::Vector
@@ -90,3 +96,19 @@ struct CBezierPolygon <: GeometricPrimitive
     end
 end
 act(g::G, x::CBezierPolygon) = CBezierPolygon(map(g, x.bpts), map(g, x.cpts))
+
+function CBezierPolygon(;
+    bpts=[[0, 0], [1, 0], [1, 1], [0, 1]],
+    cpts=[
+        [0.25, -0.1],
+        [0.75, -0.1],
+        [1.1, 0.25],
+        [1.1, 0.75],
+        [0.75, 1.1],
+        [0.25, 1.1],
+        [-0.1, 0.75],
+        [-0.1, 0.25],
+    ],
+)
+    return CBezierPolygon(bpts, cpts)
+end
