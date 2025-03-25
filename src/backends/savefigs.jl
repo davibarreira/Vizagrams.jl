@@ -7,7 +7,11 @@ some white space added around the figure. The use of padding is recommended
 in order to guarantee that the image is fully displayed.
 """
 function savesvg(
-    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10
+    plt::Union{GeometricPrimitive, Prim,Mark,𝕋{Mark}};
+    filename::String,
+    directory::String="./",
+    height::Union{Real,Nothing}=300,
+    pad::Union{Real,Nothing}=10,
 )
     img = string(drawsvg(plt; height=height, pad=pad))
     fname = filename
@@ -29,7 +33,11 @@ in order to guarantee that the image is fully displayed. For raster images
 such as `.png`, the height is used to determine the number of pixels in the image.
 """
 function savefig(
-    plt::Union{Prim, Mark,𝕋{Mark}}; filename::String, directory::String="./", height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10
+    plt::Union{GeometricPrimitive,Prim,Mark,𝕋{Mark}};
+    filename::String,
+    directory::String="./",
+    height::Union{Real,Nothing}=300,
+    pad::Union{Real,Nothing}=10,
 )
     extension = filename[(end - 2):end]
     if extension == "svg"
@@ -45,12 +53,16 @@ function savefig(
     else
         # Get the height if it exists, safely parsing the value
         viewbox_height = let m = viewbox_match[1]
-            isnothing(m) ? error("Could not find viewBox in SVG - unable to determine proper scaling") : parse(Float64, m)
+            if isnothing(m)
+                error("Could not find viewBox in SVG - unable to determine proper scaling")
+            else
+                parse(Float64, m)
+            end
         end
     end
 
     # Recompute the height to fix the stroke width
-    img = string(drawsvg(U(300/viewbox_height) * plt; height=height, pad=pad))
+    img = string(drawsvg(U(300 / viewbox_height) * plt; height=height, pad=pad))
 
     fname = filename
     dirpath = directory

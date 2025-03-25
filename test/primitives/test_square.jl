@@ -46,6 +46,9 @@ import Vizagrams: CovSquare, ϕ, ψ, coordinates
     end
 
     @testset "coordinates" begin
-        @test all(coordinates(Square(1, [0, 0], 0)) .≈ ([-0.5, 0.5], [-0.5, -0.5], [0.5, -0.5], [0.5, 0.5]))
+        @test all(
+            coordinates(Square(1, [0, 0], 0)) .≈
+            ([-0.5, 0.5], [-0.5, -0.5], [0.5, -0.5], [0.5, 0.5]),
+        )
     end
 end

@@ -3,7 +3,6 @@ using Random
 using Statistics
 using DataFrames
 
-
 @testset "BoxPlot" begin
     @testset "Constructor" begin
         @test BoxPlot().box_width == 1
@@ -18,9 +17,15 @@ using DataFrames
     end
     @testset "Graphic Expression" begin
         Random.seed!(4)
-        df = DataFrame(x=[1, 2, 3, 5, 1, 2], y=[10, 10, 20, 10, 20, 30], c=["a", "b", "a", "a", "b", "a"], d=rand([0, 1], 6), e=rand([1, 2, 3], 6))
+        df = DataFrame(;
+            x=[1, 2, 3, 5, 1, 2],
+            y=[10, 10, 20, 10, 20, 30],
+            c=["a", "b", "a", "a", "b", "a"],
+            d=rand([0, 1], 6),
+            e=rand([1, 2, 3], 6),
+        )
 
-        plt = plot(df, x=:c, y=:y, color=:c, graphic=BoxPlot())
+        plt = plot(df; x=:c, y=:y, color=:c, graphic=BoxPlot())
 
         # check if draw compiles
         @test string(draw(plt)) isa String
@@ -29,4 +34,3 @@ using DataFrames
         @test length(getmark(BoxPlot, plt)) == 2
     end
 end
-

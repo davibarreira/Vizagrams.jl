@@ -3,8 +3,8 @@ using StructArrays
 
 @testset "Helper Functions" begin
     @testset "vconcat" begin
-        d1 = StructArray(x=[1, 2], c=["a", "b"])
-        d2 = StructArray(y=[10, 10, 10], x=[10, 10, 10], z=[1, 1, 1])
+        d1 = StructArray(; x=[1, 2], c=["a", "b"])
+        d2 = StructArray(; y=[10, 10, 10], x=[10, 10, 10], z=[1, 1, 1])
         d = vconcat(d1, d2)
 
         d = vconcat(d1, d2)

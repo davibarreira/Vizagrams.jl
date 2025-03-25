@@ -14,7 +14,8 @@ import Vizagrams: Pure, FreeComp, FreeAct, unfree, free, compare_structs
     @testset "Auxiliary functions" begin
         @test unfree(Pure(1)) == 1
         @test fmap(x -> x + 1, Pure(2)) == Pure(3)
-        @test fmap(x -> x + 1, FreeComp(Pure(1), Pure(2))) == FreeComp{Int64}(Pure{Int64}(2), Pure{Int64}(3))
+        @test fmap(x -> x + 1, FreeComp(Pure(1), Pure(2))) ==
+            FreeComp{Int64}(Pure{Int64}(2), Pure{Int64}(3))
     end
 
     @testset "Monadic operations" begin

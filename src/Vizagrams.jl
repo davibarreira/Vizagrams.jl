@@ -1,6 +1,22 @@
 module Vizagrams
 
+# Core dependencies
+using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅, Diagonal
+using MLStyle: MLStyle, @data, @match
+using Memoize: @memoize
+using Statistics: Statistics, mean
+using StatsBase
+using Tables: Tables
+
+# Data structures and manipulation
 using Accessors: Accessors, PropertyLens, insert, set, @set, @delete
+using NamedTupleTools: NamedTupleTools
+using PooledArrays
+using Query: Query, @groupby, @map, @orderby, @orderby_descending, key
+using StructArrays: StructArrays, StructArray, StructVector
+using Transducers: Transducers, Consecutive, Map, Partition, Scan
+
+# Graphics and visualization
 using Colors: Color, Colorant, hex, RGB
 using ColorSchemes: ColorSchemes, ColorScheme, colorschemes
 using CoordinateTransformations:
@@ -9,31 +25,20 @@ using CoordinateTransformations:
     LinearMap,
     Transformation,
     Translation
-
 using FreeTypeAbstraction
-
 using Hyperscript: Hyperscript, Style, m
+using LaTeXStrings
 using Librsvg_jll: Librsvg_jll, rsvg_convert
-using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅, Diagonal
-using MLStyle: MLStyle, @data, @match
-using Memoize: @memoize
-using NamedTupleTools: NamedTupleTools
-using Query: Query, @groupby, @map, @orderby, @orderby_descending, key
-using Requires: Requires, @require
+using MathTeXEngine
 using Rotations: Rotations, RotMatrix
 using Showoff: Showoff, showoff
-using Statistics: Statistics, mean
-using StructArrays: StructArrays, StructArray, StructVector
-using Tables: Tables
-using Transducers: Transducers, Consecutive, Map, Partition, Scan
-using StatsBase
-using PooledArrays
 
-using LaTeXStrings
-using MathTeXEngine
+# Utilities
+using RelocatableFolders
+using Requires: Requires, @require
 using UUIDs
 
-using RelocatableFolders
+# Constants
 const FONTS = @path joinpath(@__DIR__, "..", "assets", "fonts")
 
 include("auxiliar/auxiliary_geometric_functions.jl")
@@ -146,8 +151,8 @@ include("scales/binscale.jl")
 export BinScale
 
 # Backends
-include("backends/svgbackend.jl")
-include("backends/svgslice.jl")
+include("backends/svg/svgbackend.jl")
+include("backends/svg/svgslice.jl")
 export drawsvg, tosvg
 include("backends/camelfunctions.jl")
 export style_string_to_dict

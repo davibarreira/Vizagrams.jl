@@ -6,13 +6,10 @@ using SafeTestsets
 
 @testset "Vizagrams.jl" begin
     @testset "Code quality (Aqua.jl)" begin
-        Aqua.test_all(Vizagrams,
+        Aqua.test_all(
+            Vizagrams;
             ambiguities=false,
-            deps_compat=(ignore=[
-                :LinearAlgebra,
-                :Statistics,
-                :Test,
-            ],),
+            deps_compat=(ignore=[:LinearAlgebra, :Statistics, :Test],),
         )
     end
     @testset "Code linting (JET.jl)" begin

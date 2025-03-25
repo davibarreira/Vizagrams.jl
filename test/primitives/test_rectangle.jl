@@ -49,22 +49,35 @@ import Vizagrams: CovRectangle, ϕ, ψ, coordinates, height, width, rectangle, c
     end
 
     @testset "coordinates" begin
-        @test coordinates(CovRectangle([0, 0], [3, 0], [0, 2])) == ([0, 0], [3, 0], [3, 2], [0, 2])
-        @test coordinates(CovRectangle([0, 0], [5, 0], [0, 2])) == ([0, 0], [5, 0], [5, 2], [0, 2])
+        @test coordinates(CovRectangle([0, 0], [3, 0], [0, 2])) ==
+            ([0, 0], [3, 0], [3, 2], [0, 2])
+        @test coordinates(CovRectangle([0, 0], [5, 0], [0, 2])) ==
+            ([0, 0], [5, 0], [5, 2], [0, 2])
     end
 
     @testset "ψ" begin
-        @test compare_structs(ψ(CovRectangle([0, 0], [3, 0], [0, 2])), Rectangle(2, 3, [1.5, 1], 0))
-        @test compare_structs(ψ(CovRectangle([0, 0], [5, 0], [0, 2])), Rectangle(2, 5, [2.5, 1], 0))
+        @test compare_structs(
+            ψ(CovRectangle([0, 0], [3, 0], [0, 2])), Rectangle(2, 3, [1.5, 1], 0)
+        )
+        @test compare_structs(
+            ψ(CovRectangle([0, 0], [5, 0], [0, 2])), Rectangle(2, 5, [2.5, 1], 0)
+        )
     end
 
     @testset "ϕ" begin
-        @test compare_structs(CovRectangle([-1.5, -1], [1.5, -1], [0, 1]), ϕ(Rectangle(2, 3, [0, 0], 0)))
-        @test compare_structs(CovRectangle([-2.5, -1], [2.5, -1], [0, 1]), ϕ(Rectangle(2, 5, [0, 0], 0)))
+        @test compare_structs(
+            CovRectangle([-1.5, -1], [1.5, -1], [0, 1]), ϕ(Rectangle(2, 3, [0, 0], 0))
+        )
+        @test compare_structs(
+            CovRectangle([-2.5, -1], [2.5, -1], [0, 1]), ϕ(Rectangle(2, 5, [0, 0], 0))
+        )
     end
 
     @testset "coordinates" begin
-        @test all(coordinates(Rectangle(2, 3, [0, 0], 0)) .≈ ([-1.5, -1.0], [1.5, -1.0], [1.5, 1.0], [-1.5, 1.0]))
+        @test all(
+            coordinates(Rectangle(2, 3, [0, 0], 0)) .≈
+            ([-1.5, -1.0], [1.5, -1.0], [1.5, 1.0], [-1.5, 1.0]),
+        )
     end
 
     @testset "rectangle" begin

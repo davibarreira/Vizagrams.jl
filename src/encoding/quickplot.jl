@@ -14,8 +14,8 @@ Provides a quicker way to specify a plot. For example:
 plot(df,x=:island,y=:species)
 ```
 """
-function plot(data = nothing; kwargs...)
-    return Plot(;data=data, kwargs...)
+function plot(data=nothing; kwargs...)
+    return Plot(; data=data, kwargs...)
 end
 #     config = NamedTupleTools.rec_merge(
 #         (xaxis=(grid=(flag=true,),), yaxis=(grid=(flag=true,),)), config

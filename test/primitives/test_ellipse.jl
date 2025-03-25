@@ -11,11 +11,11 @@ end
 
 # Test custom constructor
 @testset "Ellipse Custom Constructor" begin
-    e = Ellipse(rx=3, ry=4, c=[1, 2], ang=π/4)
+    e = Ellipse(; rx=3, ry=4, c=[1, 2], ang=π / 4)
     @test e.rx == 3
     @test e.ry == 4
     @test e.c == [1, 2]
-    @test e.ang == π/4
+    @test e.ang == π / 4
 end
 
 # Test CovEllipse to Ellipse mapping
@@ -30,10 +30,10 @@ end
 
 # Test Ellipse to CovEllipse mapping
 @testset "Ellipse to CovEllipse Mapping" begin
-    e = Ellipse(rx=3, ry=4, c=[1, 2], ang=π/4)
+    e = Ellipse(; rx=3, ry=4, c=[1, 2], ang=π / 4)
     cov_e = ϕ(e)
-    @test cov_e._1 ≈ rotatevec([3, 0], π/4) + [1, 2]
-    @test cov_e._2 ≈ rotatevec([0, 4], π/4) + [1, 2]
+    @test cov_e._1 ≈ rotatevec([3, 0], π / 4) + [1, 2]
+    @test cov_e._2 ≈ rotatevec([0, 4], π / 4) + [1, 2]
     @test cov_e._3 == [1, 2]
 end
 

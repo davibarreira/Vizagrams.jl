@@ -18,7 +18,7 @@ end
     rot = π / 4
     initangle = π / 6
     finalangle = π
-    arc = Arc(rx=rx, ry=ry, c=c, rot=rot, initangle=initangle, finalangle=finalangle)
+    arc = Arc(; rx=rx, ry=ry, c=c, rot=rot, initangle=initangle, finalangle=finalangle)
 
     @test arc.rx == rx
     @test arc.ry == ry
@@ -53,9 +53,8 @@ end
     @test arc.initangle ≈ arc_converted.initangle
     @test arc.finalangle ≈ arc_converted.finalangle
 
-
     # For negative angles
-    arc = Arc(c=[0, 0], rx=2, ry=1.0, initangle=-π / 4, finalangle=π + π / 4, rot=0π / 4)
+    arc = Arc(; c=[0, 0], rx=2, ry=1.0, initangle=-π / 4, finalangle=π + π / 4, rot=0π / 4)
     covarc = ϕ(arc)
     arc_converted = ψ(covarc)
     @test arc.rx ≈ arc_converted.rx
@@ -65,7 +64,7 @@ end
     @test arc.initangle ≈ arc_converted.initangle
     @test arc.finalangle ≈ arc_converted.finalangle
 
-    arc = Arc(c=[0, 0], rx=1, ry=1.0, initangle=-π / 4, finalangle=-π + π / 4, rot=0π / 4)
+    arc = Arc(; c=[0, 0], rx=1, ry=1.0, initangle=-π / 4, finalangle=-π + π / 4, rot=0π / 4)
     covarc = ϕ(arc)
     arc_converted = ψ(covarc)
     @test arc.rx ≈ arc_converted.rx

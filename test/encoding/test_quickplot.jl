@@ -4,24 +4,19 @@ using Random
 
 @testset "Encoding Functions" begin
     # Testing whether the using functions in the encoding works
-    data = StructArray(x=range(0, 10, 20), y=range(0, 10, 20))
-    plt = plot(
-        data,
-        x=(field=:x, datatype=:q),
-        y=row -> row.x^2
-    )
+    data = StructArray(; x=range(0, 10, 20), y=range(0, 10, 20))
+    plt = plot(data; x=(field=:x, datatype=:q), y=row -> row.x^2)
     # Check if diagram "compiles"
     @test string(draw(plt)) isa String
-
 
     # Check if encoding is correct
     @test keys(plt.encodings) == (:y, :x)
     @test map(k -> plt.encodings[k].field, keys(plt.encodings)) == (:_y, :x)
 
     # Testing other variations
-    data = StructArray(x=range(0, 10, 20), y=range(0, 10, 20), z=rand(["a", "b"], 20))
+    data = StructArray(; x=range(0, 10, 20), y=range(0, 10, 20), z=rand(["a", "b"], 20))
     plt = plot(
-        data,
+        data;
         x=(value=collect(range(0, 20, 20)), datatype=:q),
         y=row -> row.x^2,
         color=(field=:z,),
@@ -36,9 +31,9 @@ using Random
     @test map(k -> plt.encodings[k].field, keys(plt.encodings)) == (:z, :_y, :size, :_x)
 
     #
-    data = StructArray(x=range(0, 10, 20), y=range(0, 10, 20), z=rand(["a", "b"], 20))
+    data = StructArray(; x=range(0, 10, 20), y=range(0, 10, 20), z=rand(["a", "b"], 20))
     plt = plot(
-        data,
+        data;
         x=(value=collect(range(0, 20, 20)), datatype=:q),
         y=(value=row -> row.x^2,),
         color=(field=:z,),
@@ -68,8 +63,8 @@ end
         y = f.(x)
         z = g.(x)
 
-        plt1 = Plot(x=x, y=y, graphic=Line())
-        plt2 = Plot(x=x, y=z, color=z, graphic=Circle(r=1))
+        plt1 = Plot(; x=x, y=y, graphic=Line())
+        plt2 = Plot(; x=x, y=z, color=z, graphic=Circle(; r=1))
 
         @test string(draw(replot(plt1, plt2) → (plt1 ∘ plt2))) isa String
     end

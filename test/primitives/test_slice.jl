@@ -32,6 +32,8 @@ import Vizagrams: Slice, CovSlice, act, ψ, ϕ
 
     @testset "ϕ" begin
         p = Slice(2.0, 1.0, [0, 0], π / 2, π / 2)
-        @test compare_structs(ϕ(p), CovSlice([0, 0], [2, 0], [0, 2], [1, 0]), eq=(x, y) -> x ≈ y)
+        @test compare_structs(
+            ϕ(p), CovSlice([0, 0], [2, 0], [0, 2], [1, 0]), eq=(x, y) -> x ≈ y
+        )
     end
 end
