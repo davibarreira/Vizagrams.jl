@@ -15,6 +15,11 @@ import Vizagrams: compare_structs, compare_primitives
     end
     @testset "rectboundingbox" begin
         d = Circle() + T(1, 0)Circle()
-        @test compare_primitives(Vizagrams.flatten(rectboundingbox(d))[1], Prim(Rectangle(2.0, 3.0, [0.5, 0.0], 0.0), S(:stroke => :blue, :fillOpacity => 0)))
+        @test compare_primitives(
+            Vizagrams.flatten(rectboundingbox(d))[1],
+            Prim(
+                Rectangle(2.0, 3.0, [0.5, 0.0], 0.0), S(:stroke => :blue, :fillOpacity => 0)
+            ),
+        )
     end
 end

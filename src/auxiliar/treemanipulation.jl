@@ -232,6 +232,13 @@ function getmarkpath(M::Vector{DataType}, d::Mark)
 end
 function getmarkpath(M::Vector{DataType}, d::Vector)
     # ap(t, diag) = mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, diag))
-    vap(t, ds) = mapreduce(v -> mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, v), init=[]), vcat, ds, init=[])
-    return foldl((acc, t) -> vap(t, acc), M, init=d)
+    function vap(t, ds)
+        return mapreduce(
+            v -> mapreduce(x -> μ(fmap(ζ, x)), vcat, getmarkpath(t, v); init=[]),
+            vcat,
+            ds;
+            init=[],
+        )
+    end
+    return foldl((acc, t) -> vap(t, acc), M; init=d)
 end

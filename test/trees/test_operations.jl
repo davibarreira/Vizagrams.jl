@@ -3,7 +3,12 @@ import Vizagrams: beside_transform, flatten, compare_trees, compare_primitives
 
 @testset "Tree Operations" begin
     @testset "Addition" begin
-        @test all(map(x -> compare_primitives(x[1], x[2]), zip(flatten(Circle() + Circle()), map(Prim, [Circle(), Circle()]))))
+        @test all(
+            map(
+                x -> compare_primitives(x[1], x[2]),
+                zip(flatten(Circle() + Circle()), map(Prim, [Circle(), Circle()])),
+            ),
+        )
     end
     # @testset "Addition" begin
     #     p1 = Valid()
@@ -14,21 +19,55 @@ import Vizagrams: beside_transform, flatten, compare_trees, compare_primitives
 
     @testset "Multiplication" begin
         @test compare_primitives(flatten(S() * Circle())[1], Prim(Circle()))
-        @test compare_primitives(flatten(T(1, 1) * Circle())[1], Prim(Circle(c=[1, 1])))
+        @test compare_primitives(flatten(T(1, 1) * Circle())[1], Prim(Circle(; c=[1, 1])))
         @test compare_structs(T(0, 0) * S(), (T(0, 0), S(Dict{Any,Any}())))
         @test compare_structs(T(0, 0) * T(0, 0), (T(0, 0), S(Dict{Any,Any}())))
         @test compare_structs(S() * T(0, 0), (T(0, 0), S(Dict{Any,Any}())))
         @test compare_structs(S() * S() * T(0, 0), (T(0, 0), S(Dict{Any,Any}())))
     end
     @testset "Beside" begin
-        @test compare_structs(beside_transform(dmlift(Circle()), dmlift(Square()), [1, 0]), T(1.5, 0.0) * S())
-        @test all(map(x -> compare_primitives(x[1], x[2]), zip(flatten(Circle() → Square()), map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [1.5, 0.0], 0.0)]))))
-        @test all(map(x -> compare_primitives(x[1], x[2]), zip(flatten(Circle() ← Square()), map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [-1.5, 0.0], 0.0)]))))
-        @test all(map(x -> compare_primitives(x[1], x[2]), zip(flatten(Circle()↑Square()), map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [0.0, 1.5], 0.0)]))))
-        @test all(map(x -> compare_primitives(x[1], x[2]), zip(flatten(Circle()↓Square()), map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [0.0, -1.5], 0.0)]))))
+        @test compare_structs(
+            beside_transform(dmlift(Circle()), dmlift(Square()), [1, 0]), T(1.5, 0.0) * S()
+        )
+        @test all(
+            map(
+                x -> compare_primitives(x[1], x[2]),
+                zip(
+                    flatten(Circle() → Square()),
+                    map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [1.5, 0.0], 0.0)]),
+                ),
+            ),
+        )
+        @test all(
+            map(
+                x -> compare_primitives(x[1], x[2]),
+                zip(
+                    flatten(Circle() ← Square()),
+                    map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [-1.5, 0.0], 0.0)]),
+                ),
+            ),
+        )
+        @test all(
+            map(
+                x -> compare_primitives(x[1], x[2]),
+                zip(
+                    flatten(Circle()↑Square()),
+                    map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [0.0, 1.5], 0.0)]),
+                ),
+            ),
+        )
+        @test all(
+            map(
+                x -> compare_primitives(x[1], x[2]),
+                zip(
+                    flatten(Circle()↓Square()),
+                    map(Prim, [Circle(1.0, [0.0, 0.0]), Square(1.0, [0.0, -1.5], 0.0)]),
+                ),
+            ),
+        )
         @test compare_structs(bright(Circle(), Square()), T(1.5, 0.0) * S())
 
-        c = Circle(r=1.0, c=[0.0, 0.0])
+        c = Circle(; r=1.0, c=[0.0, 0.0])
         d1 = c → (T(1, 0), c)
         d2 = c + T(3, 0) * c
         d3 = c + T(1, 0)bright(c, c) * c

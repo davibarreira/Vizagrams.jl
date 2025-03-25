@@ -27,6 +27,7 @@ Valid = Union{ValidPrimitives,TDiagram,Mark,TMark}
 dmlift(x::Valid)::TMark = dlift(mlift(x))
 dmlift(x::TMark)::TMark = x
 
+flatten(v::Vector{Prim})::Vector{Prim} = v
 flatten(m::Mark)::Vector{Prim} = cata(alg, μ(fmap(θ, dlift(m))))
 # flatten(dm::𝕋{<:Mark}) = cata(alg, μ(fmap(θ, dm)))
 
@@ -44,6 +45,10 @@ struct TM <: Mark
     _1::𝕋{<:Mark}
 end
 ζ(dm::TM) = dm._1
+# Function to avoid JET error
+function TM(x::Pure{Vector{Prim}})
+    mlift(x)
+end
 fmap(f::Function, dm::TM) = TM(f(dm._1))
 mlift(::Type{<:𝕋{<:Mark}}) = TM
 
@@ -73,7 +78,6 @@ mlift(x::Mark) = x
 function Mark(x)
     return mlift(x)
 end
-
 
 θ(m::MPrim) = dlift(m._1)
 θ(m::MTDiagram) = m._1

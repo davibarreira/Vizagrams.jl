@@ -42,6 +42,7 @@ import Vizagrams: CovCircle, ϕ, ψ, coordinates
     @testset "coordinates" begin
         rad = rand()
         c = rand(2)
-        @test coordinates(Circle(rad, c)) == [[rad * cos(θ) + c[1], rad * sin(θ) + c[2]] for θ in 0:(2π/100):(2π)]
+        @test coordinates(Circle(rad, c)) ==
+            [[rad * cos(θ) + c[1], rad * sin(θ) + c[2]] for θ in 0:(2π / 100):(2π)]
     end
 end

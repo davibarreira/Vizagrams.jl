@@ -2,7 +2,6 @@ using Vizagrams
 using StructArrays
 
 @testset "Auxiliar Functions" begin
-
     @testset "getmark" begin
         d = Circle() + Circle() + Rectangle() + T(1, 1)Face() + S(:fill => :red)Face()
 
@@ -20,7 +19,7 @@ using StructArrays
         @test length(getmarkpath(Face, d, S)) == 2
         @test getmarkpath(Face, d, S)[2].d[:fill] == :red
 
-        plt = plot(x=rand(10), y=rand(10))
+        plt = plot(; x=rand(10), y=rand(10))
         @test getmarkpath([Plot], plt) == []
         @test getmarkpath([Plot, Spec], plt) == []
         d = plt → plt

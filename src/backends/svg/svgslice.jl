@@ -1,3 +1,10 @@
+"""
+arc(xstart, ystart, r, xend, yend, largearcflag; anginit=0, sweepflag=1)
+
+Generates an SVG path string for an arc segment starting at `(xstart, ystart)` and ending at `(xend, yend)` 
+with radius `r`. The `largearcflag` and `sweepflag` control the arc's appearance. Optional `anginit` specifies 
+the initial angle of the arc.
+"""
 function arc(xstart, ystart, r, xend, yend, largearcflag; anginit=0, sweepflag=1)
     return d = "M $(xstart) $(ystart) A $(r) $(r) $(anginit) $(largearcflag) $(sweepflag) $(xend) $(yend)"
 end
@@ -11,12 +18,30 @@ function arccontinue(r, xend, yend, largearcflag; anginit=0, sweepflag=1)
     return d = "A $(r) $(r) $(anginit) $(largearcflag) $(sweepflag) $(xend) $(yend)"
 end
 
+"""
+arcendpoint(ang, xstart, ystart, r)
+
+Computes the endpoint `(x, y)` of an arc segment given the angle `ang`, 
+starting coordinates `(xstart, ystart)`, and radius `r`.
+"""
 function arcendpoint(ang, xstart, ystart, r)
     xend = r * sin(ang) + xstart
     yend = r - r * cos(ang) + ystart
     return (xend, yend)
 end
 
+"""
+svgslice(; ang=π / 2, rminor=0, rmajor=100, center=[0, 0], anginit=0)
+
+Generates an SVG path string representing a circular slice (or sector) with specified parameters:
+- `ang`: Angle of the slice in radians.
+- `rminor`: Inner radius of the slice.
+- `rmajor`: Outer radius of the slice.
+- `center`: Center coordinates of the slice.
+- `anginit`: Initial angle offset in radians.
+
+Returns a string defining the SVG path for the slice.
+"""
 function svgslice(; ang=π / 2, rminor=0, rmajor=100, center=[0, 0], anginit=0)
     if ang ≈ 2π || ang ≥ 2π
         ang = 2π * 0.999999
@@ -46,7 +71,6 @@ function svgslice(; ang=π / 2, rminor=0, rmajor=100, center=[0, 0], anginit=0)
     dmin = arccontinue(rminor, x₃, y₃, largearcflag; sweepflag=0)
 
     l1 = "L $(x₂) $(y₂)"
-    # l2 = "L $(pstart[1]) $(pstart[2])"
     dnew = d * l1 * dmin * "Z"
     return dnew
 end

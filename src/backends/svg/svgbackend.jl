@@ -26,6 +26,19 @@ function dicttostring(d::Dict)
     return result
 end
 
+"""
+split_style_attributes(s::S) -> (Dict, Dict)
+
+Splits the style attributes of a given object `s` into two separate dictionaries.
+
+# Arguments
+- `s::S`: An object containing a dictionary `d` with style attributes.
+
+# Returns
+A tuple of two dictionaries:
+1. `sty::Dict`: A dictionary containing the style attributes that do not start with `__`.
+2. `attr::Dict`: A dictionary containing the attributes whose keys start with `__`. The `__` prefix is removed from the keys in this dictionary.
+"""
 function split_style_attributes(s::S)
     d = s.d
     attr = Dict()
@@ -41,7 +54,14 @@ function split_style_attributes(s::S)
     return sty, attr
 end
 
-# vectostring(v) = foldl((x, y) -> x * string(y[1]) * " " * string(y[2]) * ",", v, init="")
+
+"""
+vectostring(v::Vector{Tuple{T, T}}) where T
+
+Converts a vector of 2-tuples into a single string, where each tuple's elements are 
+concatenated with a space in between. The resulting string contains all tuples' 
+elements separated by spaces.
+"""
 vectostring(v) = foldl((x, y) -> x * string(y[1]) * " " * string(y[2]) * " ", v; init="")
 
 """
@@ -64,11 +84,7 @@ function primtosvg(p::Prim)
     # strokes properly scale
     s = S(:vectorEffect => "non-scaling-stroke") ⋄ p.s
 
-    # if !isnothing(get(s.d, :strokeWidth, nothing))
-    #     s.d[:strokeWidth] = s.d[:strokeWidth] * proportion / 100
-    # end
-
-    return primtosvg(geom::GeometricPrimitive, s::S)
+    return primtosvg(geom, s)
 end
 
 """
@@ -110,8 +126,6 @@ primtosvg(g::QBezier, s::Style)
 function primtosvg(geom::QBezier, s::S)
     # Polyline in SVG has fill, hence the 
     s = S(:fill => "none", :stroke => :black) ⋄ s
-    # bpts = map(x -> [x[1], h - x[2]], geom.bpts)
-    # cpts = map(x -> [x[1], h - x[2]], geom.cpts)
     bpts = map(x -> [x[1], x[2]], geom.bpts)
     cpts = map(x -> [x[1], x[2]], geom.cpts)
     dpath = "M$(bpts[1][1]) $(bpts[1][2]) Q $(cpts[1][1]) $(cpts[1][2]), $(bpts[2][1]) $(bpts[2][2]) "
@@ -133,8 +147,6 @@ end
 function primtosvg(geom::CBezier, s::S)
     # Polyline in SVG has fill, hence the 
     s = S(:fill => "none", :stroke => :black) ⋄ s
-    # bpts = map(x -> [x[1], h - x[2]], geom.bpts)
-    # cpts = map(x -> [x[1], h - x[2]], geom.cpts)
     bpts = map(x -> [x[1], x[2]], geom.bpts)
     cpts = map(x -> [x[1], x[2]], geom.cpts)
     dpath = "M$(bpts[1][1]) $(bpts[1][2]) C $(cpts[1][1]) $(cpts[1][2]) $(cpts[2][1]) $(cpts[2][2]) $(bpts[2][1]) $(bpts[2][2]) "
@@ -156,8 +168,6 @@ end
 
 function primtosvg(geom::QBezierPolygon, s::S)
     # Polyline in SVG has fill, hence the 
-    # bpts = map(x -> [x[1], h - x[2]], vcat(geom.bpts, [geom.bpts[1]]))
-    # cpts = map(x -> [x[1], h - x[2]], geom.cpts)
     bpts = map(x -> [x[1], x[2]], vcat(geom.bpts, [geom.bpts[1]]))
     cpts = map(x -> [x[1], x[2]], geom.cpts)
     dpath = "M$(bpts[1][1]) $(bpts[1][2]) Q $(cpts[1][1]) $(cpts[1][2]) $(bpts[2][1]) $(bpts[2][2]) "
@@ -203,38 +213,6 @@ function primtosvg(geom::CBezierPolygon, s::S)
         "path"; d=dpath * " Z", style=dicttostring(sty), transform="scale(1,-1)", attr...
     )
 end
-
-# ## ROTATION DOES NOT WORK IN THIS IMPLEMENTATION
-# function primtosvg(geom::Square, s::S)
-#     # coords = map(x -> [x[1], x[2]], coordinates(geom))
-#     sty, attr = split_style_attributes(s)
-#     return m(
-#         "rect";
-#         width=geom.l,
-#         height=geom.l,
-#         x=geom.c[1] - geom.l / 2,
-#         y=geom.c[2] - geom.l / 2,
-#         style=dicttostring(sty),
-#         transform="scale(1,-1)",
-#         attr...,
-#     )
-# end
-
-# ## ROTATION DOES NOT WORK IN THIS IMPLEMENTATION
-# function primtosvg(geom::Rectangle, s::S)
-#     # coords = map(x -> [x[1], x[2]], coordinates(geom))
-#     sty, attr = split_style_attributes(s)
-#     return m(
-#         "rect";
-#         width=geom.w,
-#         height=geom.h,
-#         x=geom.c[1] - geom.w / 2,
-#         y=geom.c[2] - geom.h / 2,
-#         style=dicttostring(sty),
-#         transform="scale(1,-1)",
-#         attr...,
-#     )
-# end
 
 function primtosvg(geom::T, s::S) where {T<:Union{Polygon,RegularPolygon,Square,Rectangle}}
     coords = map(x -> [x[1], x[2]], coordinates(geom))
@@ -329,16 +307,17 @@ function primtosvg(geom::Ellipse, s::S)
         attr...,
     )
 end
+
 function primtosvg(geom::Arc, s::S)
     s = S(:fill => "none", :stroke => :black) ⋄ s
     sty, attr = split_style_attributes(s)
     # Compute the start and stop points on the unrotated ellipse
-    start_point = rotatevec(
-        point_on_ellipse(geom.initangle, geom.rx, geom.ry, [0,0]), geom.rot
-    ) + geom.c
-    stop_point = rotatevec(
-        point_on_ellipse(geom.finalangle, geom.rx, geom.ry, [0,0]), geom.rot
-    ) + geom.c
+    start_point =
+        rotatevec(point_on_ellipse(geom.initangle, geom.rx, geom.ry, [0, 0]), geom.rot) +
+        geom.c
+    stop_point =
+        rotatevec(point_on_ellipse(geom.finalangle, geom.rx, geom.ry, [0, 0]), geom.rot) +
+        geom.c
     if start_point ≈ stop_point
         return nothing
     end
@@ -379,49 +358,19 @@ function reducesvg(x::Vector{SVG}; style="", kwargs...)
     #     return reduce(⋄, x; init=tag)
 end
 
-"""
-tosvg(dprim::TDiagram; height=200, width=1000)
-
-Converts a Diagram of Prmimtives into an svg
-"""
-tosvg(dprim::TDiagram; height=200, width=1000) =
-    reducesvg(map(p -> primtosvg(p), flatten(dprim)); height=height, width=width)
+svg_elements(obj::TDiagram) = map(p -> primtosvg(p), flatten(obj))
+svg_elements(obj::Vector{<:Prim}) = map(p -> primtosvg(p), obj)
+svg_elements(obj::Prim) = map(p -> primtosvg(p), [obj])
+svg_elements(obj::GeometricPrimitive) = map(p -> primtosvg(p), [Prim(obj)])
+svg_elements(obj::𝕋{<:Mark}) = map(p -> primtosvg(p), flatten(obj))
 
 """
-tosvg(listprim::Vector{<:Prim}; height=200, width=1000)
+tosvg(obj; height=200, width=1000)
 
-Converts a vector of primitives into an svg.
+Converts various types of objects into an SVG.
 """
-function tosvg(listprim::Vector{<:Prim}; height=200, width=1000, kwargs...)
-    if length(listprim) == 0
-        return reducesvg(SVG[]; height=height, width=width, kwargs...)
-    end
-    return reducesvg(
-        map(p -> primtosvg(p), listprim); height=height, width=width, kwargs...
-    )
-end
-function tosvg(prim::Prim; height=200, width=1000, kwargs...)
-    return reducesvg(map(p -> primtosvg(p), [prim]); height=height, width=width, kwargs...)
-end
-function tosvg(geom::GeometricPrimitive; height=200, width=1000, kwargs...)
-    return reducesvg(
-        map(p -> primtosvg(p), [Prim(geom)]); height=height, width=width, kwargs...
-    )
-end
-
-"""
-tosvg(dmark::𝕋Mark; height=200, width=1000)
-
-Converts a Diagram of Marks into an svg
-"""
-function tosvg(dmark::𝕋{<:Mark}; height::Real=200, width::Union{Real,Nothing}=1000, kwargs...)
-    return reducesvg(
-        map(p -> primtosvg(p), flatten(dmark));
-        height=height,
-        width=width,
-        # viewBox="0 0 $(width) $(height)",
-        kwargs...,
-    )
+function tosvg(obj; height=200, width=1000, kwargs...)
+    return reducesvg(svg_elements(obj); height=height, width=width, kwargs...)
 end
 
 """
@@ -430,7 +379,14 @@ Takes a diagram `𝕋` and returns an SVG with
 height 100 using the envelope of the diagram to compute
 the width.
 """
-function drawsvg(d::𝕋; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...)
+function drawsvg(
+    d::𝕋;
+    height::Union{Real,Nothing}=300,
+    pad::Union{Real,Nothing}=10,
+    width::Union{Real,Nothing}=nothing,
+    adjust_stroke::Bool=false,
+    kwargs...,
+)
     bb = boundingbox(d)
     if isnothing(bb) || bb ≈ [[0.0, 0.0], [0.0, 0.0]]
         return tosvg(Prim[]; height=height, kwargs...)
@@ -451,9 +407,8 @@ function drawsvg(d::𝕋; height::Union{Real,Nothing}=300, pad::Union{Real,Nothi
     height = isnothing(height) ? widthproportion * boxheight : height
     width = isnothing(width) ? boxwidth * heightproportion : width
     pad = pad / heightproportion
-    
-    viewBox="$(bb[1][1]-pad/2) $(-bb[2][2]-pad/2) $(boxwidth+pad) $(boxheight+pad)",
 
+    viewBox = "$(bb[1][1]-pad/2) $(-bb[2][2]-pad/2) $(boxwidth+pad) $(boxheight+pad)",
     return tosvg(
         d;
         height=height,
@@ -464,7 +419,19 @@ function drawsvg(d::𝕋; height::Union{Real,Nothing}=300, pad::Union{Real,Nothi
     )
 end
 function drawsvg(
-    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark}; height::Union{Real,Nothing}=300, pad::Union{Real,Nothing}=10, width::Union{Real,Nothing}=nothing, adjust_stroke::Bool=false, kwargs...
+    p::Union{GeometricPrimitive,Prim,Vector{Prim},Mark};
+    height::Union{Real,Nothing}=300,
+    pad::Union{Real,Nothing}=10,
+    width::Union{Real,Nothing}=nothing,
+    adjust_stroke::Bool=false,
+    kwargs...,
 )
-    return drawsvg(dmlift(p); height=height, pad=pad, width=width, adjust_stroke=adjust_stroke, kwargs...)
+    return drawsvg(
+        dmlift(p);
+        height=height,
+        pad=pad,
+        width=width,
+        adjust_stroke=adjust_stroke,
+        kwargs...,
+    )
 end

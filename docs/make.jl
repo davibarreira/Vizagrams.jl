@@ -4,9 +4,13 @@ using Documenter
 DocMeta.setdocmeta!(Vizagrams, :DocTestSetup, :(using Vizagrams); recursive=true)
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
-
-makedocs(sitename="Vizagrams.jl",
-    format=Documenter.HTML(size_threshold=nothing, example_size_threshold=nothing, assets=["assets/favicon.ico"]),
+makedocs(;
+    sitename="Vizagrams.jl",
+    format=Documenter.HTML(;
+        size_threshold=nothing,
+        example_size_threshold=nothing,
+        assets=["assets/favicon.ico"],
+    ),
     pages=[
         "Home" => "index.md",
         "Tutorials" => [
@@ -29,7 +33,7 @@ makedocs(sitename="Vizagrams.jl",
             "Penguins" => "gallery/penguins.md",
             "Rose Diagram" => "gallery/nightingale.md",
         ],
-    ]
+    ],
 )
 
 deploydocs(; repo="github.com/davibarreira/Vizagrams.jl", devbranch="master")
