@@ -146,7 +146,6 @@ pkg> add Vizagrams
 * **Plots.jl** - A visualization interface and toolset. It does not implement a visualization grammar, instead relying on the concept of plot attributes as the building block of plot specifications.
 * **VegaLite.jl** - Plotting package based on [Vega-Lite](https://vega.github.io/vega-lite/), which is a high-level grammar of interactive graphics.
 
-```
 [^1]: For example, [Gadfly.jl](http://gadflyjl.org/stable/) is built on top of [Compose.jl](https://giovineitalia.github.io/Compose.jl/latest/)
 and the R pacakge [ggplot2](https://ggplot2.tidyverse.org) is built on top of [grid](https://cran.r-project.org/web/packages/grid/index.html).
 [^2]: Check the documentation for an explanation on graphical marks and graphic expressions.
