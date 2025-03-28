@@ -89,6 +89,6 @@ function ζ(legend::Legend)::𝕋{Mark}
     legendtitle =
         S(
             :fontWeight => "bold"
-        )TextMark(; text=title, anchor=titleplacement, fontfamily="Helvetica", fontsize=8)
+        )TextMark(; text=title, anchor=titleplacement, fontfamily="TeXGyreHeros", fontsize=8)
     return aleft(legendmarks, legendtitle) * legendtitle + T(0, -15) * legendmarks
 end
