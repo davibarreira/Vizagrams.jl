@@ -1,6 +1,7 @@
 module Vizagrams
 
 # Core dependencies
+using Dates: Date, DateTime
 using LinearAlgebra: LinearAlgebra, UniformScaling, dot, norm, normalize, ⋅, Diagonal
 using MLStyle: MLStyle, @data, @match
 using Memoize: @memoize

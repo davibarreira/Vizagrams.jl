@@ -6,6 +6,7 @@ using DataFrames
 using Random
 using LaTeXStrings
 using StructArrays
+using Dates
 
 @testset "Generic 2D Plots" begin
     # Metric for image distance comparison
@@ -415,4 +416,43 @@ using StructArrays
             end)
         @test string(draw(plt)) isa String
     end
+end
+
+@testset "Date and DateTime Plots" begin
+    # Create test data with dates
+    dates = Date(2020,1,1):Day(1):Date(2020,1,10)
+    values = rand(10)
+    df = DataFrame(; date=dates, value=values)
+
+    # Test basic date plot
+    plt = plot(; x=dates, y=values)
+    @test string(draw(plt)) isa String
+
+    plt = plot(df, x=dates, y=values)
+    @test string(draw(plt)) isa String
+
+    plt = plot(df, x=(data=dates), y=values)
+    @test string(draw(plt)) isa String
+    
+    # Test basic date plot
+    plt = plot(x=dates, y=values)
+    @test string(draw(plt)) isa String
+    
+    # Test with DateTime
+    datetimes = DateTime(2020,1,1):Hour(2):DateTime(2020,1,2)
+    dt_values = rand(13)
+    
+    plt_dt = plot(x=datetimes, y=dt_values)
+    @test string(draw(plt_dt)) isa String
+    
+    # Test with different graphics
+    plt_line = plot(x=dates, y=values, graphic=Line())
+    @test length(getmark(Line, plt_line)) == 1
+    
+    # Test with multiple series
+    plt_multi = plot(x=repeat(collect(dates), 2), 
+                    y=vcat(values, reverse(values)), 
+                    color=repeat(["A", "B"], inner=10),
+                    graphic=Line())
+    @test length(getmark(Line, plt_multi)) == 2
 end
