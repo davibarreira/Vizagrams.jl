@@ -7,6 +7,10 @@ function infer_without_data(; kwargs...)
             data[k] = v
             encodings[k] = Dict(:field => k)
             continue
+        elseif v isa AbstractRange
+            data[k] = collect(v)
+            encodings[k] = Dict(:field => k)
+            continue
         end
 
         # This is the case where the user passes the data and more x=(data=[1,2,3],datatype=:n,...)
@@ -30,13 +34,18 @@ function infer_fields_data(; data, kwargs...)
     end
     encodings = Dict()
     for (k, v) in kwargs
-
         # This is the case where the variable has only the data as in x=[1,2,4]
         if isa(v, Symbol)
             encodings[k] = Dict(:field => v)
             continue
         elseif v isa Function
             fdata = StructArray(NamedTuple(Dict(k => map(v, data))))
+            data = hconcat(data, fdata, "_")
+            field = propertynames(data)[end]
+            encodings[k] = Dict(:field => field)
+            continue
+        elseif v isa AbstractRange
+            fdata = StructArray(NamedTuple(Dict(k => collect(v))))
             data = hconcat(data, fdata, "_")
             field = propertynames(data)[end]
             encodings[k] = Dict(:field => field)
@@ -57,6 +66,8 @@ function infer_fields_data(; data, kwargs...)
                     fdata = StructArray(NamedTuple(Dict(k => v_)))
                 elseif v_ isa Function
                     fdata = StructArray(NamedTuple(Dict(k => map(v_, data))))
+                elseif v_ isa AbstractRange
+                    fdata = StructArray(NamedTuple(Dict(k => collect(v_))))
                 end
                 data = hconcat(data, fdata, "_")
                 field = propertynames(data)[end]
