@@ -24,10 +24,10 @@ function get_tickvalues(scale::Scale; nticks=10, tickvalues=nothing, ticktexts=n
         tickvalues = scale.domain
     end
     if isnothing(ticktexts)
-        if !(tickvalues isa Vector{<:AbstractString})
+        if !(tickvalues isa Vector{<:AbstractString} || eltype(tickvalues) <: Union{Date,DateTime})
             ticktexts = showoff(tickvalues)
         end
-        ticktexts = tickvalues
+        ticktexts = string.(tickvalues)
     elseif ticktexts isa AbstractString
         ticktexts = map(t -> ticktexts, 1:length(tickvalues))
     end

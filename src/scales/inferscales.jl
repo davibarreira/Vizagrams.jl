@@ -43,6 +43,10 @@ function infer_datatype(data)
         return :n
     elseif typeof(data) <: Vector{<:Int} && length(minimum(data):1:maximum(data)) < 10
         return :o
+    elseif eltype(data) <: Date
+        return :o
+    elseif eltype(data) <: DateTime
+        return :n
     end
     return :q
 end
