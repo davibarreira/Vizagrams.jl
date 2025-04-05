@@ -422,6 +422,17 @@ end
     # Create test data with dates
     dates = Date(2020,1,1):Day(1):Date(2020,1,10)
     values = rand(10)
+    df = DataFrame(; date=dates, value=values)
+
+    # Test basic date plot
+    plt = plot(; x=dates, y=values)
+    @test string(draw(plt)) isa String
+
+    plt = plot(df, x=dates, y=values) |> draw
+    @test string(draw(plt)) isa String
+
+    plt = plot(df, x=(data=dates), y=values) |> draw
+    @test string(draw(plt)) isa String
     
     # Test basic date plot
     plt = plot(x=dates, y=values)
