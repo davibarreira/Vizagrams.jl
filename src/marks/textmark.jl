@@ -30,7 +30,7 @@ se       s       sw
 #     TextMark(string(text), pos, fontsize, angle, anchor, fontfamily)
 
 function TextMark(;
-    text::Union{AbstractString,Number,Symbol,Char}="",
+    text::Union{AbstractString,Number,Symbol,Char, Date, DateTime}="",
     pos=[0, 0],
     fontsize=10,
     angle=0,
@@ -38,7 +38,7 @@ function TextMark(;
     fontfamily="Helvetica",
     style=S(),
 )
-    if text isa Number || text isa Symbol || text isa Char
+    if text isa Number || text isa Symbol || text isa Char || text isa Date || text isa DateTime
         return TextMark(string(text), pos, fontsize, angle, anchor, fontfamily, style)
     end
     return TextMark(text, pos, fontsize, angle, anchor, fontfamily, style)
