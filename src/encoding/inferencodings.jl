@@ -103,7 +103,8 @@ function infer_encodings_data(; data, config, encodings=NamedTuple(), kwargs...)
     end
     scales = NamedTuple(
         map(zip(keys(encodings), values(encodings))) do (k, v)
-            datatype = get(v, :datatype, infer_datatype(data))
+            field = get(v, :field, nothing)
+            datatype = get(v, :datatype, infer_datatype(Tables.getcolumn(data, field)))
             scale = infer_encoding_scale(;
                 data=data,
                 coordinate=coordinate,
