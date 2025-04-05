@@ -428,10 +428,10 @@ end
     plt = plot(; x=dates, y=values)
     @test string(draw(plt)) isa String
 
-    plt = plot(df, x=dates, y=values) |> draw
+    plt = plot(df, x=dates, y=values)
     @test string(draw(plt)) isa String
 
-    plt = plot(df, x=(data=dates), y=values) |> draw
+    plt = plot(df, x=(data=dates), y=values)
     @test string(draw(plt)) isa String
     
     # Test basic date plot
