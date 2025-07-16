@@ -13,7 +13,7 @@ function savesvg(
     height::Union{Real,Nothing}=300,
     pad::Union{Real,Nothing}=10,
 )
-    img = string(drawsvg(plt; height=height, pad=pad))
+    img = string(drawsvg(plt; height=height, pad=pad,xmlns="http://www.w3.org/2000/svg", version="1.1"))
     fname = filename
     dirpath = directory
     fpath = joinpath(dirpath, fname)
