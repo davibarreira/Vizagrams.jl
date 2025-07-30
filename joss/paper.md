@@ -92,10 +92,12 @@ visualization grammar built on top of Vega [@satyanarayan2014vega].
 The landscape of visualization grammars encompasses low-level implementations that prioritize expressiveness
 (e.g., Vega [@satyanarayan2014vega]) and high-level implementations that prioritize user-friendly
 specifications (e.g., Vega-Lite [@satyanarayan2016vega], ggplot2 [@wickham2011ggplot2], Polaris [@stolte2002polaris],
-Observable Plot [@observable_plot], Atlas [@liu2021atlas], [AlgebraOfGraphics.jl](https://github.com/MakieOrg/AlgebraOfGraphics.jl)).
+Observable Plot [@observable_plot], Atlas [@liu2021atlas], [AlgebraOfGraphics.jl](https://github.com/MakieOrg/AlgebraOfGraphics.jl),
+Gramm [@gramm]).
 There are also specialized visualization grammars, such as
 Gosling [@lyi2021gosling] for genomics data visualization, GoTree [@li2020gotree] for visualizations with tree layouts,
-PGoG [@pu2020probabilistic] for visualizations depicting probabilities.
+PGoG [@pu2020probabilistic] for visualizations depicting probabilities,
+ggalluvial [@ggalluvial] for plotting alluvial diagrams.
 
 Besides diagramming and visualization grammars, there are also visualization authoring systems.
 These are software platforms or tools that allow users to create visualizations
