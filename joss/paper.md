@@ -19,9 +19,9 @@ authors:
     corresponding: false
     affiliation: 1
 affiliations:
- - name: Fundação Getúlio Vargas - School of Applied Mathematics
+ - name: Fundação Getúlio Vargas - School of Applied Mathematics, Brazil
    index: 1
- - name: IMPA Tech
+ - name: IMPA Tech, Brazil
    index: 2
 date: 22 July 2025
 bibliography: paper.bib
@@ -78,7 +78,7 @@ Vizagrams.jl's diagramming DSL was inspired by the work of Yorgey [@yorgey2012mo
 who provided the theoretical foundation for diagram construction used by the Haskell Diagrams library [@yates2015diagrams].
 The Haskell Diagrams library has also inspired other diagramming libraries such as Diagrammar [@granstrom2022diagrammar]
 and Compose.jl [@composejl]. There are also diagramming libraries not based on Yorgey's conception,
-such as Bluefish [@pollock2023bluefish] and Penrose [@ye2020penrose].
+such as Bluefish [@pollock2024bluefish] and Penrose [@ye2020penrose].
 
 Besides Vizagrams.jl, other packages have used the idea of constructing data visualization tools
 on top of diagramming frameworks. For example, the Gadfly.jl [@gadfly] visualization package is
