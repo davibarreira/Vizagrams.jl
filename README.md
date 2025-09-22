@@ -134,6 +134,10 @@ julia>]
 pkg> add Vizagrams
 ```
 
+## Contributing
+Contributions and feedbacks are welcome. To contribute, please open an issue or pull request
+describing your proposed changes. For bug reports or problems, open an issue with details and steps to reproduce.
+
 ## Related Packages in the Julia Ecosystem
 
 * **Compose.jl** - A vector graphics library for Julia, that can be used for diagram drawing. Similar to Vizagrams, it is also inspired by the Haskell library Diagrams.
