@@ -64,7 +64,7 @@ function title_config(config)
     title = get(config, :title, NilD())
     if !(title isa Union{Mark,TMark})
         title = Title(
-            TextMark(; text=title, fontfamily="Helvetica", fontsize=13, anchor=:e)
+            TextMark(; text=title, fontfamily="TeXGyreHeros", fontsize=13, anchor=:e)
         )
     elseif title isa Mark
         title = title
