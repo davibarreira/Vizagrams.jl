@@ -3,7 +3,7 @@ struct Hist <: Mark
     ys::Vector
     style::S
     function Hist(xs, ys, style)
-        @assert length(xs) == length(ys) throw "xs and ys must have the same number of elements."
+        @assert length(xs) == length(ys) "xs and ys must have the same number of elements."
         return new(xs, ys, style)
     end
 end
