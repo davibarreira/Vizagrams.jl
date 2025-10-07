@@ -135,8 +135,14 @@ pkg> add Vizagrams
 ```
 
 ## Contributing
-Contributions and feedbacks are welcome. To contribute, please open an issue or pull request
-describing your proposed changes. For bug reports or problems, open an issue with details and steps to reproduce.
+Contributions, suggestions, and feedback are very welcome! If you would like to contribute to Vizagrams.jl,
+please open an issue or a pull request describing your proposed changes or improvements.
+We encourage contributions of all kinds, including bug fixes, new features, documentation enhancements, and examples.
+Note: The codebase follows the Blue style guide for Julia code.
+
+For bug reports or problems, please open an issue with as much detail as possible,
+including steps to reproduce the issue, your Julia version, and any relevant code snippets or error messages.
+This will help us address your concerns more efficiently.
 
 ## Related Packages in the Julia Ecosystem
 
