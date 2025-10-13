@@ -30,7 +30,7 @@ bibliography: paper.bib
 
 # Summary
 
-Vizagrams.jl is a Julia package that integrates diagramming and data visualization into a single framework.
+Vizagrams.jl is a Julia [@julia] package that integrates diagramming and data visualization into a single framework.
 It implements a diagramming domain-specific language (DSL) together with a visualization grammar,
 thus allowing users to create diagrams by combining and transforming plots, as well as to create new visualization
 specifications using diagramming operations. The package aims to be able to produce complex,
