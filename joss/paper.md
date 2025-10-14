@@ -44,7 +44,7 @@ while abstraction consists in simplifying descriptions by omitting details, thus
 Some tools prioritize high expressiveness at the expense of abstraction (e.g., D3.js [@d3js]),
 while others prioritize abstraction over expressiveness by focusing on
 ready-to-use chart recipes (e.g., Matplotlib [@Hunter:2007], Seaborn [@Waskom2021],
-Makie [@DanischKrumbiegel2021], Plots [@plotsjl]).
+Makie.jl [@DanischKrumbiegel2021], Plots.jl [@plotsjl]).
 
 A possible solution to this challenge is to use visualization grammars.
 These grammars define a structured set of rules for specifying visualizations,
@@ -64,8 +64,8 @@ Vizagrams.jl addresses these limitations by implementing a
 novel theoretical framework that integrates diagramming and data visualization.
 It does this by creating a visualization grammar over a diagramming DSL,
 where plots are treated as graphical objects, and diagramming operations
-can be used within graphic specification, thus interweaving both concepts.
-Thus, the package is particularly valuable for data scientists, academic researchers,
+can be used within graphic specifications, thus interweaving both concepts.
+The package is particularly valuable for data scientists, academic researchers,
 statisticians and any other user who needs to create complex visualizations
 and possesses programming knowledge. Its diagramming capabilities also make it a valuable tool for
 educational purposes, such as illustrating mathematical concepts.
@@ -119,7 +119,7 @@ The main features of Vizagrams.jl are:
 
 Diagrams are built by composing graphical marks and applying graphical transformations.
 Graphical marks are objects that can be drawn on the screen, while graphical transformations
-are actions such as translations, rotations, change of color, and so on.
+are actions such as translation, rotation, change of color, and so on.
 The package provides a set of ready-to-use marks, such as `Circle`, `Square`, `Line`, `TextMark`,
 but users can extend this by creating their own marks.
 
@@ -137,10 +137,8 @@ The main operations for building diagrams are:
 The following example shows how to create a simple diagram:
 ```julia
 using Vizagrams
-
 # Composing marks
 d = Circle() + T(2,0)*Square()
-
 # Composing previous diagram with a new mark
 d = S(:fill=>:white,:stroke=>:black)*Circle(r=2) + Line([[0,0],[3,0]]) + d
 draw(d)
@@ -162,7 +160,6 @@ using DataFrames
 using VegaDatasets
 df = DataFrame(dataset("cars"));
 df = dropmissing(df);
-
 simple_plot = Plot(
     data=df,
     encodings=(
