@@ -6,6 +6,7 @@
 [![Aqua](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![Jet](https://img.shields.io/badge/%F0%9F%9B%A9%EF%B8%8F_tested_with-JET.jl-233f9a)](https://github.com/aviatesk/JET.jl)
 [![DOI](https://zenodo.org/badge/826922668.svg)](https://doi.org/10.5281/zenodo.12772755)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.09037/status.svg)](https://doi.org/10.21105/joss.09037)
 
 
 

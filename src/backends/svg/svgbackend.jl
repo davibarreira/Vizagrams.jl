@@ -82,7 +82,7 @@ function primtosvg(p::Prim)
     geom = p.geom
     # Applies the `non-scaling-stroke` to all elements by default. This makes
     # strokes properly scale
-    s = S(:vectorEffect => "non-scaling-stroke") ⋄ p.s
+    s = S(:vectorEffect => "non-scaling-stroke", :__juliasvgnode=>"true") ⋄ p.s
 
     return primtosvg(geom, s)
 end
